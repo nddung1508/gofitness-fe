@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorGray900">#101828</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -8,12 +7,4 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="purpleVictoria">#5D3D7D</color>
-    <!-- Neutral -->
-    <color name="colorNeutral01">#191737</color>
-    <color name="colorNeutral02">#3E4054</color>
-    <color name="colorNeutral03">#686E97</color>
-    <color name="colorNeutral04">#BEC2D7</color>
-    <color name="colorNeutral05">#E6EAF7</color>
-    <color name="colorNeutral06">#FFFFFF</color>
 </resources>

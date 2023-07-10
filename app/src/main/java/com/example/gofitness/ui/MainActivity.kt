@@ -24,12 +24,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun addFragment(fragment: Fragment) {
-        supportFragmentManager.inTransaction {
-            add(R.id.main_fragment_container, fragment)
-        }
-    }
-
     private inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
         val ft = beginTransaction()
         ft.func()
