@@ -1,5 +1,6 @@
 package com.example.gofitness.ui.login
 
+import android.R
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,13 +11,14 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.example.gofitness.R
 import com.example.gofitness.databinding.FragmentLoginBinding
+import com.google.android.material.tabs.TabLayout
 import java.util.*
+
 
 class LoginFragment : Fragment() {
     private lateinit var binding : FragmentLoginBinding
-    private val imageList = listOf(R.color.white, R.color.black, R.color.teal_200)
+    private val imageList = listOf(R.color.white, R.color.black, R.color.holo_blue_dark)
     private var currentImageIndex : Int = 0
     private val timer = Timer()
     private lateinit var timerTask: TimerTask
@@ -62,6 +64,9 @@ class LoginFragment : Fragment() {
             override fun onPageScrollStateChanged(state: Int) {
             }
         })
+
+        val springDotsIndicator = binding.springDotsIndicator
+        springDotsIndicator.attachTo(viewPager)
     }
 
     private inner class ImagePagerAdapter : PagerAdapter() {
