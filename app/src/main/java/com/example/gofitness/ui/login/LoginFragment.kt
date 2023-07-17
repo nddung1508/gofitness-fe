@@ -18,20 +18,21 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.gofitness.R
 import com.example.gofitness.databinding.FragmentLoginBinding
+import com.example.gofitness.ui.AuthenticationNavigator
+import com.example.gofitness.ui.MainActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.util.*
 
 
 class LoginFragment : Fragment() {
     private lateinit var binding : FragmentLoginBinding
     private val imageList = listOf(R.drawable.starting_image1, R.drawable.starting_image2, R.drawable.starting_image3, R.drawable.starting_image4)
-    private val messageList = listOf("Let’s workout today", "Manage Your Own Workout", "Nutrition is important for you", "Have a broader view")
-    private val messageDetailList = listOf("Start workout today with GoFitness", "Planning, managing and tracking  your own workout activities",
-        "GoFitness help recommend you the best diet based on your workout goal", "Statistic will help you get all information you need about your workout ")
     private var currentImageIndex : Int = 0
     private val timer = Timer()
     private lateinit var timerTask: TimerTask
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var viewPager: ViewPager
+    lateinit var authenticationNavigator : AuthenticationNavigator
 
 
     override fun onCreateView(
@@ -48,6 +49,35 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //List of Message
+        val messageList = listOf(getString(R.string.lets_workout_today), getString(R.string.manage_your_own_workout), getString(R.string.important_nutrition), getString(R.string.broader_view))
+        val messageDetailList = listOf(getString(R.string.start_workout_today), getString(R.string.planning_and_tracking),
+            getString(R.string.help_recommend_diet), getString(R.string.help_recommend_diet))
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.flBottomSheet)
+        //Bottom Sheet
+        bottomSheetBehavior.peekHeight = 200
+        bottomSheetBehavior.isHideable = true
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        binding.root.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+        binding.btnLogin.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            binding.bottomSheetRegister.root.visibility = View.GONE
+            binding.bottomSheetLogin.root.visibility = View.VISIBLE
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+        }
+        binding.btnRegister.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            binding.bottomSheetLogin.root.visibility = View.GONE
+            binding.bottomSheetRegister.root.visibility = View.VISIBLE
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+        }
+
+        binding.bottomSheetLogin.clUser.setOnClickListener {
+            authenticationNavigator.navigateScreen(NAVIGATE_TO_REGISTER)
+        }
+        //Timer
         timerTask = object : TimerTask() {
             override fun run() {
                 handler.post {
@@ -133,5 +163,9 @@ class LoginFragment : Fragment() {
         super.onDestroy()
         timerTask.cancel()
         timer.cancel()
+    }
+
+    companion object{
+        const val NAVIGATE_TO_REGISTER = "LOGIN_TO_REGISTER_FORM"
     }
 }
