@@ -106,9 +106,33 @@
             style="@style/Textview.Regular.Display.SM"
             android:text="REGISTER"
             android:textColor="@color/white"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fl_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_130"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/ic_bottom_sheet_background"
+            android:paddingBottom="@dimen/dp_2">
+            <include
+                android:id="@+id/bottom_sheet_login"
+                layout="@layout/bottom_sheet_login_layout"
+                android:visibility="gone"
+                />
 
-
-
+            <include
+                android:id="@+id/bottom_sheet_register"
+                layout="@layout/bottom_sheet_register_layout"
+                android:visibility="gone"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

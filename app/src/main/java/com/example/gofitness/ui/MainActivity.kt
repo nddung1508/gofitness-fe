@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     fun addFragment(fragment: Fragment) {
         supportFragmentManager.inTransaction {
             add(R.id.main_fragment_container, fragment)
+            addToBackStack(null)
         }
     }
 

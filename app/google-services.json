@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "911638953704",
+    "project_id": "gofitness-4d8ef",
+    "storage_bucket": "gofitness-4d8ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911638953704:android:feb291c3833c58ae08135d",
+        "android_client_info": {
+          "package_name": "com.example.gofitness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911638953704-qlmb0jprb9a7ij237mvdn08e2cs5o2a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCizuDGxX_6GtQFo17gY-hGN_Zy8SXbVZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911638953704-qlmb0jprb9a7ij237mvdn08e2cs5o2a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

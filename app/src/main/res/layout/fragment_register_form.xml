@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/purpleVictoria"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/btn_go_back"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:src="@drawable/ic_x_symbol"/>
+
+
+    <TextView
+        android:id="@+id/tv_gofitness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GoFitness"
+        android:textColor="@color/white"
+        style="@style/Textview.Semibold.Display.MD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_100" />
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textColor="@color/white"
+        style="@style/Textview.Semibold.Display.XS"
+        app:layout_constraintTop_toBottomOf="@id/tv_gofitness"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/et_username"
+        app:layout_constraintBottom_toTopOf="@id/et_username"
+        android:text="Username"
+        style="@style/Textview.Semibold.XL"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/dp_5"/>
+
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_240"
+        android:layout_marginHorizontal="@dimen/dp_30"
+        android:background="@drawable/ic_edit_text_background"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/et_full_name"
+        app:layout_constraintBottom_toTopOf="@id/et_full_name"
+        android:text="Full Name"
+        style="@style/Textview.Semibold.XL"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/dp_5"/>
+
+    <EditText
+        android:id="@+id/et_full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_username"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginHorizontal="@dimen/dp_30"
+        android:background="@drawable/ic_edit_text_background"
+        android:textColor="@color/black" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/et_password"
+        app:layout_constraintBottom_toTopOf="@id/et_password"
+        android:text="Password"
+        style="@style/Textview.Semibold.XL"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/dp_5"/>
+
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_full_name"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginHorizontal="@dimen/dp_30"
+        android:background="@drawable/ic_edit_text_background"
+        android:textColor="@color/black"
+        android:inputType="textPassword"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/et_confirm_password"
+        app:layout_constraintBottom_toTopOf="@id/et_confirm_password"
+        android:text="Confirm Password"
+        style="@style/Textview.Semibold.XL"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/dp_5"/>
+
+    <EditText
+        android:id="@+id/et_confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_password"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginHorizontal="@dimen/dp_30"
+        android:background="@drawable/ic_edit_text_background"
+        android:textColor="@color/black"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_confirm_password"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginHorizontal="@dimen/dp_80"
+        android:text="Submit"
+        android:textSize="@dimen/sp_24"
+        android:textColor="@color/purpleVictoria"
+        android:background="@drawable/ic_edit_text_background"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
