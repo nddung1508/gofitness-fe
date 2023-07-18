@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.gofitness.databinding.FragmentSplashBinding
 import com.example.gofitness.ui.AuthenticationNavigator
 import com.example.gofitness.ui.MainActivity
+import com.example.gofitness.ui.login.LoginFormFragment
 import com.example.gofitness.ui.login.LoginFragment
 import com.example.gofitness.ui.login.RegisterFormFragment
 
@@ -32,6 +33,7 @@ private lateinit var binding: FragmentSplashBinding
         const val NAVIGATE_TO_LOGIN = "SPLASH_TO_LOGIN"
         const val NAVIGATE_TO_REGISTER = "LOGIN_TO_REGISTER_FORM"
         const val NAVIGATE_TO_LOGIN_FROM_REGISTER = "REGISTER_TO_LOGIN"
+        const val NAVIGATE_TO_LOGIN_FORM = "LOGIN_TO_LOGIN_FORM"
     }
 
     override fun navigateScreen(screenName: String, bundle: Bundle?) {
@@ -54,6 +56,13 @@ private lateinit var binding: FragmentSplashBinding
                 this.binding.root.isClickable = false
                 loginFragment.authenticationNavigator = this
                 (requireActivity() as MainActivity).navigateToFragment(loginFragment)
+            }
+
+            NAVIGATE_TO_LOGIN_FORM -> {
+                val registerFormFragment = RegisterFormFragment()
+                this.binding.root.isClickable = false
+                registerFormFragment.authenticationNavigator = this
+                (requireActivity() as MainActivity).addFragment(LoginFormFragment())
             }
         }
     }

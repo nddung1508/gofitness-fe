@@ -74,8 +74,11 @@ class LoginFragment : Fragment() {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
         }
 
-        binding.bottomSheetLogin.clUser.setOnClickListener {
+        binding.bottomSheetRegister.clUser.setOnClickListener {
             authenticationNavigator.navigateScreen(NAVIGATE_TO_REGISTER)
+        }
+        binding.bottomSheetLogin.clUser.setOnClickListener {
+            authenticationNavigator.navigateScreen(NAVIGATE_TO_LOGIN_FORM)
         }
         //Timer
         timerTask = object : TimerTask() {
@@ -167,5 +170,6 @@ class LoginFragment : Fragment() {
 
     companion object{
         const val NAVIGATE_TO_REGISTER = "LOGIN_TO_REGISTER_FORM"
+        const val NAVIGATE_TO_LOGIN_FORM = "LOGIN_TO_LOGIN_FORM"
     }
 }
