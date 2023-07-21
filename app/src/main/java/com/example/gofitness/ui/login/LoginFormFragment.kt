@@ -1,5 +1,6 @@
 package com.example.gofitness.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,20 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.gofitness.databinding.FragmentLoginBinding
+import com.example.gofitness.databinding.FragmentLoginFormBinding
 import com.example.gofitness.databinding.FragmentRegisterFormBinding
 import com.example.gofitness.ui.AuthenticationNavigator
+import com.example.gofitness.ui.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
-class RegisterFormFragment : Fragment() {
-    private lateinit var binding :FragmentRegisterFormBinding
-    lateinit var authenticationNavigator : AuthenticationNavigator
+class LoginFormFragment : Fragment() {
+    private lateinit var binding :FragmentLoginFormBinding
     private lateinit var firebaseAuth : FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegisterFormBinding.inflate(inflater, container, false)
+        binding = FragmentLoginFormBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -33,20 +36,18 @@ class RegisterFormFragment : Fragment() {
         binding.btnSubmit.setOnClickListener {
             val email = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
-            val confirmPassword = binding.etConfirmPassword.text.toString()
-
             if(email.isEmpty()){
                 Toast.makeText(requireContext(),"Enter Email",Toast.LENGTH_SHORT).show()
             }
             if(password.isEmpty()){
                 Toast.makeText(requireContext(),"Enter Password",Toast.LENGTH_SHORT).show()
             }
-            if(email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()){
-                if(password==confirmPassword){
-                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+            if(email.isNotEmpty() && password.isNotEmpty()){
+                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                         if(it.isSuccessful){
                             Toast.makeText(requireContext(),"Successful Login",Toast.LENGTH_SHORT).show()
-                            requireActivity().supportFragmentManager.popBackStack()
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            startActivity(intent)
                         }
                         else{
                             Toast.makeText(requireContext(),"Fail Login",Toast.LENGTH_SHORT).show()
@@ -56,8 +57,3 @@ class RegisterFormFragment : Fragment() {
             }
         }
     }
-
-    companion object{
-        const val NAVIGATE_TO_LOGIN_FROM_REGISTER = "REGISTER_TO_LOGIN"
-    }
-}
