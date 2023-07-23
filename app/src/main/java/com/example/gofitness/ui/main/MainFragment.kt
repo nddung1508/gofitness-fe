@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
             val currentUser = FirebaseAuth.getInstance().currentUser
             if(currentUser != null){
                 FirebaseAuth.getInstance().signOut()
-                Thread.sleep(500)
+                Thread.sleep(1500)
                 authenticationNavigator.navigateScreen(LOG_OUT)
             }
         }
