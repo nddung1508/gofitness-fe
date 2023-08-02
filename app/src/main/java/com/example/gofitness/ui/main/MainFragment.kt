@@ -8,11 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gofitness.R
 import com.example.gofitness.databinding.FragmentMainBinding
+import com.example.gofitness.ui.MainActivity
+import com.example.gofitness.ui.splash.SplashFragment
 import com.example.home.HomeFragment
+import com.example.profile.ProfileFragment
+import com.example.profile.ProfileNavigator
 
-class MainFragment : Fragment(){
+class MainFragment : Fragment(), ProfileNavigator{
     private lateinit var binding : FragmentMainBinding
     private val homeFragment = HomeFragment.newInstance()
+    private val profileFragment = ProfileFragment.newInstance()
     private lateinit var viewPager: ViewPager2
     private lateinit var pagerAdapter: NavBarAdapter
 
@@ -37,13 +42,14 @@ class MainFragment : Fragment(){
         viewPager.isUserInputEnabled = false
         pagerAdapter = NavBarAdapter(this)
         pagerAdapter.addFragments(homeFragment)
-
+        pagerAdapter.addFragments(profileFragment)
         viewPager.adapter = pagerAdapter
     }
     private fun initBottomMenu() {
         binding.mainBottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> viewPager.currentItem = 0
+                R.id.nav_profile -> viewPager.currentItem = 1
             }
             return@setOnItemSelectedListener true
         }
@@ -51,5 +57,10 @@ class MainFragment : Fragment(){
 
     companion object{
         const val LOG_OUT = "MAIN_TO_LOGIN"
+    }
+
+    override fun navigateScreen() {
+        val splashFragment = SplashFragment()
+        (requireActivity() as MainActivity).navigateToFragment(splashFragment)
     }
 }

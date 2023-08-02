@@ -21,7 +21,6 @@ class HomeFragment: Fragment(), SensorEventListener {
     private var accelerometerSensor: Sensor? = null
     private var stepSensor: Sensor? = null
     private var stepsSinceReboot : Int ? = 0
-    private var averageStrideLength  = 0.75
     private val userWeightInKg = 70.0
     override fun onCreateView(
         inflater: LayoutInflater,
