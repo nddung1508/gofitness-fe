@@ -132,7 +132,4 @@
         <style name="Textview.Header" parent="Textview.Semibold.MD">
             <item name="android:textColor">@color/colorNeutral01</item>
         </style>
-        <style name="BottomNavSelectedText">
-            <item name="android:textStyle">bold</item>
-        </style>
 </resources>

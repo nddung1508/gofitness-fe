@@ -74,7 +74,6 @@ private lateinit var firebaseAuth : FirebaseAuth
             NAVIGATE_TO_MAIN -> {
                 val mainFragment = MainFragment()
                 this.binding.root.isClickable = false
-                mainFragment.authenticationNavigator = this
                 (requireActivity() as MainActivity).navigateToFragment(mainFragment)
             }
             LOG_OUT -> {
