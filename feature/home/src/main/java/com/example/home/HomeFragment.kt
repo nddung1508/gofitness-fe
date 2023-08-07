@@ -1,6 +1,7 @@
 package com.example.home
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -48,6 +49,11 @@ class HomeFragment: Fragment(), SensorEventListener {
         }
         binding.tvStepsNumber.text = stepsSinceReboot.toString()
         getKcalBurned()
+        //Start workout
+        binding.clStartWorkout.setOnClickListener {
+            val intent = Intent(requireContext(), ExerciseActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
