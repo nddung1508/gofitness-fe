@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/purpleVictoria">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Exercise Type"
+        android:textColor="@color/white"
+        style="@style/Textview.Medium.Display.SM"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/ic_x_symbol"
+            android:layout_marginStart="@dimen/dp_15"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_body_workout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Body Workout"
+        app:layout_constraintTop_toBottomOf="@id/cl_header"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        style="@style/Textview.Medium.Display.XS"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_home_plan"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_140"
+        app:layout_constraintTop_toBottomOf="@id/tv_body_workout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="@drawable/ic_bg_corner_12"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:elevation="@dimen/dp_4">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="HOME \nWORKOUT"
+            android:translationZ="@dimen/dp_1"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_10"
+            style="@style/Textview.Medium.Display.MD"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_workout"
+            android:scaleType="fitXY"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/ic_bg_corner_12"
+            android:foreground="@drawable/ic_bg_corner_tint"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_gym_plan"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_140"
+        app:layout_constraintTop_toBottomOf="@id/cl_home_plan"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/dp_25"
+        android:background="@drawable/ic_bg_corner_12"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:elevation="@dimen/dp_4"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="GYM \nWORKOUT"
+            android:translationZ="@dimen/dp_1"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_10"
+            style="@style/Textview.Medium.Display.MD"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gym_workout"
+            android:scaleType="fitXY"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/ic_bg_corner_12"
+            android:foreground="@drawable/ic_bg_corner_tint"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_running"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Running"
+        app:layout_constraintTop_toBottomOf="@id/cl_gym_plan"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
+        style="@style/Textview.Medium.Display.XS"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_running"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_140"
+        app:layout_constraintTop_toBottomOf="@id/tv_running"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/dp_25"
+        android:background="@drawable/ic_bg_corner_12"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:elevation="@dimen/dp_4"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="RUNNING"
+            android:translationZ="@dimen/dp_1"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_10"
+            style="@style/Textview.Medium.Display.MD"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/running"
+            android:scaleType="fitXY"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/ic_bg_corner_12"
+            android:foreground="@drawable/ic_bg_corner_tint" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
