@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.home.databinding.FragmentExerciseTypeBinding
 
-class ExerciseTypeFragment :Fragment(){
+class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
     private lateinit var binding: FragmentExerciseTypeBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentExerciseTypeBinding.inflate(layoutInflater)
+        binding = FragmentExerciseTypeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -24,7 +24,31 @@ class ExerciseTypeFragment :Fragment(){
             requireActivity().finish()
         }
         binding.clGymPlan.setOnClickListener {
-
+            navigateScreen(NAVIGATE_TO_GYM_PLAN)
         }
+        binding.clHomePlan.setOnClickListener {
+            navigateScreen(NAVIGATE_TO_HOME_PLAN)
+        }
+    }
+
+    override fun navigateScreen(screenName: String, bundle: Bundle?) {
+        when (screenName) {
+            NAVIGATE_TO_HOME_PLAN -> {
+                val homePlanFragment = HomePlanFragment()
+                this.binding.root.isClickable = false
+                homePlanFragment.exerciseNavigator = this
+                (requireActivity() as ExerciseActivity).addFragment(homePlanFragment)
+            }
+            NAVIGATE_TO_GYM_PLAN -> {
+                val gymPlanFragment = GymPlanFragment()
+                this.binding.root.isClickable = false
+                gymPlanFragment.exerciseNavigator = this
+                (requireActivity() as ExerciseActivity).addFragment(gymPlanFragment)
+            }
+        }
+    }
+    companion object{
+        const val NAVIGATE_TO_HOME_PLAN = "EXERCISE_TYPE_TO_HOME_PLAN"
+        const val NAVIGATE_TO_GYM_PLAN = "EXERCISE_TYPE_TO_GYM_PLAN"
     }
 }

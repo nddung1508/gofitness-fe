@@ -65,10 +65,10 @@ private lateinit var firebaseAuth : FirebaseAuth
             }
 
             NAVIGATE_TO_LOGIN_FORM -> {
-                val registerFormFragment = RegisterFormFragment()
+                val loginFormFragment = LoginFormFragment()
                 this.binding.root.isClickable = false
-                registerFormFragment.authenticationNavigator = this
-                (requireActivity() as MainActivity).addFragment(LoginFormFragment())
+//                loginFormFragment.authenticationNavigator = this
+                (requireActivity() as MainActivity).addFragment(loginFormFragment)
             }
 
             NAVIGATE_TO_MAIN -> {
