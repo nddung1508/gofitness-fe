@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_180"
+    android:layout_marginVertical="@dimen/dp_16">
+    <ImageView
+        android:id="@+id/btn_question_mark"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/purple_question_mark"/>
+    <ImageView
+        android:id="@+id/iv_workout"
+        android:layout_width="@dimen/dp_140"
+        android:layout_height="@dimen/dp_130"
+        app:layout_constraintStart_toEndOf="@id/btn_question_mark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="@dimen/dp_20"
+        android:scaleType="fitXY"
+        android:src="@drawable/push_up"/>
+
+    <TextView
+        android:id="@+id/tv_exercise_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/iv_workout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/dp_40"
+        android:layout_marginStart="@dimen/dp_20"
+        android:text="Push Up"
+        style="@style/Textview.Medium.Display.XS"/>
+
+    <TextView
+        android:id="@+id/tv_exercise_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/iv_workout"
+        app:layout_constraintTop_toBottomOf="@id/tv_exercise_name"
+        android:text="00:00"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_5"
+        style="@style/Textview.Medium.Display.XS"
+        android:textColor="@color/colorNeutral04"/>
+
+    <TextView
+        android:id="@+id/tv_rep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:text="x20"
+        style="@style/Textview.Medium.Display.MD"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

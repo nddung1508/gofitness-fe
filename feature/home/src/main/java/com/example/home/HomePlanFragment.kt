@@ -9,14 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.data.AppDatabase
-import com.example.data.ExerciseViewModel
-import com.example.data.ExerciseViewModelFactory
+import com.example.data.WorkoutViewModel
 import com.example.home.databinding.FragmentHomePlanBinding
 
 class HomePlanFragment : Fragment() {
     lateinit var exerciseNavigator : ExerciseNavigator
     private lateinit var binding : FragmentHomePlanBinding
-    private lateinit var exerciseViewModel: ExerciseViewModel
+    private lateinit var workoutViewModel: WorkoutViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,12 +31,12 @@ class HomePlanFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
         val appDatabase = AppDatabase.getInstance(requireContext())
-        val exerciseDao = appDatabase.exerciseDao()
+        val workoutDao = appDatabase.workoutDao()
 
-        val viewModelFactory = ExerciseViewModelFactory(exerciseDao)
-        exerciseViewModel = ViewModelProvider(this, viewModelFactory)[ExerciseViewModel::class.java]
-        exerciseViewModel.getAllExercises().observe(viewLifecycleOwner, Observer { exercises ->
-            Toast.makeText(requireContext(), exercises[0].name,Toast.LENGTH_LONG).show()
+        val viewModelFactory = WorkoutViewModelFactory(workoutDao)
+        workoutViewModel = ViewModelProvider(this, viewModelFactory)[WorkoutViewModel::class.java]
+        workoutViewModel.getAllWorkout().observe(viewLifecycleOwner, Observer { workouts ->
+            Toast.makeText(requireContext(), workouts[0].name,Toast.LENGTH_LONG).show()
         })
     }
 }

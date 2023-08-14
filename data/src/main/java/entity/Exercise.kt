@@ -12,6 +12,6 @@ data class Exercise(
     val caloriesBurned: Double,
     val definition : String,
     val goodFor : String,
-    val rep: Int = 0
-//    val image: ByteArray?
+    val rep: Int = 0,
+    val image: ByteArray?
 )
