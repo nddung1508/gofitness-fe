@@ -1,5 +1,6 @@
 package exercise
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
@@ -11,6 +12,11 @@ import entity.Exercise
 class WorkoutAdapter : RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder>() {
     var exercises: List<Exercise> = ArrayList()
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun addExercises(data: List<Exercise>){
+        exercises = data
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutViewHolder {
         return WorkoutViewHolder( LayoutWorkoutExerciseItemBinding.inflate(
             LayoutInflater.from(parent.context),

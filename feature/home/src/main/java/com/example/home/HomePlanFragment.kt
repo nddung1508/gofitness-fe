@@ -11,11 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.data.AppDatabase
 import com.example.data.WorkoutViewModel
 import com.example.home.databinding.FragmentHomePlanBinding
+import exercise.WorkoutAdapter
+import kotlinx.coroutines.delay
+import kotlin.concurrent.thread
 
 class HomePlanFragment : Fragment() {
     lateinit var exerciseNavigator : ExerciseNavigator
     private lateinit var binding : FragmentHomePlanBinding
-    private lateinit var workoutViewModel: WorkoutViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,13 +32,12 @@ class HomePlanFragment : Fragment() {
         binding.btnBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
-        val appDatabase = AppDatabase.getInstance(requireContext())
-        val workoutDao = appDatabase.workoutDao()
+        binding.clAbs.setOnClickListener {
+            exerciseNavigator.navigateScreen(NAVIGATE_TO_WORKOUT)
+        }
+    }
 
-        val viewModelFactory = WorkoutViewModelFactory(workoutDao)
-        workoutViewModel = ViewModelProvider(this, viewModelFactory)[WorkoutViewModel::class.java]
-        workoutViewModel.getAllWorkout().observe(viewLifecycleOwner, Observer { workouts ->
-            Toast.makeText(requireContext(), workouts[0].name,Toast.LENGTH_LONG).show()
-        })
+    companion object{
+        const val NAVIGATE_TO_WORKOUT = "PLAN_TO_WORKOUT"
     }
 }
