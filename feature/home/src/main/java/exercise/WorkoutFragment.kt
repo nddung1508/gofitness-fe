@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.data.WorkoutViewModel
+import com.example.home.ExerciseNavigator
 import com.example.home.WorkoutViewModelFactory
 import com.example.home.databinding.FragmentWorkoutBinding
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 class WorkoutFragment : Fragment() {
     private lateinit var binding: FragmentWorkoutBinding
     private lateinit var workoutViewModel: WorkoutViewModel
+    lateinit var exerciseNavigator: ExerciseNavigator
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateView(
@@ -33,7 +35,7 @@ class WorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         workoutViewModel = ViewModelProvider(this, WorkoutViewModelFactory(requireActivity().application, requireContext()))[WorkoutViewModel::class.java]
-        val workoutAdapter = WorkoutAdapter()
+        val workoutAdapter = WorkoutAdapter(exerciseNavigator)
         binding.rvExercise.layoutManager =
             LinearLayoutManager(
                 requireContext(),

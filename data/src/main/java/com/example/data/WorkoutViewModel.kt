@@ -38,8 +38,8 @@ class WorkoutViewModel(application: Application, private val context: Context) :
                     name = "Push Up",
                     duration = 30,
                     caloriesBurned = 30.0,
-                    definition = "Push up is ...",
-                    goodFor = "...",
+                    definition = "A push-up is a bodyweight exercise in which you start in a plank position and use your arms to lower and lift your body, primarily working the chest, shoulders, and triceps muscles.",
+                    goodFor = "Push-ups are a versatile bodyweight exercise that primarily target the muscles in your chest (pectoral muscles), shoulders (deltoids), and triceps. They also engage your core and stabilizing muscles.",
                     rep = 0,
                     image = ConvertResourceToByteArray(pushUp)
                 ),
@@ -47,8 +47,8 @@ class WorkoutViewModel(application: Application, private val context: Context) :
                     name = "Pull Up",
                     duration = 45,
                     caloriesBurned = 100.0,
-                    definition = "Pull up is ...",
-                    goodFor = "...",
+                    definition = "A pull-up is a bodyweight exercise where you hang from a bar with your palms facing away from you (overhand grip) and use your upper body muscles to pull your body up until your chin clears the bar. ",
+                    goodFor = "This exercise primarily targets your back muscles (latissimus dorsi), biceps, and shoulders, as well as engaging your core and other supporting muscles. Pull-ups are effective for building upper body strength, particularly in your back and arms",
                     rep = 0,
                     image = ConvertResourceToByteArray(pullUp)
                 ),

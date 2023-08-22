@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.home.databinding.FragmentExerciseTypeBinding
+import exercise.WorkoutDetailFragment
 import exercise.WorkoutFragment
 
 class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
@@ -49,7 +50,16 @@ class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
             NAVIGATE_TO_WORKOUT -> {
                 val workoutFragment = WorkoutFragment()
                 this.binding.root.isClickable = false
+                workoutFragment.exerciseNavigator = this
                 (requireActivity() as ExerciseActivity).addFragment(workoutFragment)
+            }
+            NAVIGATE_TO_WORKOUT_DETAIL -> {
+                val workoutDetailFragment = WorkoutDetailFragment()
+                this.binding.root.isClickable = false
+                bundle?.let{
+                    workoutDetailFragment.arguments = it
+                }
+                (requireActivity() as ExerciseActivity).addFragment(workoutDetailFragment)
             }
         }
     }
@@ -57,5 +67,6 @@ class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
         const val NAVIGATE_TO_HOME_PLAN = "EXERCISE_TYPE_TO_HOME_PLAN"
         const val NAVIGATE_TO_GYM_PLAN = "EXERCISE_TYPE_TO_GYM_PLAN"
         const val NAVIGATE_TO_WORKOUT = "PLAN_TO_WORKOUT"
+        const val NAVIGATE_TO_WORKOUT_DETAIL = "WORKOUT_TO_WORKOUT_DETAIL"
     }
 }
