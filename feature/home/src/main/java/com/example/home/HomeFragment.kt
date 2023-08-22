@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.data.WorkoutViewModel
 import com.example.home.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
@@ -28,7 +27,6 @@ class HomeFragment: Fragment(), SensorEventListener {
     private var stepSensor: Sensor? = null
     private var stepsSinceReboot : Int ? = 0
     private val userWeightInKg = 70.0
-    private lateinit var workoutViewModel: WorkoutViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,14 +57,6 @@ class HomeFragment: Fragment(), SensorEventListener {
         binding.clStartWorkout.setOnClickListener {
             val intent = Intent(requireContext(), ExerciseActivity::class.java)
             startActivity(intent)
-        }
-        //Start Inserting Data
-        workoutViewModel = ViewModelProvider(this, WorkoutViewModelFactory(requireActivity().application, requireContext()))[WorkoutViewModel::class.java]
-        workoutViewModel.insertDefaultExercises()
-        viewLifecycleOwner.lifecycleScope.launch {
-        while (workoutViewModel.getAllWorkout().value?.isEmpty() != false) {
-            delay(500) // Delay for 1 second before checking again
-            }
         }
     }
 

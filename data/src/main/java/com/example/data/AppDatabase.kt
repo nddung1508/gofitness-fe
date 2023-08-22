@@ -12,7 +12,6 @@ import entity.Workout
 @Database(entities = [Exercise::class, Workout::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase(){
-    abstract fun workoutDao(): WorkoutDao
 
     companion object {
         @Volatile
