@@ -3,13 +3,15 @@ package exercise
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.home.ExerciseNavigator
 import com.example.home.databinding.LayoutWorkoutExerciseItemBinding
 import entity.Exercise
 
-class WorkoutAdapter : RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder>() {
+class WorkoutAdapter(val exerciseNavigator: ExerciseNavigator) : RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder>() {
     var exercises: List<Exercise> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -38,15 +40,29 @@ class WorkoutAdapter : RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder>() 
         val name = binding.tvExerciseName
         private val duration = binding.tvExerciseDuration
         private val rep = binding.tvRep
+        private val detail = binding.btnQuestionMark
         fun bind(value: Exercise) {
             image.setImageBitmap(value.image?.let { decodeByteArray(it) })
             name.text = value.name
             duration.text = value.duration.toString()
             rep.text = value.rep.toString()
+            detail.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putString("detail", value.name)
+                    putString("definition", value.definition)
+                    putString("about", value.goodFor)
+                    putByteArray("image", value.image)
+                }
+                exerciseNavigator.navigateScreen(NAVIGATE_TO_WORKOUT_DETAIL, bundle)
+            }
         }
     }
 
     private fun decodeByteArray(imageByteArray: ByteArray): Bitmap {
         return BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
+    }
+
+    companion object{
+        const val NAVIGATE_TO_WORKOUT_DETAIL = "WORKOUT_TO_WORKOUT_DETAIL"
     }
 }

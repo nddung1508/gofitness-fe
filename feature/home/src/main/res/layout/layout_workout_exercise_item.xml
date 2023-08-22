@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/tv_exercise_name"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_130"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/iv_workout"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@
         android:layout_marginBottom="@dimen/dp_40"
         android:layout_marginStart="@dimen/dp_20"
         android:text="Push Up"
-        style="@style/Textview.Medium.Display.XS"/>
+        style="@style/Textview.Medium.XL"/>
 
     <TextView
         android:id="@+id/tv_exercise_duration"
