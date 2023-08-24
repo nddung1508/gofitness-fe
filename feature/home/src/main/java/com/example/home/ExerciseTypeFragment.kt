@@ -51,6 +51,9 @@ class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
                 val workoutFragment = WorkoutFragment()
                 this.binding.root.isClickable = false
                 workoutFragment.exerciseNavigator = this
+                bundle?.let{
+                    workoutFragment.arguments = it
+                }
                 (requireActivity() as ExerciseActivity).addFragment(workoutFragment)
             }
             NAVIGATE_TO_WORKOUT_DETAIL -> {
