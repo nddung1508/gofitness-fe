@@ -25,7 +25,22 @@ class HomePlanFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
         binding.clAbs.setOnClickListener {
-            exerciseNavigator.navigateScreen(NAVIGATE_TO_WORKOUT)
+            val bundle = Bundle().apply {
+                putString("type", "ABS")
+            }
+            exerciseNavigator.navigateScreen(NAVIGATE_TO_WORKOUT, bundle)
+        }
+        binding.clArm.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("type", "ARM")
+            }
+            exerciseNavigator.navigateScreen(NAVIGATE_TO_WORKOUT, bundle)
+        }
+        binding.clLegs.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("type", "LEGS")
+            }
+            exerciseNavigator.navigateScreen(NAVIGATE_TO_WORKOUT, bundle)
         }
     }
 

@@ -31,7 +31,8 @@ class WorkoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getAllWorkout()
+        val type = arguments?.getString("type")
+        type?.let { getAllWorkout(it) }
         binding.btnBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
@@ -46,35 +47,65 @@ class WorkoutFragment : Fragment() {
         binding.rvExercise.adapter = workoutAdapter
     }
 
-    private fun getAllWorkout(){
+    private fun getAllWorkout(selectedExercise : String){
         val pushUp = R.drawable.push_up
         val pullUp = R.drawable.pull_up
         val armCircle = R.drawable.arm_circle
         val plankShoulderTap = R.drawable.plank_shoulder_tap
         val tricepsDip = R.drawable.tricep_dip
         val reverseSnowAngel = R.drawable.reverse_snow_angel
+        var exercise = listOf<Exercise>()
+        when(selectedExercise){
+            "ABS" -> {
+                exercise = listOf(
+                    Exercise(
+                        name = "Push Up", duration = 30, caloriesBurned = 30.0, definition = "A push-up is a bodyweight exercise in which you start in a plank position and use your arms to lower and lift your body, primarily working the chest, shoulders, and triceps muscles.", goodFor = "Push-ups are a versatile bodyweight exercise that primarily target the muscles in your chest (pectoral muscles), shoulders (deltoids), and triceps. They also engage your core and stabilizing muscles.", rep = 0,
+                        image = ConvertResourceToByteArray(pushUp)
+                    ), Exercise(
+                        name = "Pull Up", duration = 45, caloriesBurned = 100.0, definition = "A pull-up is a bodyweight exercise where you hang from a bar with your palms facing away from you (overhand grip) and use your upper body muscles to pull your body up until your chin clears the bar. ", goodFor = "This exercise primarily targets your back muscles (latissimus dorsi), biceps, and shoulders, as well as engaging your core and other supporting muscles. Pull-ups are effective for building upper body strength, particularly in your back and arms", rep = 0,
+                        image = ConvertResourceToByteArray(pullUp)
+                    ), Exercise(
+                        name = "Arm Circle", duration = 100, caloriesBurned = 50.0, definition = "Arm Circle is ...", goodFor = "...", rep = 0,
+                        image = ConvertResourceToByteArray(armCircle)
+                    )
+                )
+            }
+            "ARM" -> {
+                exercise =  listOf(
+                    Exercise(
+                        name = "Triceps Dip", duration = 150, caloriesBurned = 70.0, definition = "Triceps Dip is ...", goodFor = "...", rep = 0,
+                        image = ConvertResourceToByteArray(tricepsDip)
+                    ), Exercise(name = "Plank Shoulder Tap", duration = 50, caloriesBurned = 35.0, definition = "Plank Shoulder Tap is ...", goodFor = "...", rep = 0,
+                        image = ConvertResourceToByteArray(plankShoulderTap)
+                    ), Exercise(
+                        name = "Reverse Snow Angel", duration = 60, caloriesBurned = 100.0, definition = "Reverse Snow Angel ...", goodFor = "...", rep = 0,
+                        image = ConvertResourceToByteArray(reverseSnowAngel)
+                        )
+                    )
+            }
+            "CHEST" -> {
 
-        val armExercise = listOf(
-            Exercise(
-                name = "Push Up", duration = 30, caloriesBurned = 30.0, definition = "A push-up is a bodyweight exercise in which you start in a plank position and use your arms to lower and lift your body, primarily working the chest, shoulders, and triceps muscles.", goodFor = "Push-ups are a versatile bodyweight exercise that primarily target the muscles in your chest (pectoral muscles), shoulders (deltoids), and triceps. They also engage your core and stabilizing muscles.", rep = 0,
-                image = ConvertResourceToByteArray(pushUp)
-            ), Exercise(
-                name = "Pull Up", duration = 45, caloriesBurned = 100.0, definition = "A pull-up is a bodyweight exercise where you hang from a bar with your palms facing away from you (overhand grip) and use your upper body muscles to pull your body up until your chin clears the bar. ", goodFor = "This exercise primarily targets your back muscles (latissimus dorsi), biceps, and shoulders, as well as engaging your core and other supporting muscles. Pull-ups are effective for building upper body strength, particularly in your back and arms", rep = 0,
-                image = ConvertResourceToByteArray(pullUp)
-            ), Exercise(
-                name = "Arm Circle", duration = 100, caloriesBurned = 50.0, definition = "Arm Circle is ...", goodFor = "...", rep = 0,
-                image = ConvertResourceToByteArray(armCircle)
-            ), Exercise(
-                name = "Triceps Dip", duration = 150, caloriesBurned = 70.0, definition = "Triceps Dip is ...", goodFor = "...", rep = 0,
-                image = ConvertResourceToByteArray(tricepsDip)
-            ), Exercise(name = "Plank Shoulder Tap", duration = 50, caloriesBurned = 35.0, definition = "Plank Shoulder Tap is ...", goodFor = "...", rep = 0,
-                image = ConvertResourceToByteArray(plankShoulderTap)
-            ), Exercise(
-                name = "Reverse Snow Angel", duration = 60, caloriesBurned = 100.0, definition = "Reverse Snow Angel ...", goodFor = "...", rep = 0,
-                image = ConvertResourceToByteArray(reverseSnowAngel)
-            )
-        )
-        workout = Workout(name = "Arm Workout", exercises = armExercise)
+            }
+            "SHOULDER" -> {
+
+            }
+            "LEGS" -> {
+                exercise = listOf(
+                    Exercise(
+                        name = "Push Up", duration = 30, caloriesBurned = 30.0, definition = "A push-up is a bodyweight exercise in which you start in a plank position and use your arms to lower and lift your body, primarily working the chest, shoulders, and triceps muscles.", goodFor = "Push-ups are a versatile bodyweight exercise that primarily target the muscles in your chest (pectoral muscles), shoulders (deltoids), and triceps. They also engage your core and stabilizing muscles.", rep = 0,
+                        image = ConvertResourceToByteArray(pushUp)
+                    ), Exercise(
+                        name = "Pull Up", duration = 45, caloriesBurned = 100.0, definition = "A pull-up is a bodyweight exercise where you hang from a bar with your palms facing away from you (overhand grip) and use your upper body muscles to pull your body up until your chin clears the bar. ", goodFor = "This exercise primarily targets your back muscles (latissimus dorsi), biceps, and shoulders, as well as engaging your core and other supporting muscles. Pull-ups are effective for building upper body strength, particularly in your back and arms", rep = 0,
+                        image = ConvertResourceToByteArray(pullUp)
+                    ), Exercise(
+                        name = "Arm Circle", duration = 100, caloriesBurned = 50.0, definition = "Arm Circle is ...", goodFor = "...", rep = 0,
+                        image = ConvertResourceToByteArray(armCircle)
+                    )
+                )
+            }
+        }
+
+        workout = Workout(name = "Arm Workout", exercises = exercise)
     }
 
     private fun ConvertResourceToByteArray(imageResource: Int): ByteArray {
