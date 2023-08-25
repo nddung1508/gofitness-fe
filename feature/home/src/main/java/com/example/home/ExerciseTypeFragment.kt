@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.home.databinding.FragmentExerciseTypeBinding
+import exercise.StartWorkoutFragment
 import exercise.WorkoutDetailFragment
 import exercise.WorkoutFragment
 
@@ -64,6 +65,14 @@ class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
                 }
                 (requireActivity() as ExerciseActivity).addFragment(workoutDetailFragment)
             }
+            NAVIGATE_TO_START_WORKOUT -> {
+                val startWorkoutFragment = StartWorkoutFragment()
+                this.binding.root.isClickable = false
+                bundle?.let{
+                    startWorkoutFragment.arguments = it
+                }
+                (requireActivity() as ExerciseActivity).addFragment(startWorkoutFragment)
+            }
         }
     }
     companion object{
@@ -71,5 +80,6 @@ class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
         const val NAVIGATE_TO_GYM_PLAN = "EXERCISE_TYPE_TO_GYM_PLAN"
         const val NAVIGATE_TO_WORKOUT = "PLAN_TO_WORKOUT"
         const val NAVIGATE_TO_WORKOUT_DETAIL = "WORKOUT_TO_WORKOUT_DETAIL"
+        const val NAVIGATE_TO_START_WORKOUT = "WORKOUT_TO_START_WORKOUT"
     }
 }
