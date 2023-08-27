@@ -15,8 +15,10 @@ import java.io.ByteArrayOutputStream
 
 class StartWorkoutFragment : Fragment() {
     private lateinit var binding: FragmentStartWorkoutBinding
-    private lateinit var countdownTimer: CountDownTimer
-    private var countdownDurationMillis : Long = 0L
+    private lateinit var startExerciseTimer: CountDownTimer
+    private lateinit var restExerciseTimer: CountDownTimer
+    private var startExerciseDuration : Long = 0L
+    private var restExerciseDuration : Long = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,13 +33,13 @@ class StartWorkoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val receivedExercise = arguments?.getParcelable<Workout>("workout")
         var startIndex = 0
-        countdownDurationMillis = 0L
+        startExerciseDuration = 0L
         if (receivedExercise != null) {
             getExercise(receivedExercise, startIndex)
         }
         //Countdown (Exercise Duration)
 
-        countdownTimer = object : CountDownTimer(countdownDurationMillis, 1000) {
+        startExerciseTimer = object : CountDownTimer(startExerciseDuration, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
                 binding.tvExerciseDuration.text = secondsRemaining.toString()
@@ -46,25 +48,70 @@ class StartWorkoutFragment : Fragment() {
             override fun onFinish() {
                 startIndex++
                 if (receivedExercise != null) {
-                    getExercise(receivedExercise, startIndex)
+                    takeRest(receivedExercise, startIndex)
                 }
             }
         }
-        countdownTimer.start()
+        startExerciseTimer.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        countdownTimer.cancel()
+        startExerciseTimer.cancel()
+        restExerciseTimer.cancel()
     }
 
     private fun getExercise(receivedExercise : Workout, startIndex : Int){
+        startExerciseDuration = receivedExercise.exercises[startIndex].duration.toLong()
+
+        binding.clRest.visibility = View.GONE
+        binding.clStartExercise.visibility = View.VISIBLE
             binding.ivCurrentExercise.setImageBitmap(receivedExercise.exercises[startIndex].image?.let {
                 decodeByteArray(
                     it
                 )
             })
-        countdownDurationMillis = receivedExercise.exercises[startIndex].duration.toLong()
+
+        startExerciseTimer = object : CountDownTimer(startExerciseDuration, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val secondsRemaining = millisUntilFinished / 1000
+                binding.tvExerciseDuration.text = secondsRemaining.toString()
+            }
+
+            override fun onFinish() {
+                val nextIndex = startIndex + 1
+                if(nextIndex < receivedExercise.exercises.size){
+                    takeRest(receivedExercise, nextIndex)
+                }
+                else{
+
+                }
+            }
+        }
+        startExerciseTimer.start()
+    }
+
+    private fun takeRest(receivedExercise : Workout, nextIndex : Int){
+        binding.clStartExercise.visibility = View.GONE
+        binding.clRest.visibility = View.VISIBLE
+        if(nextIndex < receivedExercise.exercises.size){
+            binding.ivRestExercise.setImageBitmap(receivedExercise.exercises[nextIndex].image?.let{
+                decodeByteArray(
+                    it
+                )
+            })
+            restExerciseTimer = object : CountDownTimer(10000L, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    val secondsRemaining = millisUntilFinished / 1000
+                    binding.tvRestDuration.text = secondsRemaining.toString()
+                }
+
+                override fun onFinish() {
+                    getExercise(receivedExercise, nextIndex)
+                }
+            }
+            restExerciseTimer.start()
+        }
     }
 
     private fun decodeByteArray(imageByteArray: ByteArray): Bitmap {
