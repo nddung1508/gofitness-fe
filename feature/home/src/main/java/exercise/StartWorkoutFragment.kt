@@ -1,5 +1,6 @@
 package exercise
 
+import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.home.ExerciseNavigator
 import com.example.home.databinding.FragmentStartWorkoutBinding
 import entity.Exercise
 import entity.Workout
@@ -18,7 +20,7 @@ class StartWorkoutFragment : Fragment() {
     private lateinit var startExerciseTimer: CountDownTimer
     private lateinit var restExerciseTimer: CountDownTimer
     private var startExerciseDuration : Long = 0L
-    private var restExerciseDuration : Long = 0L
+    private var isShowingDialog = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,12 +39,10 @@ class StartWorkoutFragment : Fragment() {
         if (receivedExercise != null) {
             getExercise(receivedExercise, startIndex)
         }
-        //Countdown (Exercise Duration)
 
         startExerciseTimer = object : CountDownTimer(startExerciseDuration, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val secondsRemaining = millisUntilFinished / 1000
-                binding.tvExerciseDuration.text = secondsRemaining.toString()
+                binding.tvExerciseDuration.text = formatTime(millisUntilFinished)
             }
 
             override fun onFinish() {
@@ -66,7 +66,7 @@ class StartWorkoutFragment : Fragment() {
 
         binding.clRest.visibility = View.GONE
         binding.clStartExercise.visibility = View.VISIBLE
-            binding.ivCurrentExercise.setImageBitmap(receivedExercise.exercises[startIndex].image?.let {
+        binding.ivCurrentExercise.setImageBitmap(receivedExercise.exercises[startIndex].image?.let {
                 decodeByteArray(
                     it
                 )
@@ -74,8 +74,7 @@ class StartWorkoutFragment : Fragment() {
 
         startExerciseTimer = object : CountDownTimer(startExerciseDuration, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val secondsRemaining = millisUntilFinished / 1000
-                binding.tvExerciseDuration.text = secondsRemaining.toString()
+                binding.tvExerciseDuration.text = formatTime(millisUntilFinished)
             }
 
             override fun onFinish() {
@@ -84,7 +83,10 @@ class StartWorkoutFragment : Fragment() {
                     takeRest(receivedExercise, nextIndex)
                 }
                 else{
-
+                    if (!isShowingDialog) {
+                        isShowingDialog = true
+                        finishPopUp()
+                    }
                 }
             }
         }
@@ -94,8 +96,9 @@ class StartWorkoutFragment : Fragment() {
     private fun takeRest(receivedExercise : Workout, nextIndex : Int){
         binding.clStartExercise.visibility = View.GONE
         binding.clRest.visibility = View.VISIBLE
-        if(nextIndex < receivedExercise.exercises.size){
-            binding.ivRestExercise.setImageBitmap(receivedExercise.exercises[nextIndex].image?.let{
+        binding.tvNextExercise.text = receivedExercise.exercises[nextIndex].name
+        binding.tvNextNumber.text = "Next: ${nextIndex+1}/${receivedExercise.exercises.size}"
+        binding.ivRestExercise.setImageBitmap(receivedExercise.exercises[nextIndex].image?.let{
                 decodeByteArray(
                     it
                 )
@@ -104,14 +107,41 @@ class StartWorkoutFragment : Fragment() {
                 override fun onTick(millisUntilFinished: Long) {
                     val secondsRemaining = millisUntilFinished / 1000
                     binding.tvRestDuration.text = secondsRemaining.toString()
+                    binding.btnFinish.setOnClickListener {
+                        restExerciseTimer.onFinish()
+                    }
                 }
 
                 override fun onFinish() {
                     getExercise(receivedExercise, nextIndex)
                 }
             }
-            restExerciseTimer.start()
-        }
+        restExerciseTimer.start()
+    }
+
+    private fun finishPopUp(){
+        AlertDialog.Builder(this.requireContext()).run {
+            setTitle("Alert Dialog")
+            setMessage("You have finish the exercise.")
+            setPositiveButton("OK") { dialog, _ ->
+                requireActivity().supportFragmentManager.popBackStack()
+                dialog.dismiss()
+                isShowingDialog = false
+            }
+            setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            create()
+        }.show()
+    }
+
+    private fun formatTime(milliseconds: Long): String {
+        val totalSeconds = milliseconds / 1000
+        val hours = totalSeconds / 3600
+        val minutes = (totalSeconds % 3600) / 60
+        val seconds = totalSeconds % 60
+
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 
     private fun decodeByteArray(imageByteArray: ByteArray): Bitmap {
