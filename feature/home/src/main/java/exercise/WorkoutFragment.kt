@@ -45,6 +45,12 @@ class WorkoutFragment : Fragment() {
             )
         workout?.let { workoutAdapter.addExercises(it.exercises) }
         binding.rvExercise.adapter = workoutAdapter
+        val bundle = Bundle().apply {
+            putParcelable("workout", workout)
+        }
+        binding.btnStartWorkout.setOnClickListener {
+            exerciseNavigator.navigateScreen(NAVIGATE_TO_START_WORKOUT, bundle)
+        }
     }
 
     private fun getAllWorkout(selectedExercise : String){
@@ -59,13 +65,13 @@ class WorkoutFragment : Fragment() {
             "ABS" -> {
                 exercise = listOf(
                     Exercise(
-                        name = "Push Up", duration = 30, caloriesBurned = 30.0, definition = "A push-up is a bodyweight exercise in which you start in a plank position and use your arms to lower and lift your body, primarily working the chest, shoulders, and triceps muscles.", goodFor = "Push-ups are a versatile bodyweight exercise that primarily target the muscles in your chest (pectoral muscles), shoulders (deltoids), and triceps. They also engage your core and stabilizing muscles.", rep = 0,
+                        name = "Push Up", duration = 10000, caloriesBurned = 30.0, definition = "A push-up is a bodyweight exercise in which you start in a plank position and use your arms to lower and lift your body, primarily working the chest, shoulders, and triceps muscles.", goodFor = "Push-ups are a versatile bodyweight exercise that primarily target the muscles in your chest (pectoral muscles), shoulders (deltoids), and triceps. They also engage your core and stabilizing muscles.", rep = 0,
                         image = ConvertResourceToByteArray(pushUp)
                     ), Exercise(
-                        name = "Pull Up", duration = 45, caloriesBurned = 100.0, definition = "A pull-up is a bodyweight exercise where you hang from a bar with your palms facing away from you (overhand grip) and use your upper body muscles to pull your body up until your chin clears the bar. ", goodFor = "This exercise primarily targets your back muscles (latissimus dorsi), biceps, and shoulders, as well as engaging your core and other supporting muscles. Pull-ups are effective for building upper body strength, particularly in your back and arms", rep = 0,
+                        name = "Pull Up", duration = 10000, caloriesBurned = 100.0, definition = "A pull-up is a bodyweight exercise where you hang from a bar with your palms facing away from you (overhand grip) and use your upper body muscles to pull your body up until your chin clears the bar. ", goodFor = "This exercise primarily targets your back muscles (latissimus dorsi), biceps, and shoulders, as well as engaging your core and other supporting muscles. Pull-ups are effective for building upper body strength, particularly in your back and arms", rep = 0,
                         image = ConvertResourceToByteArray(pullUp)
                     ), Exercise(
-                        name = "Arm Circle", duration = 100, caloriesBurned = 50.0, definition = "Arm Circle is ...", goodFor = "...", rep = 0,
+                        name = "Arm Circle", duration = 5000, caloriesBurned = 50.0, definition = "Arm Circle is ...", goodFor = "...", rep = 0,
                         image = ConvertResourceToByteArray(armCircle)
                     )
                 )
@@ -113,5 +119,8 @@ class WorkoutFragment : Fragment() {
         val stream = ByteArrayOutputStream()
         imageBitmap.compress(Bitmap.CompressFormat.PNG, 1, stream)
         return stream.toByteArray()
+    }
+    companion object{
+        const val NAVIGATE_TO_START_WORKOUT = "WORKOUT_TO_START_WORKOUT"
     }
 }

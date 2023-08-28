@@ -44,7 +44,7 @@ class WorkoutAdapter(val exerciseNavigator: ExerciseNavigator) : RecyclerView.Ad
         fun bind(value: Exercise) {
             image.setImageBitmap(value.image?.let { decodeByteArray(it) })
             name.text = value.name
-            duration.text = value.duration.toString()
+            duration.text = formatTime(value.duration.toLong())
             rep.text = value.rep.toString()
             detail.setOnClickListener {
                 val bundle = Bundle().apply {
@@ -60,6 +60,15 @@ class WorkoutAdapter(val exerciseNavigator: ExerciseNavigator) : RecyclerView.Ad
 
     private fun decodeByteArray(imageByteArray: ByteArray): Bitmap {
         return BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
+    }
+
+    private fun formatTime(milliseconds: Long): String {
+        val totalSeconds = milliseconds / 1000
+        val hours = totalSeconds / 3600
+        val minutes = (totalSeconds % 3600) / 60
+        val seconds = totalSeconds % 60
+
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 
     companion object{
