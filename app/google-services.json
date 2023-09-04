@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "911638953704",
+    "firebase_url": "https://gofitness-4d8ef-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "gofitness-4d8ef",
     "storage_bucket": "gofitness-4d8ef.appspot.com"
   },
@@ -14,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "911638953704-qlmb0jprb9a7ij237mvdn08e2cs5o2a1.apps.googleusercontent.com",
+          "client_id": "911638953704-lcaj6kasm5sqcrkrcho4kb51pqmolpmp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gofitness",
+            "certificate_hash": "29ee17f7ab42a8c4c0f44e7afa9a7c60d3fd5126"
+          }
+        },
+        {
+          "client_id": "911638953704-oav8umaaeb3javj3bb3251h2m5je5btq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +36,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "911638953704-qlmb0jprb9a7ij237mvdn08e2cs5o2a1.apps.googleusercontent.com",
+              "client_id": "911638953704-oav8umaaeb3javj3bb3251h2m5je5btq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
