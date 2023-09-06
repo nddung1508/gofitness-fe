@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/tv_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Textview.Bold.Display.MD"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="HISTORY"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_15"
+        android:textColor="@color/colorNeutral03"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_header_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/colorNeutral04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_history"
+        android:layout_marginTop="@dimen/dp_10"/>
+
+    <TextView
+        android:id="@+id/current_date_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Date"
+        app:layout_constraintTop_toBottomOf="@id/cl_header_line"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"
+        style="@style/Textview.Regular.XL"/>
+
+    <TextView
+        android:id="@+id/current_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11/09/2023"
+        app:layout_constraintTop_toBottomOf="@id/current_date_label"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"
+        style="@style/Textview.Regular.XL"/>
+
+    <TextView
+        android:id="@+id/tv_kcal_label"
+        style="@style/Textview.Semibold.Display.XS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_30"
+        android:text="KCAL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_kcal"
+        android:textColor="@color/colorNeutral03"/>
+
+    <TextView
+        android:id="@+id/tv_kcal"
+        style="@style/Textview.Semibold.Display.XS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_55"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_header_line"
+        android:textColor="@color/colorNeutral03"
+        android:layout_marginTop="@dimen/dp_10"/>
+
+    <TextView
+        android:id="@+id/tv_steps_label"
+        style="@style/Textview.Semibold.Display.XS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_150"
+        android:text="STEPS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_kcal"
+        android:textColor="@color/colorNeutral03"/>
+
+    <TextView
+        android:id="@+id/tv_steps"
+        style="@style/Textview.Semibold.Display.XS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_180"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_header_line"
+        android:textColor="@color/colorNeutral03"
+        android:layout_marginTop="@dimen/dp_10"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_workout_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/current_date"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginHorizontal="@dimen/dp_20"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

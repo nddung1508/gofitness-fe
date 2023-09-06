@@ -13,9 +13,11 @@ import com.example.gofitness.ui.splash.SplashFragment
 import com.example.home.HomeFragment
 import com.example.profile.ProfileFragment
 import com.example.profile.ProfileNavigator
+import history.WorkoutHistoryFragment
 
 class MainFragment : Fragment(), ProfileNavigator{
     private lateinit var binding : FragmentMainBinding
+    private val workoutHistoryFragment = WorkoutHistoryFragment.newInstance()
     private val homeFragment = HomeFragment.newInstance()
     private val profileFragment = ProfileFragment.newInstance()
     private lateinit var viewPager: ViewPager2
@@ -42,6 +44,7 @@ class MainFragment : Fragment(), ProfileNavigator{
         viewPager.isUserInputEnabled = false
         pagerAdapter = NavBarAdapter(this)
         pagerAdapter.addFragments(homeFragment)
+        pagerAdapter.addFragments(workoutHistoryFragment)
         pagerAdapter.addFragments(profileFragment)
         viewPager.adapter = pagerAdapter
     }
@@ -49,7 +52,8 @@ class MainFragment : Fragment(), ProfileNavigator{
         binding.mainBottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> viewPager.currentItem = 0
-                R.id.nav_profile -> viewPager.currentItem = 1
+                R.id.nav_statistic -> viewPager.currentItem = 1
+                R.id.nav_profile -> viewPager.currentItem = 2
             }
             return@setOnItemSelectedListener true
         }

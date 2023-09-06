@@ -18,11 +18,10 @@ import java.io.ByteArrayOutputStream
 
 class StartWorkoutFragment : Fragment() {
     private lateinit var binding: FragmentStartWorkoutBinding
-    private lateinit var startExerciseTimer: CountDownTimer
-    private var startExerciseDuration : Long = 0L
     private var isShowingDialog = false
-    private var cancel = false
+    private var cancelRestTimer = false
     private lateinit var workoutHistoryViewModel: WorkoutHistoryViewModel
+    private lateinit var startExerciseTimer : CountDownTimer
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,43 +37,17 @@ class StartWorkoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val receivedExercise = arguments?.getParcelable<Workout>("workout")
         var startIndex = 0
-        startExerciseDuration = 0L
-        if (receivedExercise != null) {
+        if(receivedExercise != null){
             getExercise(receivedExercise, startIndex)
-        }
-
-        startExerciseTimer = object : CountDownTimer(startExerciseDuration, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                binding.tvExerciseDuration.text = formatTime(millisUntilFinished)
-            }
-
-            override fun onFinish() {
-                startIndex++
-                if (receivedExercise != null) {
-                    takeRest(receivedExercise, startIndex)
-                }
-            }
-        }
-        startExerciseTimer.start()
-
-        //WorkoutHistoryViewModel
-        val pushUp = com.example.data.R.drawable.push_up
-        binding.btnPause.setOnClickListener {
-            receivedExercise?.let {
-                workoutHistoryViewModel.addWorkoutHistory(
-                    name = it.name, duration = it.exercises.sumOf { it.duration }.toLong(), caloriesBurned = it.exercises.sumOf { it.caloriesBurned }.toInt(),
-                    image = convertResourceToByteList(requireContext(), pushUp), amountOfExercise = it.exercises.size, currentTime = System.currentTimeMillis())
-            }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        startExerciseTimer.cancel()
     }
 
     private fun getExercise(receivedExercise : Workout, startIndex : Int){
-        startExerciseDuration = receivedExercise.exercises[startIndex].duration.toLong()
+        val startExerciseDuration = receivedExercise.exercises[startIndex].duration.toLong()
 
         binding.clRest.visibility = View.GONE
         binding.clStartExercise.visibility = View.VISIBLE
@@ -90,36 +63,39 @@ class StartWorkoutFragment : Fragment() {
             }
 
             override fun onFinish() {
-                val nextIndex = startIndex + 1
-                if(nextIndex < receivedExercise.exercises.size){
-                    takeRest(receivedExercise, nextIndex)
-                }
-                else{
-                    if (!isShowingDialog) {
-                        isShowingDialog = true
-                        finishPopUp()
+                    val nextIndex = startIndex + 1
+                    if (nextIndex < receivedExercise.exercises.size) {
+                        takeRest(receivedExercise, nextIndex)
+                        this.cancel()
+                    } else {
+                        if (!isShowingDialog) {
+                            isShowingDialog = true
+                            addWorkoutHistory(receivedExercise)
+                            finishPopUp()
+                            this.cancel()
+                        }
                     }
                 }
             }
-        }
         startExerciseTimer.start()
     }
 
     private fun takeRest(receivedExercise: Workout, nextIndex: Int) {
-
+        cancelRestTimer = false
         val restExerciseTimer = object : CountDownTimer(10000L, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
                 binding.tvRestDuration.text = secondsRemaining.toString()
                 binding.btnFinish.setOnClickListener {
-                    cancel = true
+                    cancelRestTimer = true
                     getExercise(receivedExercise, nextIndex)
+                    cancel()
                 }
             }
 
             override fun onFinish() {
-                if (!cancel) {
-                    cancel = false
+                if (!cancelRestTimer) {
+                    cancelRestTimer = false
                     getExercise(receivedExercise, nextIndex)
                     cancel()
                 }
@@ -136,6 +112,14 @@ class StartWorkoutFragment : Fragment() {
             )
         })
         restExerciseTimer.start()
+    }
+    private fun addWorkoutHistory(receivedExercise: Workout){
+        val pushUp = com.example.data.R.drawable.push_up
+        receivedExercise.let {
+            workoutHistoryViewModel.addWorkoutHistory(
+                name = it.name, duration = it.exercises.sumOf { it.duration }.toLong(), caloriesBurned = it.exercises.sumOf { it.caloriesBurned }.toInt(),
+                image = convertResourceToByteList(requireContext(), pushUp), amountOfExercise = it.exercises.size, currentTime = System.currentTimeMillis())
+        }
     }
 
     private fun finishPopUp(){
