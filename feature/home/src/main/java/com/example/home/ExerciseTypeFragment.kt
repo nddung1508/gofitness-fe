@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.home.databinding.FragmentExerciseTypeBinding
 import exercise.StartWorkoutFragment
@@ -23,6 +24,11 @@ class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        })
         binding.btnBack.setOnClickListener {
             requireActivity().finish()
         }

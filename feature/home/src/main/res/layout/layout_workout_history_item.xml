@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15/08/2002 11:59:00"
+        style="@style/Textview.Medium.XL"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginStart="@dimen/dp_10"
+        android:textColor="@color/colorNeutral03"/>
+
+    <TextView
+        android:id="@+id/tv_workout_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ABS WORKOUT"
+        style="@style/Textview.Medium.XL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:textColor="@color/colorNeutral03"/>
+
+    <ImageView
+        android:id="@+id/iv_workout"
+        android:layout_width="@dimen/dp_130"
+        android:layout_height="@dimen/dp_100"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/purpleVictoria"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/tv_min_label"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_30"
+        android:text="Min"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_min"
+        android:textColor="@color/colorNeutral03"/>
+
+    <TextView
+        android:id="@+id/tv_min"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@id/tv_min_label"
+        app:layout_constraintEnd_toEndOf="@id/tv_min_label"
+        app:layout_constraintTop_toTopOf="@id/iv_workout"
+        app:layout_constraintBottom_toBottomOf="@id/iv_workout"
+        android:textColor="@color/colorNeutral03"
+        android:layout_marginBottom="@dimen/dp_25"/>
+
+    <TextView
+        android:id="@+id/tv_exercises_label"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_80"
+        android:text="Exercises"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_min"
+        android:textColor="@color/colorNeutral03"/>
+
+    <TextView
+        android:id="@+id/tv_exercises"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@id/tv_exercises_label"
+        app:layout_constraintEnd_toEndOf="@id/tv_exercises_label"
+        app:layout_constraintTop_toTopOf="@id/iv_workout"
+        app:layout_constraintBottom_toBottomOf="@id/iv_workout"
+        android:textColor="@color/colorNeutral03"
+        android:layout_marginBottom="@dimen/dp_25"/>
+
+    <TextView
+        android:id="@+id/tv_kcal_label"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_180"
+        android:text="Kcal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_min"
+        android:textColor="@color/colorNeutral03"/>
+
+    <TextView
+        android:id="@+id/tv_kcal"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@id/tv_kcal_label"
+        app:layout_constraintEnd_toEndOf="@id/tv_kcal_label"
+        app:layout_constraintTop_toTopOf="@id/iv_workout"
+        app:layout_constraintBottom_toBottomOf="@id/iv_workout"
+        android:textColor="@color/colorNeutral03"
+        android:layout_marginBottom="@dimen/dp_25"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/colorNeutral03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_workout"
+        android:layout_marginTop="@dimen/dp_15"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
