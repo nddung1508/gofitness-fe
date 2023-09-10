@@ -61,9 +61,9 @@
         style="@style/Textview.Semibold.Display.XS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_55"
         android:text="0"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_kcal_label"
+        app:layout_constraintEnd_toEndOf="@id/tv_kcal_label"
         app:layout_constraintTop_toBottomOf="@id/cl_header_line"
         android:textColor="@color/colorNeutral03"
         android:layout_marginTop="@dimen/dp_10"/>
@@ -97,8 +97,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/current_date"
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_marginHorizontal="@dimen/dp_20"/>
+        android:layout_marginTop="@dimen/dp_10" />
 
 
 
