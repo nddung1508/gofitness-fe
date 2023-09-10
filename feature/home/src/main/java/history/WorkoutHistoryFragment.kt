@@ -23,6 +23,8 @@ class WorkoutHistoryFragment : Fragment() {
     private val calendar = Calendar.getInstance()
     private lateinit var workoutHistoryViewModel: WorkoutHistoryViewModel
     private lateinit var firebaseAuth : FirebaseAuth
+    private var todayStartInMillis: Long = 0
+    private var todayEndInMillis: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,35 +40,27 @@ class WorkoutHistoryFragment : Fragment() {
         binding.currentDate.setOnClickListener {
             showDatePickerDialog()
         }
-        firebaseAuth = FirebaseAuth.getInstance()
-        val uid = firebaseAuth.currentUser?.uid
+        //Default Current Day
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val currentDate = dateFormat.format(System.currentTimeMillis())
+        binding.currentDate.text = currentDate
+        updateDateRange(System.currentTimeMillis())
+    }
 
-        //Recycler View for Workout History
-        val workoutHistoryAdapter = WorkoutHistoryAdapter()
-        binding.rvWorkoutHistory.layoutManager =
-            LinearLayoutManager(
-                requireContext(),
-                LinearLayoutManager.VERTICAL,
-                false
-            )
-
-        workoutHistoryViewModel = ViewModelProvider(this).get(WorkoutHistoryViewModel::class.java)
-        if (uid != null) {
-            workoutHistoryViewModel.getWorkoutHistory(uid).observe(viewLifecycleOwner) { workoutHistories ->
-                workoutHistoryAdapter.addWorkoutHistory(workoutHistories)
-            }
-        }
-        binding.rvWorkoutHistory.adapter = workoutHistoryAdapter
+    override fun onStart() {
+        super.onStart()
+        addWorkoutHistory()
     }
 
     private fun showDatePickerDialog() {
         val maxDate = Calendar.getInstance().apply {
-            timeInMillis = calendar.timeInMillis
+            timeInMillis = System.currentTimeMillis()
         }
 
         val datePickerDialog = DatePickerDialog(
             requireContext(), { _: DatePicker?, year: Int, month: Int, day: Int ->
                 calendar.set(year, month, day)
+                updateDateRange(calendar.timeInMillis)
                 updateSelectedDate()
             },
             calendar.get(Calendar.YEAR),
@@ -84,6 +78,44 @@ class WorkoutHistoryFragment : Fragment() {
         binding.currentDate.text = selectedDate
     }
 
+    private fun addWorkoutHistory(){
+        val workoutHistoryAdapter = WorkoutHistoryAdapter()
+        binding.rvWorkoutHistory.layoutManager =
+            LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        val uid = firebaseAuth.currentUser?.uid
+        workoutHistoryViewModel = ViewModelProvider(this).get(WorkoutHistoryViewModel::class.java)
+
+        if (uid != null) {
+            workoutHistoryViewModel.getWorkoutHistory(uid).observe(viewLifecycleOwner) { workoutHistories ->
+                val filteredList = workoutHistories.filter { it.currentTime in todayStartInMillis..todayEndInMillis }
+                workoutHistoryAdapter.addWorkoutHistory(filteredList)
+                binding.tvKcal.text = filteredList.sumOf { it.caloriesBurned }.toString()
+            }
+        }
+        binding.rvWorkoutHistory.adapter = workoutHistoryAdapter
+    }
+    private fun updateDateRange(selectedDateInMillis: Long) {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = selectedDateInMillis
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        todayStartInMillis = calendar.timeInMillis
+
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        calendar.set(Calendar.MILLISECOND, 999)
+        todayEndInMillis = calendar.timeInMillis
+        addWorkoutHistory()
+    }
 
     companion object {
         fun newInstance(): WorkoutHistoryFragment {

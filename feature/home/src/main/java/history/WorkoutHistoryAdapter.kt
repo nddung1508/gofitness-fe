@@ -25,7 +25,6 @@ class WorkoutHistoryAdapter :  RecyclerView.Adapter<WorkoutHistoryAdapter.Workou
         notifyDataSetChanged()
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutHistoryViewHolder {
         return WorkoutHistoryViewHolder(LayoutWorkoutHistoryItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -53,7 +52,7 @@ class WorkoutHistoryAdapter :  RecyclerView.Adapter<WorkoutHistoryAdapter.Workou
         fun bind(value: WorkoutHistory) {
             val formattedDate = sdf.format(Date(value.currentTime))
             image.setImageBitmap(decodeBase64ToBitmap(value.image))
-            name.text = value.name
+            name.text = value.name.lowercase().replaceFirstChar {it.uppercase() } + " Workout"
             duration.text = value.duration.toString()
             date.text = formattedDate
             kcal.text = value.caloriesBurned.toString()
