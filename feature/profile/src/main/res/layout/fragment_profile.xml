@@ -14,16 +14,174 @@
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginStart="@dimen/dp_10"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bmi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_profile">
+
     <TextView
         android:id="@+id/tv_about_us"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="About me"
+        android:text="About you"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_profile"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10"/>
+        android:layout_marginTop="@dimen/dp_5"
+        style="@style/Textview.Medium.XL"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/heightLayout"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_70"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_about_us"
+        android:hint="Height (cm)"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_15"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/heightInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/weightLayout"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_70"
+        app:layout_constraintStart_toEndOf="@id/heightLayout"
+        app:layout_constraintTop_toBottomOf="@id/tv_about_us"
+        android:hint="Weight (Kg)"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_15"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/weightInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ageLayout"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_70"
+        app:layout_constraintStart_toEndOf="@id/weightLayout"
+        app:layout_constraintTop_toBottomOf="@id/tv_about_us"
+        android:hint="Age"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_15"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ageInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
+        android:id="@+id/btn_update"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_35"
+        app:layout_constraintTop_toBottomOf="@id/ageLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="Update"
+        android:elevation="@dimen/dp_4"
+        android:background="@drawable/btn_update_corner" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_update"
+        android:background="@color/colorNeutral05"
+        android:layout_marginTop="@dimen/dp_30"/>
+
+    <com.github.anastr.speedviewlib.SpeedView
+        android:id="@+id/speedView"
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="@dimen/dp_260"
+        android:layout_marginTop="@dimen/dp_60"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_update"
+        app:sv_centerCircleRadius="0dp"
+        app:sv_endDegree="360"
+        app:sv_indicator="NeedleIndicator"
+        app:sv_maxSpeed="45"
+        app:sv_minSpeed="15"
+        app:sv_speedTextColor="@color/white"
+        app:sv_startDegree="180"
+        app:sv_unitTextColor="@color/white"
+        app:sv_withTremble="false"/>
+
+    <TextView
+        android:id="@+id/tv_bmi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/speedView"
+        app:layout_constraintEnd_toEndOf="@id/speedView"
+        app:layout_constraintTop_toTopOf="@id/speedView"
+        app:layout_constraintBottom_toBottomOf="@id/speedView"
+        android:layout_marginBottom="@dimen/dp_70"
+        android:text="0"
+        style="@style/Textview.Bold.Display.MD" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BMI"
+        style="@style/Textview.Bold.MD"
+        app:layout_constraintStart_toStartOf="@id/speedView"
+        app:layout_constraintEnd_toEndOf="@id/speedView"
+        app:layout_constraintBottom_toTopOf="@id/tv_bmi"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_bmi_health_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/speedView"
+        app:layout_constraintEnd_toEndOf="@id/speedView"
+        app:layout_constraintTop_toTopOf="@id/speedView"
+        app:layout_constraintBottom_toBottomOf="@id/speedView"
+        android:layout_marginTop="@dimen/dp_80"
+        android:text="Not measured"
+        style="@style/Textview.Regular.Display.XS" />
+
+    <TextView
+        android:id="@+id/tv_bmi_health_status_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_bmi_health_status"
+        android:text=""
+        android:layout_marginHorizontal="@dimen/dp_30"
+        android:textColor="@color/colorNeutral04"
+        android:layout_marginBottom="@dimen/dp_50"
+        style="@style/Textview.Regular.LG" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="@dimen/dp_80"
+        android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_bmi_health_status_description"
+        android:layout_marginTop="@dimen/dp_20">
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorNeutral05" />
+        <TextView
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,5 +189,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Log Out"/>
+        style="@style/Textview.Regular.Display.XS"
+        android:text="Log Out"
+        android:textColor="#f00"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
