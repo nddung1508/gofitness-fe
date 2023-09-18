@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <style name="AppTheme" parent="Theme.AppCompat.NoActionBar" />
+        <!-- TEXTVIEW -->
+        <style name="TextView" parent="TextAppearance.AppCompat">
+            <item name="android:color">@color/colorGray900</item>
+        </style>
+        <!-- Regular -->
+        <style name="Textview.Regular" parent="TextView">
+            <item name="android:textFontWeight">400</item>
+        </style>
+        <style name="Textview.Regular.Display.MD" parent="Textview.Regular">
+            <item name="android:textSize">@dimen/sp_36</item>
+        </style>
+        <style name="Textview.Regular.Display.SM" parent="Textview.Regular">
+            <item name="android:textSize">@dimen/sp_30</item>
+        </style>
+        <style name="Textview.Regular.Display.XS" parent="Textview.Regular">
+            <item name="android:textSize">@dimen/sp_24</item>
+        </style>
+        <style name="Textview.Regular.XL" parent="Textview.Regular">
+            <item name="android:textSize">@dimen/sp_20</item>
+        </style>
+        <style name="Textview.Regular.LG" parent="Textview.Regular">
+            <item name="android:textSize">@dimen/sp_18</item>
+        </style>
+        <style name="Textview.Regular.MD" parent="Textview.Regular">
+            <item name="android:textSize">@dimen/sp_16</item>
+        </style>
+        <style name="Textview.Regular.SM" parent="Textview.Regular">
+            <item name="android:textSize">@dimen/sp_14</item>
+        </style>
+        <style name="Textview.Regular.XS" parent="Textview.Regular">
+            <item name="android:textSize">@dimen/sp_12</item>
+        </style>
+        <style name="Textview.Regular.XXS" parent="Textview.Regular">
+            <item name="android:textSize">@dimen/sp_10</item>
+        </style>
+        <!-- Medium -->
+        <style name="Textview.Medium" parent="TextView">
+            <item name="android:textFontWeight">500</item>
+        </style>
+        <style name="Textview.Medium.Display.MD" parent="Textview.Medium">
+            <item name="android:textSize">@dimen/sp_36</item>
+        </style>
+        <style name="Textview.Medium.Display.SM" parent="Textview.Medium">
+            <item name="android:textSize">@dimen/sp_30</item>
+        </style>
+        <style name="Textview.Medium.Display.XS" parent="Textview.Medium">
+            <item name="android:textSize">@dimen/sp_24</item>
+        </style>
+        <style name="Textview.Medium.XL" parent="Textview.Medium">
+            <item name="android:textSize">@dimen/sp_20</item>
+        </style>
+        <style name="Textview.Medium.LG" parent="Textview.Medium">
+            <item name="android:textSize">@dimen/sp_18</item>
+        </style>
+        <style name="Textview.Medium.MD" parent="Textview.Medium">
+            <item name="android:textSize">@dimen/sp_16</item>
+        </style>
+        <style name="Textview.Medium.SM" parent="Textview.Medium">
+            <item name="android:textSize">@dimen/sp_14</item>
+        </style>
+        <style name="Textview.Medium.XS" parent="Textview.Medium">
+            <item name="android:textSize">@dimen/sp_12</item>
+        </style>
+        <style name="Textview.Medium.XXS" parent="Textview.Medium">
+            <item name="android:textSize">@dimen/sp_10</item>
+        </style>
+        <!-- Semibold -->
+        <style name="Textview.Semibold" parent="TextView">
+            <item name="android:textFontWeight">600</item>
+        </style>
+        <style name="Textview.Semibold.Display.MD" parent="Textview.Semibold">
+            <item name="android:textSize">@dimen/sp_36</item>
+        </style>
+        <style name="Textview.Semibold.Display.SM" parent="Textview.Semibold">
+            <item name="android:textSize">@dimen/sp_30</item>
+        </style>
+        <style name="Textview.Semibold.Display.XS" parent="Textview.Semibold">
+            <item name="android:textSize">@dimen/sp_24</item>
+        </style>
+        <style name="Textview.Semibold.XL" parent="Textview.Semibold">
+            <item name="android:textSize">@dimen/sp_20</item>
+        </style>
+        <style name="Textview.Semibold.LG" parent="Textview.Semibold">
+            <item name="android:textSize">@dimen/sp_18</item>
+        </style>
+        <style name="Textview.Semibold.MD" parent="Textview.Semibold">
+            <item name="android:textSize">@dimen/sp_16</item>
+        </style>
+        <style name="Textview.Semibold.SM" parent="Textview.Semibold">
+            <item name="android:textSize">@dimen/sp_14</item>
+        </style>
+        <style name="Textview.Semibold.XS" parent="Textview.Semibold">
+            <item name="android:textSize">@dimen/sp_12</item>
+        </style>
+        <style name="Textview.Semibold.XXS" parent="Textview.Semibold">
+            <item name="android:textSize">@dimen/sp_10</item>
+        </style>
+        <!-- Bold -->
+        <style name="Textview.Bold" parent="TextView">
+            <item name="android:textFontWeight">700</item>
+        </style>
+        <style name="Textview.Bold.Display.MD" parent="Textview.Bold">
+            <item name="android:textSize">@dimen/sp_36</item>
+        </style>
+        <style name="Textview.Bold.Display.SM" parent="Textview.Bold">
+            <item name="android:textSize">@dimen/sp_30</item>
+        </style>
+        <style name="Textview.Bold.Display.XS" parent="Textview.Bold">
+            <item name="android:textSize">@dimen/sp_24</item>
+        </style>
+        <style name="Textview.Bold.XL" parent="Textview.Bold">
+            <item name="android:textSize">@dimen/sp_20</item>
+        </style>
+        <style name="Textview.Bold.LG" parent="Textview.Bold">
+            <item name="android:textSize">@dimen/sp_18</item>
+        </style>
+        <style name="Textview.Bold.MD" parent="Textview.Bold">
+            <item name="android:textSize">@dimen/sp_16</item>
+        </style>
+        <style name="Textview.Bold.SM" parent="Textview.Bold">
+            <item name="android:textSize">@dimen/sp_14</item>
+        </style>
+        <style name="Textview.Bold.XS" parent="Textview.Bold">
+            <item name="android:textSize">@dimen/sp_12</item>
+        </style>
+        <style name="Textview.Bold.XXS" parent="Textview.Bold">
+            <item name="android:textSize">@dimen/sp_10</item>
+        </style>
+        <style name="Textview.Header" parent="Textview.Semibold.MD">
+            <item name="android:textColor">@color/colorNeutral01</item>
+        </style>
+        <style name="TabLayoutTextStyle">
+            <item name="android:textSize">@dimen/sp_16</item>
+            <item name="android:textStyle">normal</item>
+        </style>
+</resources>
