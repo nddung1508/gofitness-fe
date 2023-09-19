@@ -7,6 +7,7 @@ import androidx.lifecycle.map
 import com.example.data.FirebaseQueryLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import entity.KcalByDay
 import entity.WorkoutHistory
 
 class WorkoutHistoryViewModel : ViewModel() {
@@ -59,5 +60,38 @@ class WorkoutHistoryViewModel : ViewModel() {
                     Log.d("Check Firebase", "Error writing workout history")
                 }
             }
+    }
+
+
+    fun addKcalData(userId: String, kcal: Double, timestamp: Long) {
+        val kcalData = KcalByDay(kcal, timestamp)
+        val kcalDataRef = workoutHistoryDatabaseRef.child(userId).child("kcalData")
+        val timestampStr = timestamp.toString() // Convert timestamp to String for use as a key
+        kcalDataRef.child(timestampStr).setValue(kcalData)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Success Firebase Insertion", "Success Insert Kcal Data")
+                } else {
+                    Log.d("Check Firebase", "Error writing kcal data")
+                }
+            }
+    }
+
+    fun getTotalKcalForDate(userId: String, dateMillis: Long): LiveData<Double> {
+        val dateString = dateMillis.toString()
+        val kcalDataRef = workoutHistoryDatabaseRef.child(userId).child("kcalData")
+
+        val liveData = FirebaseQueryLiveData(kcalDataRef.orderByChild("timestamp").equalTo(dateString))
+
+        return liveData.map { dataSnapshot ->
+            var totalKcal = 0.0
+            for (kcalSnapshot in dataSnapshot.children) {
+                val kcalData = kcalSnapshot.getValue(KcalByDay::class.java)
+                kcalData?.let {
+                    totalKcal += it.kcal
+                }
+            }
+            totalKcal
+        }
     }
 }
