@@ -7,18 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.statistics.databinding.FragmentStatisticBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
 
 class StatisticFragment : Fragment() {
     private lateinit var binding : FragmentStatisticBinding
@@ -37,6 +36,10 @@ class StatisticFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpTab()
+    }
+
+    override fun onStart() {
+        super.onStart()
         setUpBarChart()
     }
     private fun setUpTab() {
@@ -60,6 +63,8 @@ class StatisticFragment : Fragment() {
             if (callsCompleted == numberOfCalls) {
                 val dataSet = BarDataSet(caloriesData, "Calories Burned")
                 dataSet.setDrawValues(false)
+                dataSet.colors = listOf(Color.CYAN, Color.GREEN, Color.GRAY, Color.BLACK, Color.BLUE, requireContext().getColor(R.color.purpleVictoria),
+                    requireContext().getColor(R.color.Orange), requireContext().getColor(R.color.Chablis))
                 val barData = BarData(dataSet)
                 binding.barChart.data = barData
                 binding.barChart.data.isHighlightEnabled = false
@@ -81,12 +86,12 @@ class StatisticFragment : Fragment() {
 
         for (i in 6 downTo 0) {
             if (userId != null) {
-                kcalByDayViewModel.getKcalByDayForDate(userId, getCurrentDateFormat(System.currentTimeMillis()))
+                kcalByDayViewModel.getKcalByDayForDate(userId, getCurrentDateFormat(System.currentTimeMillis() - reverseInt(i) * 86400000))
                     .observe(viewLifecycleOwner) { listKcalByDay ->
                         val yValue = listKcalByDay.sumOf { it.kcal }.toFloat()
                         val xValue = i.toFloat()
                         caloriesData.add(BarEntry(xValue, yValue))
-                        onLiveDataComplete() // Call the callback when LiveData completes
+                        onLiveDataComplete()
                     }
             }
         }
@@ -97,6 +102,19 @@ class StatisticFragment : Fragment() {
         calendar.timeInMillis = timeInMillis
         val dateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
         return dateFormat.format(calendar.time)
+    }
+
+    private fun reverseInt(int: Int) : Int{
+        return when (int){
+            6 -> 0
+            5 -> 1
+            4 -> 2
+            3 -> 3
+            2 -> 4
+            1 -> 5
+            0 -> 6
+            else -> 0
+        }
     }
 
     companion object{

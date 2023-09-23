@@ -53,23 +53,32 @@
             app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:tabTextColor="@color/black" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_bar_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_tab_bg"
+        android:text="Calories Burned last 7 days"
+        style="@style/Textview.Bold.Display.XS"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_statistics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_tab_bg"
+        app:layout_constraintTop_toBottomOf="@id/tv_bar_chart"
         android:layout_marginTop="@dimen/dp_15">
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_300"
+            android:layout_height="@dimen/dp_240"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginHorizontal="@dimen/dp_30"
             android:focusable="true"
             android:clickable="false"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
