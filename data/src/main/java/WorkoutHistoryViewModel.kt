@@ -1,4 +1,3 @@
-import android.graphics.Bitmap
 import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,7 +6,6 @@ import androidx.lifecycle.map
 import com.example.data.FirebaseQueryLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import entity.KcalByDay
 import entity.WorkoutHistory
 
 class WorkoutHistoryViewModel : ViewModel() {

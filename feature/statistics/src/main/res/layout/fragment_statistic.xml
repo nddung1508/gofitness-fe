@@ -54,24 +54,24 @@
             app:tabTextColor="@color/black" />
     </LinearLayout>
     <TextView
-        android:id="@+id/tv_bar_chart"
+        android:id="@+id/tv_bar_chart_kcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_tab_bg"
         android:text="Calories Burned last 7 days"
-        style="@style/Textview.Bold.Display.XS"/>
+        style="@style/Textview.Medium.Display.XS"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_statistics"
+        android:id="@+id/cl_statistics_kcal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_bar_chart"
+        app:layout_constraintTop_toBottomOf="@id/tv_bar_chart_kcal"
         android:layout_marginTop="@dimen/dp_15">
         <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
+            android:id="@+id/bar_chart_kcal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_240"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,5 +80,33 @@
             android:focusable="true"
             android:clickable="false"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_bar_chart_step"
+        style="@style/Textview.Medium.Display.XS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Steps last 7 days"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_statistics_kcal" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_statistics_step"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tv_bar_chart_step"
+    android:layout_marginTop="@dimen/dp_15">
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bar_chart_step"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_240"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginHorizontal="@dimen/dp_30"
+        android:focusable="true"
+        android:clickable="false"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

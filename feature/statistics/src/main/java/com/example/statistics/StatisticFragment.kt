@@ -1,6 +1,7 @@
 package com.example.statistics
 
 import KcalByDayViewModel
+import StepViewModel
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,8 +23,10 @@ import java.util.Locale
 class StatisticFragment : Fragment() {
     private lateinit var binding : FragmentStatisticBinding
     private lateinit var kcalByDayViewModel: KcalByDayViewModel
+    private lateinit var stepViewModel: StepViewModel
     private val userId: String? = FirebaseAuth.getInstance().currentUser?.uid
     private val caloriesData = arrayListOf<BarEntry>()
+    private val stepData = arrayListOf<BarEntry>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,7 +43,8 @@ class StatisticFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        setUpBarChart()
+        setUpKcalBarChart()
+        setUpStepBarChart()
     }
     private fun setUpTab() {
         if (binding.tabs.tabCount == 0) {
@@ -53,7 +57,7 @@ class StatisticFragment : Fragment() {
         }
     }
 
-    private fun setUpBarChart() {
+    private fun setUpKcalBarChart() {
         kcalByDayViewModel = ViewModelProvider(this).get(KcalByDayViewModel::class.java)
         val numberOfCalls = 7
         var callsCompleted = 0
@@ -66,21 +70,21 @@ class StatisticFragment : Fragment() {
                 dataSet.colors = listOf(Color.CYAN, Color.GREEN, Color.GRAY, Color.BLACK, Color.BLUE, requireContext().getColor(R.color.purpleVictoria),
                     requireContext().getColor(R.color.Orange), requireContext().getColor(R.color.Chablis))
                 val barData = BarData(dataSet)
-                binding.barChart.data = barData
-                binding.barChart.data.isHighlightEnabled = false
-                binding.barChart.isDoubleTapToZoomEnabled = false
-                binding.barChart.axisLeft.setDrawGridLines(false)
-                binding.barChart.axisRight.setDrawGridLines(false)
-                binding.barChart.xAxis.setDrawGridLines(false)
-                binding.barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-                binding.barChart.axisRight.setDrawLabels(false)
-                binding.barChart.description.isEnabled = false
-                binding.barChart.legend.isEnabled = false
-                binding.barChart.xAxis.granularity = 1f
-                binding.barChart.axisLeft.axisMinimum = 0f
-                binding.barChart.xAxis.valueFormatter = CustomDateAxisValueFormatter()
-                binding.barChart.xAxis.textSize = 10f
-                binding.barChart.invalidate()
+                binding.barChartKcal.data = barData
+                binding.barChartKcal.data.isHighlightEnabled = false
+                binding.barChartKcal.isDoubleTapToZoomEnabled = false
+                binding.barChartKcal.axisLeft.setDrawGridLines(false)
+                binding.barChartKcal.axisRight.setDrawGridLines(false)
+                binding.barChartKcal.xAxis.setDrawGridLines(false)
+                binding.barChartKcal.xAxis.position = XAxis.XAxisPosition.BOTTOM
+                binding.barChartKcal.axisRight.setDrawLabels(false)
+                binding.barChartKcal.description.isEnabled = false
+                binding.barChartKcal.legend.isEnabled = false
+                binding.barChartKcal.xAxis.granularity = 1f
+                binding.barChartKcal.axisLeft.axisMinimum = 0f
+                binding.barChartKcal.xAxis.valueFormatter = CustomDateAxisValueFormatter()
+                binding.barChartKcal.xAxis.textSize = 10f
+                binding.barChartKcal.invalidate()
             }
         }
 
@@ -91,6 +95,51 @@ class StatisticFragment : Fragment() {
                         val yValue = listKcalByDay.sumOf { it.kcal }.toFloat()
                         val xValue = i.toFloat()
                         caloriesData.add(BarEntry(xValue, yValue))
+                        onLiveDataComplete()
+                    }
+            }
+        }
+    }
+
+    private fun setUpStepBarChart(){
+        stepViewModel = ViewModelProvider(this).get(StepViewModel::class.java)
+        val numberOfCalls = 7
+        var callsCompleted = 0
+
+        val onLiveDataComplete: () -> Unit = {
+            callsCompleted++
+            if (callsCompleted == numberOfCalls) {
+                val dataSet = BarDataSet(stepData, "Calories Burned")
+                dataSet.setDrawValues(false)
+                dataSet.colors = listOf(
+                    Color.CYAN, Color.GREEN, Color.GRAY, Color.BLACK, Color.BLUE, requireContext().getColor(R.color.purpleVictoria),
+                    requireContext().getColor(R.color.Orange), requireContext().getColor(R.color.Chablis))
+                val barData = BarData(dataSet)
+                binding.barChartStep.data = barData
+                binding.barChartStep.data.isHighlightEnabled = false
+                binding.barChartStep.isDoubleTapToZoomEnabled = false
+                binding.barChartStep.axisLeft.setDrawGridLines(false)
+                binding.barChartStep.axisRight.setDrawGridLines(false)
+                binding.barChartStep.xAxis.setDrawGridLines(false)
+                binding.barChartStep.xAxis.position = XAxis.XAxisPosition.BOTTOM
+                binding.barChartStep.axisRight.setDrawLabels(false)
+                binding.barChartStep.description.isEnabled = false
+                binding.barChartStep.legend.isEnabled = false
+                binding.barChartStep.xAxis.granularity = 1f
+                binding.barChartStep.axisLeft.axisMinimum = 0f
+                binding.barChartStep.xAxis.valueFormatter = CustomDateAxisValueFormatter()
+                binding.barChartStep.xAxis.textSize = 10f
+                binding.barChartStep.invalidate()
+            }
+        }
+
+        for (i in 6 downTo 0) {
+            if (userId != null) {
+                stepViewModel.getStepsForDate(userId, getCurrentDateFormat(System.currentTimeMillis() - reverseInt(i) * 86400000))
+                    .observe(viewLifecycleOwner) { listKcalByDay ->
+                        val yValue = listKcalByDay.sumOf { it.amount }.toFloat()
+                        val xValue = i.toFloat()
+                        stepData.add(BarEntry(xValue, yValue))
                         onLiveDataComplete()
                     }
             }

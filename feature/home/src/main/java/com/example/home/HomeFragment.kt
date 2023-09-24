@@ -1,5 +1,6 @@
 package com.example.home
 
+import StepViewModel
 import android.content.Context
 import android.content.Intent
 import android.hardware.Sensor
@@ -16,8 +17,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.home.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.GenericTypeIndicator
+import com.google.firebase.database.ValueEventListener
+import entity.Step
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import kotlin.math.sqrt
 
 class HomeFragment: Fragment(), SensorEventListener {
@@ -27,19 +36,21 @@ class HomeFragment: Fragment(), SensorEventListener {
     private var stepSensor: Sensor? = null
     private var stepsSinceReboot : Int ? = 0
     private val userWeightInKg = 70.0
+    private lateinit var stepViewModel: StepViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+        stepViewModel = ViewModelProvider(this).get(StepViewModel::class.java)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val currentUser = FirebaseAuth.getInstance().currentUser
         binding.btnLogout.setOnClickListener {
-            val currentUser = FirebaseAuth.getInstance().currentUser
             if(currentUser != null){
                 FirebaseAuth.getInstance().signOut()
                 Thread.sleep(1500)
@@ -51,12 +62,27 @@ class HomeFragment: Fragment(), SensorEventListener {
         if(stepSensor == null){
             accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         }
-        binding.tvStepsNumber.text = stepsSinceReboot.toString()
         getKcalBurned()
-        //Start workout
         binding.clStartWorkout.setOnClickListener {
             val intent = Intent(requireContext(), ExerciseActivity::class.java)
             startActivity(intent)
+        }
+        if (currentUser != null) {
+            stepViewModel.getStepsForDate(currentUser.uid, getCurrentDateFormat(System.currentTimeMillis())).observe(viewLifecycleOwner){ steps ->
+                if (steps.isNotEmpty()){
+                    stepsSinceReboot = steps.last().amount
+                    binding.tvStepsNumber.text = steps.last().amount.toString()
+                    binding.tvDailySteps.text = steps.last().amount.toString() + "/5000"
+                    val progress = steps.last().amount.toFloat().div(5000).times(100)
+                    binding.pbSteps.progress = progress.toInt()
+                }
+                else{
+                    stepsSinceReboot = 0
+                    binding.tvStepsNumber.text = 0.toString()
+                    binding.tvDailySteps.text =  "0/5000"
+                    binding.pbSteps.progress = 0
+                }
+            }
         }
     }
 
@@ -66,14 +92,15 @@ class HomeFragment: Fragment(), SensorEventListener {
                 val xAxis = event.values[0]
                 val yAxis = event.values[1]
                 val zAxis = event.values[2]
-
                 val acceleration = sqrt(xAxis * xAxis + yAxis * yAxis + zAxis * zAxis)
                 if (acceleration > 10) {
                     stepsSinceReboot = stepsSinceReboot!! + 1
                     binding.tvStepsNumber.text = stepsSinceReboot.toString()
                     getKcalBurned()
                     stepsSinceReboot?.let{
-                        binding.pbSteps.progress = it/5000 * 100
+                        stepViewModel.addStep(it)
+                        val progress = it.toFloat().div(5000).times(100)
+                        binding.pbSteps.progress = progress.toInt()
                     }
                 }
             }
@@ -83,10 +110,10 @@ class HomeFragment: Fragment(), SensorEventListener {
             binding.tvStepsNumber.text = event.values[0].toInt().toString()
             stepsSinceReboot =  event.values[0].toInt()
             stepsSinceReboot?.let {
+                stepViewModel.addStep(it)
+                binding.tvStepsNumber.text = it.toString()
                 val progress = it.toFloat().div(5000).times(100)
-                if (progress != null) {
-                    binding.pbSteps.progress = progress.toInt()
-                }
+                binding.pbSteps.progress = progress.toInt()
             }
             getKcalBurned()
         }
@@ -114,6 +141,13 @@ class HomeFragment: Fragment(), SensorEventListener {
                 sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
             }
         }
+    }
+
+    private fun getCurrentDateFormat(timeInMillis: Long): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = timeInMillis
+        val dateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 
     override fun onPause() {
