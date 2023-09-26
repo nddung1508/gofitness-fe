@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">GoFitness</string>
+    <string name="lets_workout_today">Let’s workout today</string>
+    <string name="manage_your_own_workout">Manage Your Own Workout</string>
+    <string name="important_nutrition">Nutrition is important for you</string>
+    <string name="broader_view">Have a Broader View</string>
+    <string name="start_workout_today">Start workout today with GoFitness</string>
+    <string name="planning_and_tracking">Planning, managing and tracking  your own workout activities</string>
+    <string name="help_recommend_diet">GoFitness help recommend you the best diet based on your workout goal</string>
+    <string name="statistic_will_help">Statistic will help you get all information you need about your workout</string>
+    <string name="underweight">This prove that you\'re below the healthy range for one\'s height, which may indicate insufficient body weight relative to height
+        and can be associated with potential health concerns, such as weakened immunity and nutrient deficiencies.</string>
+    <string name="normal_weight">This BMI falls within the healthy range for your height, it indicates that your weight is in proportion to your stature,
+        which is generally linked to a lower risk of health issues like heart disease and diabetes for you as an individual.</string>
+    <string name="overweight">When your body exceeds the recommended healthy weight range for your height, it signifies that you carry excess weight relative to your stature,
+        potentially increasing the risk of health issues such as heart disease, hypertension, and joint problems for you personally.</string>
+    <string name="obeseI"> it means you Obese I you have a significant excess of body weight compared to your height,
+        which can elevate your personal risk for a range of health conditions including diabetes, sleep apnea, and cardiovascular diseases.</string>
+    <string name="obeseII"> This indicates a substantial excess of body weight relative to your height,
+        putting you at a higher personal risk for serious health issues like type 2 diabetes, heart disease, and joint problems.</string>
+    <string name="obeseIII">This signifies a severe excess of body weight compared to your height,
+        posing a significant personal risk for severe health conditions, including heart disease, stroke, certain cancers, and mobility limitations.</string>
+</resources>

@@ -1,5 +1,6 @@
 package history
 
+import KcalByDayViewModel
 import WorkoutHistoryViewModel
 import android.app.DatePickerDialog
 import android.os.Bundle

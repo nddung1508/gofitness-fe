@@ -1,5 +1,6 @@
 package exercise
 
+import KcalByDayViewModel
 import WorkoutHistoryViewModel
 import android.app.AlertDialog
 import android.content.Context
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.home.databinding.FragmentStartWorkoutBinding
+import entity.KcalByDay
 import entity.Workout
 import java.io.ByteArrayOutputStream
 
@@ -21,6 +23,7 @@ class StartWorkoutFragment : Fragment() {
     private var isShowingDialog = false
     private var cancelRestTimer = false
     private lateinit var workoutHistoryViewModel: WorkoutHistoryViewModel
+    private lateinit var kcalByDayViewModel: KcalByDayViewModel
     private lateinit var startExerciseTimer : CountDownTimer
 
     override fun onCreateView(
@@ -71,6 +74,7 @@ class StartWorkoutFragment : Fragment() {
                         if (!isShowingDialog) {
                             isShowingDialog = true
                             addWorkoutHistory(receivedExercise)
+                            addKcalByDay(KcalByDay(receivedExercise.exercises.sumOf { it.caloriesBurned }, System.currentTimeMillis()))
                             finishPopUp()
                             this.cancel()
                         }
@@ -120,6 +124,11 @@ class StartWorkoutFragment : Fragment() {
                 name = it.name, duration = it.exercises.sumOf { it.duration }.toLong(), caloriesBurned = it.exercises.sumOf { it.caloriesBurned }.toInt(),
                 image = convertResourceToByteList(requireContext(), pushUp), amountOfExercise = it.exercises.size, currentTime = System.currentTimeMillis())
         }
+    }
+
+    private fun addKcalByDay(kcalByDay: KcalByDay){
+        kcalByDayViewModel = ViewModelProvider(this).get(KcalByDayViewModel::class.java)
+        kcalByDayViewModel.addKcalData(kcalByDay.kcal)
     }
 
     private fun finishPopUp(){
