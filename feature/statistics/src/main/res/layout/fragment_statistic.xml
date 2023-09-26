@@ -53,13 +53,20 @@
             app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:tabTextColor="@color/black" />
     </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_statistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_tab_bg">
     <TextView
         android:id="@+id/tv_bar_chart_kcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_tab_bg"
+        app:layout_constraintTop_toTopOf="parent"
         android:text="Calories Burned last 7 days"
         style="@style/Textview.Medium.Display.XS"/>
 
@@ -108,5 +115,183 @@
         android:focusable="true"
         android:clickable="false"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_tab_bg"
+        android:visibility="gone"
+        android:paddingBottom="@dimen/dp_20">
+        <TextView
+            android:id="@+id/tv_current_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Current Goal: Lose Weight"
+            style="@style/Textview.Bold.Display.XS" />
 
+        <TextView
+            android:id="@+id/tv_weight_label"
+            style="@style/Textview.Semibold.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="Weight"
+            app:layout_constraintStart_toStartOf="@id/tv_weight"
+            app:layout_constraintEnd_toEndOf="@id/tv_weight"
+            app:layout_constraintBottom_toTopOf="@id/tv_weight"/>
+
+        <TextView
+            android:id="@+id/tv_weight"
+            style="@style/Textview.Medium.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_35"
+            android:text="0"
+            app:layout_constraintStart_toStartOf="@id/tv_weight_unit"
+            app:layout_constraintEnd_toEndOf="@id/tv_weight_unit"
+            app:layout_constraintTop_toBottomOf="@id/tv_current_goal" />
+
+        <TextView
+            android:id="@+id/tv_weight_unit"
+            style="@style/Textview.Regular.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:layout_marginTop="@dimen/dp_3"
+            android:text="Kg(s)"
+            android:textColor="@color/colorNeutral04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_weight" />
+
+        <TextView
+            android:id="@+id/tv_height_label"
+            style="@style/Textview.Semibold.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="Height"
+            app:layout_constraintStart_toStartOf="@id/tv_height"
+            app:layout_constraintEnd_toEndOf="@id/tv_height"
+            app:layout_constraintBottom_toTopOf="@id/tv_height"/>
+
+        <TextView
+            android:id="@+id/tv_height"
+            style="@style/Textview.Medium.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_35"
+            android:text="0"
+            app:layout_constraintStart_toStartOf="@id/tv_height_unit"
+            app:layout_constraintEnd_toEndOf="@id/tv_height_unit"
+            app:layout_constraintTop_toBottomOf="@id/tv_current_goal" />
+
+        <TextView
+            android:id="@+id/tv_height_unit"
+            style="@style/Textview.Regular.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_130"
+            android:layout_marginTop="@dimen/dp_3"
+            android:text="Cm"
+            android:textColor="@color/colorNeutral04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_height" />
+
+        <TextView
+            android:id="@+id/tv_aim_weight_label"
+            style="@style/Textview.Semibold.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="Aim Weight"
+            app:layout_constraintStart_toStartOf="@id/tv_aim_weight"
+            app:layout_constraintEnd_toEndOf="@id/tv_aim_weight"
+            app:layout_constraintBottom_toTopOf="@id/tv_aim_weight"/>
+
+        <TextView
+            android:id="@+id/tv_aim_weight"
+            style="@style/Textview.Medium.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_35"
+            android:text="0"
+            app:layout_constraintStart_toStartOf="@id/tv_aim_weight_unit"
+            app:layout_constraintEnd_toEndOf="@id/tv_aim_weight_unit"
+            app:layout_constraintTop_toBottomOf="@id/tv_current_goal" />
+
+        <TextView
+            android:id="@+id/tv_aim_weight_unit"
+            style="@style/Textview.Regular.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_230"
+            android:layout_marginTop="@dimen/dp_3"
+            android:text="Kg(s)"
+            android:textColor="@color/colorNeutral04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_aim_weight" />
+
+        <TextView
+            android:id="@+id/tv_duration_label"
+            style="@style/Textview.Semibold.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="Duration"
+            app:layout_constraintStart_toStartOf="@id/tv_duration"
+            app:layout_constraintEnd_toEndOf="@id/tv_duration"
+            app:layout_constraintBottom_toTopOf="@id/tv_duration"/>
+
+        <TextView
+            android:id="@+id/tv_duration"
+            style="@style/Textview.Medium.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_35"
+            android:text="0"
+            app:layout_constraintStart_toStartOf="@id/tv_duration_unit"
+            app:layout_constraintEnd_toEndOf="@id/tv_duration_unit"
+            app:layout_constraintTop_toBottomOf="@id/tv_current_goal" />
+
+        <TextView
+            android:id="@+id/tv_duration_unit"
+            style="@style/Textview.Regular.XL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_3"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:text="Day(s)"
+            android:textColor="@color/colorNeutral04"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_duration" />
+
+        <Button
+            android:id="@+id/btn_get_tip"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/tv_weight_unit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="Update"
+            android:elevation="@dimen/dp_4"
+            android:background="@drawable/btn_get_tip" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_340"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_get_tip"
+            android:elevation="@dimen/dp_4"
+            android:background="@drawable/ic_tip_bg"
+            android:paddingBottom="@dimen/dp_10"
+            android:layout_margin="@dimen/dp_10"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
