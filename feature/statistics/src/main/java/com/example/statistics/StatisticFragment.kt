@@ -67,7 +67,7 @@ class StatisticFragment : Fragment() {
             if (callsCompleted == numberOfCalls) {
                 val dataSet = BarDataSet(caloriesData, "Calories Burned")
                 dataSet.setDrawValues(false)
-                dataSet.colors = listOf(Color.CYAN, Color.GREEN, Color.GRAY, Color.BLACK, Color.BLUE, requireContext().getColor(R.color.purpleVictoria),
+                dataSet.colors = listOf(Color.CYAN, Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE, requireContext().getColor(R.color.purpleVictoria),
                     requireContext().getColor(R.color.Orange), requireContext().getColor(R.color.Chablis))
                 val barData = BarData(dataSet)
                 binding.barChartKcal.data = barData
@@ -84,6 +84,7 @@ class StatisticFragment : Fragment() {
                 binding.barChartKcal.axisLeft.axisMinimum = 0f
                 binding.barChartKcal.xAxis.valueFormatter = CustomDateAxisValueFormatter()
                 binding.barChartKcal.xAxis.textSize = 10f
+                binding.barChartStep.animateY(1000)
                 binding.barChartKcal.invalidate()
             }
         }
@@ -112,7 +113,7 @@ class StatisticFragment : Fragment() {
                 val dataSet = BarDataSet(stepData, "Calories Burned")
                 dataSet.setDrawValues(false)
                 dataSet.colors = listOf(
-                    Color.CYAN, Color.GREEN, Color.GRAY, Color.BLACK, Color.BLUE, requireContext().getColor(R.color.purpleVictoria),
+                    Color.CYAN, Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE, requireContext().getColor(R.color.purpleVictoria),
                     requireContext().getColor(R.color.Orange), requireContext().getColor(R.color.Chablis))
                 val barData = BarData(dataSet)
                 binding.barChartStep.data = barData
@@ -129,6 +130,7 @@ class StatisticFragment : Fragment() {
                 binding.barChartStep.axisLeft.axisMinimum = 0f
                 binding.barChartStep.xAxis.valueFormatter = CustomDateAxisValueFormatter()
                 binding.barChartStep.xAxis.textSize = 10f
+                binding.barChartStep.animateY(1000)
                 binding.barChartStep.invalidate()
             }
         }
