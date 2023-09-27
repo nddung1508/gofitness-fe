@@ -59,7 +59,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_tab_bg">
+        app:layout_constraintTop_toBottomOf="@id/ll_tab_bg"
+        android:visibility="gone">
     <TextView
         android:id="@+id/tv_bar_chart_kcal"
         android:layout_width="wrap_content"
@@ -123,7 +124,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_tab_bg"
-        android:visibility="gone"
+        android:visibility="visible"
         android:paddingBottom="@dimen/dp_20">
         <TextView
             android:id="@+id/tv_current_goal"
@@ -282,16 +283,30 @@
             android:text="Update"
             android:elevation="@dimen/dp_4"
             android:background="@drawable/btn_get_tip" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_340"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_get_tip"
-            android:elevation="@dimen/dp_4"
-            android:background="@drawable/ic_tip_bg"
-            android:paddingBottom="@dimen/dp_10"
-            android:layout_margin="@dimen/dp_10"/>
+            android:layout_marginTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_20">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/dp_4"
+                android:background="@drawable/ic_tip_bg"
+                android:paddingBottom="@dimen/dp_370"
+                android:layout_marginHorizontal="@dimen/dp_10">
+                <TextView
+                    android:id="@+id/tv_response"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="HELLO"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

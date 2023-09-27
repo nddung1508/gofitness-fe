@@ -4,6 +4,7 @@ import KcalByDayViewModel
 import StepViewModel
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,23 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 
 class StatisticFragment : Fragment() {
+    private var client = OkHttpClient()
     private lateinit var binding : FragmentStatisticBinding
     private lateinit var kcalByDayViewModel: KcalByDayViewModel
     private lateinit var stepViewModel: StepViewModel
@@ -56,13 +68,21 @@ class StatisticFragment : Fragment() {
                     }
                 }
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
+
+        binding.btnGetTip.setOnClickListener {
+            val question = "Can i get a weekly (week 1, week 2, ..., week 7) diet for an 185cm height and 81 kg weight person, which goal is to lose weight to 70 kg in 100 days?"
+            getResponse(question){ response ->
+                requireActivity().runOnUiThread{
+                    binding.tvResponse.text = response
+                }
+            }
+        }
     }
 
     override fun onStart() {
@@ -191,11 +211,51 @@ class StatisticFragment : Fragment() {
             else -> 0
         }
     }
+    private fun getResponse(question: String, callback: (String) -> Unit){
+        val apiKey = "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"
+        val url ="https://api.openai.com/v1/completions"
+
+        val requestBody = """
+            {
+            "model" : "text-davinci-003",
+            "prompt": "$question",
+            "max_tokens": 1000,
+            "temperature": 0
+            }
+        """.trimIndent()
+
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Content-Type", "application/json")
+            .addHeader("Authorization", "Bearer $apiKey")
+            .post(requestBody.toRequestBody("application/json".toMediaTypeOrNull()))
+            .build()
+
+        client.newCall(request).enqueue(object: Callback{
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("Call Error","Fail to call the ChatGPT API", e)
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+                if (body != null){
+                    Log.v("data", body)
+                }
+                else{
+                    Log.v("data", "empty")
+                }
+                val jsonObject = JSONObject(body)
+                val jsonArray:JSONArray=jsonObject.getJSONArray("choices")
+                val textResult = jsonArray.getJSONObject(0).getString("text")
+                callback(textResult)
+            }
+        })
+    }
 
     companion object{
         fun newInstance(): StatisticFragment {
             return StatisticFragment()
         }
-        private const val LINE_CHART_DATE_FORMAT = "yyyy-MM-dd"
     }
 }
