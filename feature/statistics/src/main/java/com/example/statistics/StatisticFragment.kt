@@ -212,7 +212,7 @@ class StatisticFragment : Fragment() {
         }
     }
     private fun getResponse(question: String, callback: (String) -> Unit){
-        val apiKey = "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"
+        val apiKey = BuildConfig.API_KEY
         val url ="https://api.openai.com/v1/completions"
 
         val requestBody = """
@@ -230,27 +230,28 @@ class StatisticFragment : Fragment() {
             .addHeader("Authorization", "Bearer $apiKey")
             .post(requestBody.toRequestBody("application/json".toMediaTypeOrNull()))
             .build()
+        if(apiKey.isNotEmpty()){
+            client.newCall(request).enqueue(object: Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.e("Call Error","Fail to call the ChatGPT API", e)
 
-        client.newCall(request).enqueue(object: Callback{
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("Call Error","Fail to call the ChatGPT API", e)
-
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
-                if (body != null){
-                    Log.v("data", body)
                 }
-                else{
-                    Log.v("data", "empty")
+
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
+                    if (body != null){
+                        Log.v("data", body)
+                    }
+                    else{
+                        Log.v("data", "empty")
+                    }
+                    val jsonObject = JSONObject(body)
+                    val jsonArray:JSONArray=jsonObject.getJSONArray("choices")
+                    val textResult = jsonArray.getJSONObject(0).getString("text")
+                    callback(textResult)
                 }
-                val jsonObject = JSONObject(body)
-                val jsonArray:JSONArray=jsonObject.getJSONArray("choices")
-                val textResult = jsonArray.getJSONObject(0).getString("text")
-                callback(textResult)
-            }
-        })
+            })
+        }
     }
 
     companion object{
