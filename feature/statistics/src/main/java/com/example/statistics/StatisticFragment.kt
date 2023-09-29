@@ -4,6 +4,8 @@ import KcalByDayViewModel
 import StepViewModel
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -74,12 +76,42 @@ class StatisticFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
-
+        val height = binding.tvHeight.text
+        val weight = binding.tvWeight.text
+        var aimWeight = "0"
+        var duration = "0"
+        val numOfWeek = duration.toFloat()/7
+        binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
+        binding.etAimWeight.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(arg0: Editable) {
+                binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
+                aimWeight = binding.etAimWeight.text.toString()
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+        binding.etDuration.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(arg0: Editable) {
+                binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
+                duration = binding.etDuration.text.toString()
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
         binding.btnGetTip.setOnClickListener {
-            val question = "Can i get a weekly (week 1, week 2, ..., week 7) diet for an 185cm height and 81 kg weight person, which goal is to lose weight to 70 kg in 100 days?"
-            getResponse(question){ response ->
-                requireActivity().runOnUiThread{
-                    binding.tvResponse.text = response
+            if(duration.toInt() > 365 || aimWeight.toInt() < 30){
+                binding.tvResponse.text = "The input amount is not valid, the weight is either too low or duration is too high"
+            }
+            else{
+                val question = if (numOfWeek > 1) {
+                    "Can i get a weekly (week 1, ..., week $numOfWeek) diet for an ${height}cm height and $weight kg weight person, which goal is to lose weight to $aimWeight kg in $duration days?"
+                } else {
+                    "Can i get a daily diet for an ${height}cm height and $weight kg weight person, which goal is to lose weight to $aimWeight kg in $duration days?"
+                }
+                getResponse(question) { response ->
+                    requireActivity().runOnUiThread {
+                        binding.tvResponse.text = response
+                    }
                 }
             }
         }
@@ -211,42 +243,39 @@ class StatisticFragment : Fragment() {
             else -> 0
         }
     }
-    private fun getResponse(question: String, callback: (String) -> Unit){
+    private fun getResponse(tip: String, callback: (String) -> Unit) {
         val apiKey = BuildConfig.API_KEY
-        val url ="https://api.openai.com/v1/completions"
-
+        val url = "https://api.openai.com/v1/completions"
         val requestBody = """
             {
             "model" : "text-davinci-003",
-            "prompt": "$question",
+            "prompt": "$tip",
             "max_tokens": 1000,
             "temperature": 0
             }
         """.trimIndent()
-
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/json")
             .addHeader("Authorization", "Bearer $apiKey")
             .post(requestBody.toRequestBody("application/json".toMediaTypeOrNull()))
             .build()
-        if(apiKey.isNotEmpty()){
-            client.newCall(request).enqueue(object: Callback{
+        if (apiKey.isNotEmpty()) {
+            client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.e("Call Error","Fail to call the ChatGPT API", e)
+                    Log.e("Calling Error", "Failed on calling ChatGPT API", e)
 
                 }
 
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
-                    if (body != null){
+                    if (body != null) {
                         Log.v("data", body)
-                    }
-                    else{
-                        Log.v("data", "empty")
+                    } else {
+                        Log.v("data", "The data of the body empty")
                     }
                     val jsonObject = JSONObject(body)
-                    val jsonArray:JSONArray=jsonObject.getJSONArray("choices")
+                    val jsonArray: JSONArray = jsonObject.getJSONArray("choices")
                     val textResult = jsonArray.getJSONObject(0).getString("text")
                     callback(textResult)
                 }

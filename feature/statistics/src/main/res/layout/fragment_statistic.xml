@@ -153,7 +153,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_35"
-            android:text="0"
+            android:text="85"
             app:layout_constraintStart_toStartOf="@id/tv_weight_unit"
             app:layout_constraintEnd_toEndOf="@id/tv_weight_unit"
             app:layout_constraintTop_toBottomOf="@id/tv_current_goal" />
@@ -187,7 +187,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_35"
-            android:text="0"
+            android:text="185"
             app:layout_constraintStart_toStartOf="@id/tv_height_unit"
             app:layout_constraintEnd_toEndOf="@id/tv_height_unit"
             app:layout_constraintTop_toBottomOf="@id/tv_current_goal" />
@@ -211,20 +211,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_5"
             android:text="Aim Weight"
-            app:layout_constraintStart_toStartOf="@id/tv_aim_weight"
-            app:layout_constraintEnd_toEndOf="@id/tv_aim_weight"
-            app:layout_constraintBottom_toTopOf="@id/tv_aim_weight"/>
+            app:layout_constraintStart_toStartOf="@id/et_aim_weight"
+            app:layout_constraintEnd_toEndOf="@id/et_aim_weight"
+            app:layout_constraintBottom_toTopOf="@id/et_aim_weight"/>
 
-        <TextView
-            android:id="@+id/tv_aim_weight"
-            style="@style/Textview.Medium.XL"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_aim_weight"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_35"
-            android:text="0"
+            android:layout_height="@dimen/dp_42"
             app:layout_constraintStart_toStartOf="@id/tv_aim_weight_unit"
             app:layout_constraintEnd_toEndOf="@id/tv_aim_weight_unit"
-            app:layout_constraintTop_toBottomOf="@id/tv_current_goal" />
+            app:layout_constraintTop_toBottomOf="@id/tv_current_goal"
+            android:layout_marginTop="@dimen/dp_35"
+            style="@style/Textview.Medium.XL"
+            android:inputType="number">
+        </com.google.android.material.textfield.TextInputEditText>
 
         <TextView
             android:id="@+id/tv_aim_weight_unit"
@@ -236,7 +237,7 @@
             android:text="Kg(s)"
             android:textColor="@color/colorNeutral04"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_aim_weight" />
+            app:layout_constraintTop_toBottomOf="@id/et_aim_weight" />
 
         <TextView
             android:id="@+id/tv_duration_label"
@@ -245,20 +246,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_5"
             android:text="Duration"
-            app:layout_constraintStart_toStartOf="@id/tv_duration"
-            app:layout_constraintEnd_toEndOf="@id/tv_duration"
-            app:layout_constraintBottom_toTopOf="@id/tv_duration"/>
+            app:layout_constraintStart_toStartOf="@id/et_duration"
+            app:layout_constraintEnd_toEndOf="@id/et_duration"
+            app:layout_constraintBottom_toTopOf="@id/et_duration"/>
 
-        <TextView
-            android:id="@+id/tv_duration"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_duration"
             style="@style/Textview.Medium.XL"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_42"
             android:layout_marginTop="@dimen/dp_35"
-            android:text="0"
             app:layout_constraintStart_toStartOf="@id/tv_duration_unit"
             app:layout_constraintEnd_toEndOf="@id/tv_duration_unit"
-            app:layout_constraintTop_toBottomOf="@id/tv_current_goal" />
+            app:layout_constraintTop_toBottomOf="@id/tv_current_goal"
+            android:inputType="number"/>
 
         <TextView
             android:id="@+id/tv_duration_unit"
@@ -270,7 +271,7 @@
             android:text="Day(s)"
             android:textColor="@color/colorNeutral04"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_duration" />
+            app:layout_constraintTop_toBottomOf="@id/et_duration" />
 
         <Button
             android:id="@+id/btn_get_tip"
