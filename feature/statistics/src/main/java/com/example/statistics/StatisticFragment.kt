@@ -2,6 +2,7 @@ package com.example.statistics
 
 import KcalByDayViewModel
 import StepViewModel
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -53,6 +54,11 @@ class StatisticFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedPreferences =
+            requireContext().getSharedPreferences(
+                "SharedPreferences",
+                Context.MODE_PRIVATE
+            )
         setUpTab()
         binding.tabs.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
@@ -81,6 +87,8 @@ class StatisticFragment : Fragment() {
         var aimWeight = "0"
         var duration = "0"
         val numOfWeek = duration.toFloat()/7
+        val savedText = sharedPreferences.getString("current_tip", "")
+        binding.tvResponse.text = savedText
         binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
         binding.etAimWeight.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(arg0: Editable) {
@@ -111,6 +119,9 @@ class StatisticFragment : Fragment() {
                 getResponse(question) { response ->
                     requireActivity().runOnUiThread {
                         binding.tvResponse.text = response
+                        val editor = sharedPreferences.edit()
+                        editor.putString("current_tip", response)
+                        editor.apply()
                     }
                 }
             }

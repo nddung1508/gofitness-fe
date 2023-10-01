@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/purpleVictoria">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Enter Your Information"
+    style="@style/Textview.Bold.Display.XS"
+    android:textColor="@color/white"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_marginTop="@dimen/dp_10"/>
+
+    <TextView
+        android:id="@+id/tv_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/et_height"
+        app:layout_constraintBottom_toTopOf="@id/et_height"
+        android:text="Height"
+        style="@style/Textview.Semibold.XL"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/dp_5"/>
+
+    <EditText
+        android:id="@+id/et_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_240"
+        android:layout_marginHorizontal="@dimen/dp_30"
+        android:background="@drawable/ic_edit_text_background"
+        android:textColor="@color/black"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/tv_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/et_weight"
+        app:layout_constraintBottom_toTopOf="@id/et_weight"
+        android:text="Weight"
+        style="@style/Textview.Semibold.XL"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/dp_5"/>
+
+    <EditText
+        android:id="@+id/et_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_height"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginHorizontal="@dimen/dp_30"
+        android:background="@drawable/ic_edit_text_background"
+        android:textColor="@color/black"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/tv_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/sp_goal"
+        app:layout_constraintBottom_toTopOf="@id/sp_goal"
+        android:text="Goal"
+        style="@style/Textview.Semibold.XL"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/dp_5"/>
+
+    <Spinner
+        android:id="@+id/sp_goal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="@drawable/ic_edit_text_background"
+        android:spinnerMode="dropdown"
+        android:layout_marginHorizontal="@dimen/dp_30"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_weight"
+        android:layout_marginTop="@dimen/dp_40"/>
+
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_edit_text_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sp_goal"
+        android:layout_marginTop="@dimen/dp_30"
+        app:backgroundTint="@null"
+        android:paddingHorizontal="@dimen/dp_30"
+        android:text="Update"
+        android:textColor="@color/purpleVictoria"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
