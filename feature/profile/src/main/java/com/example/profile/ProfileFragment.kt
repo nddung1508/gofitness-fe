@@ -7,10 +7,15 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.profile.databinding.FragmentProfileBinding
 import com.github.anastr.speedviewlib.components.Style
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class ProfileFragment : Fragment() {
@@ -29,10 +34,19 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLogout.setOnClickListener {
             val currentUser = FirebaseAuth.getInstance().currentUser
-            if(currentUser != null){
-                FirebaseAuth.getInstance().signOut()
-                Thread.sleep(3000)
-                profileNavigator.navigateScreen()
+            if (currentUser != null) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        FirebaseAuth.getInstance().signOut()
+                        withContext(Dispatchers.Main) {
+                            profileNavigator.navigateScreen()
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), "Sign-out failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
         }
 

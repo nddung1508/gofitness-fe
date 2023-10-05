@@ -12,4 +12,8 @@
     <string name="statistics">Statistics</string>
     <string name="history">History</string>
     <string name="profile">Profile</string>
+    <string-array name="goals">
+        <item>Lose Weight</item>
+        <item>Gain Muscle</item>
+    </string-array>
 </resources>

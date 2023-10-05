@@ -16,7 +16,7 @@ import com.example.profile.ProfileNavigator
 import com.example.statistics.StatisticFragment
 import history.WorkoutHistoryFragment
 
-class MainFragment : Fragment(), ProfileNavigator{
+class MainFragment : Fragment(), ProfileNavigator {
     private lateinit var binding : FragmentMainBinding
     private val workoutHistoryFragment = WorkoutHistoryFragment.newInstance()
     private val homeFragment = HomeFragment.newInstance()
@@ -48,6 +48,7 @@ class MainFragment : Fragment(), ProfileNavigator{
         pagerAdapter.addFragments(homeFragment)
         pagerAdapter.addFragments(statisticFragment)
         pagerAdapter.addFragments(workoutHistoryFragment)
+        profileFragment.profileNavigator = this
         pagerAdapter.addFragments(profileFragment)
         viewPager.adapter = pagerAdapter
     }
@@ -62,13 +63,11 @@ class MainFragment : Fragment(), ProfileNavigator{
             return@setOnItemSelectedListener true
         }
     }
-
-    companion object{
-        const val LOG_OUT = "MAIN_TO_LOGIN"
-    }
-
     override fun navigateScreen() {
         val splashFragment = SplashFragment()
         (requireActivity() as MainActivity).navigateToFragment(splashFragment)
+    }
+    companion object{
+        const val LOG_OUT = "MAIN_TO_LOGIN"
     }
 }
