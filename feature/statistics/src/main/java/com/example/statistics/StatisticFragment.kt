@@ -1,6 +1,7 @@
 package com.example.statistics
 
 import KcalByDayViewModel
+import PersonalInformationViewModel
 import StepViewModel
 import android.content.Context
 import android.graphics.Color
@@ -43,23 +44,39 @@ class StatisticFragment : Fragment() {
     private val userId: String? = FirebaseAuth.getInstance().currentUser?.uid
     private val caloriesData = arrayListOf<BarEntry>()
     private val stepData = arrayListOf<BarEntry>()
+    private lateinit var personalInformationViewModel : PersonalInformationViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentStatisticBinding.inflate(layoutInflater)
+        personalInformationViewModel = ViewModelProvider(this).get(PersonalInformationViewModel::class.java)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val sharedPreferences =
-            requireContext().getSharedPreferences(
-                "SharedPreferences",
-                Context.MODE_PRIVATE
-            )
         setUpTab()
+        setWeightAndHeight()
+        showTip()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setUpKcalBarChart()
+        setUpStepBarChart()
+    }
+    private fun setUpTab() {
+        if (binding.tabs.tabCount == 0) {
+            binding.tabs.addTab(
+                binding.tabs.newTab().setText("Statistics")
+            )
+            binding.tabs.addTab(
+                binding.tabs.newTab().setText("Tips")
+            )
+        }
         binding.tabs.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -82,73 +99,12 @@ class StatisticFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
-        val height = binding.tvHeight.text
-        val weight = binding.tvWeight.text
-        var aimWeight = "0"
-        var duration = "0"
-        val numOfWeek = duration.toFloat()/7
-        val savedText = sharedPreferences.getString("current_tip", "")
-        binding.tvResponse.text = savedText
-        binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
-        binding.etAimWeight.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(arg0: Editable) {
-                binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
-                aimWeight = binding.etAimWeight.text.toString()
-            }
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
-        binding.etDuration.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(arg0: Editable) {
-                binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
-                duration = binding.etDuration.text.toString()
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        binding.btnGetTip.setOnClickListener {
-            if(duration.toInt() > 365 || aimWeight.toInt() < 30){
-                binding.tvResponse.text = "The input amount is not valid, the weight is either too low or duration is too high"
-            }
-            else{
-                val question = if (numOfWeek > 1) {
-                    "Can i get a weekly (week 1, ..., week $numOfWeek) diet for an ${height}cm height and $weight kg weight person, which goal is to lose weight to $aimWeight kg in $duration days?"
-                } else {
-                    "Can i get a daily diet for an ${height}cm height and $weight kg weight person, which goal is to lose weight to $aimWeight kg in $duration days?"
-                }
-                getResponse(question) { response ->
-                    requireActivity().runOnUiThread {
-                        binding.tvResponse.text = response
-                        val editor = sharedPreferences.edit()
-                        editor.putString("current_tip", response)
-                        editor.apply()
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setUpKcalBarChart()
-        setUpStepBarChart()
-    }
-    private fun setUpTab() {
-        if (binding.tabs.tabCount == 0) {
-            binding.tabs.addTab(
-                binding.tabs.newTab().setText("Statistics")
-            )
-            binding.tabs.addTab(
-                binding.tabs.newTab().setText("Tips")
-            )
-        }
     }
 
     private fun setUpKcalBarChart() {
         kcalByDayViewModel = ViewModelProvider(this).get(KcalByDayViewModel::class.java)
         val numberOfCalls = 7
         var callsCompleted = 0
-
         val onLiveDataComplete: () -> Unit = {
             callsCompleted++
             if (callsCompleted == numberOfCalls) {
@@ -235,6 +191,54 @@ class StatisticFragment : Fragment() {
         }
     }
 
+    private fun showTip(){
+        val sharedPreferences = requireContext().getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE)
+        val height = binding.tvHeight.text
+        val weight = binding.tvWeight.text
+        var aimWeight = "0"
+        var duration = "0"
+        val numOfWeek = duration.toFloat()/7
+        val savedText = sharedPreferences.getString("current_tip", "")
+        binding.tvResponse.text = savedText
+        binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
+        binding.etAimWeight.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(arg0: Editable) {
+                binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
+                aimWeight = binding.etAimWeight.text.toString()
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+        binding.etDuration.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(arg0: Editable) {
+                binding.btnGetTip.isEnabled = (binding.etAimWeight.text?.isNotEmpty() == true && binding.etDuration.text?.isNotEmpty() == true)
+                duration = binding.etDuration.text.toString()
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+        binding.btnGetTip.setOnClickListener {
+            if(duration.toInt() > 365 || aimWeight.toInt() < 30){
+                binding.tvResponse.text = "The input amount is not valid, the weight is either too low or duration is too high"
+            }
+            else{
+                val question = if (numOfWeek > 1) {
+                    "Can i get a weekly (week 1, ..., week $numOfWeek) diet for an ${height}cm height and $weight kg weight person, which goal is to lose weight to $aimWeight kg in $duration days?"
+                } else {
+                    "Can i get a daily diet for an ${height}cm height and $weight kg weight person, which goal is to lose weight to $aimWeight kg in $duration days?"
+                }
+                getResponse(question) { response ->
+                    requireActivity().runOnUiThread {
+                        binding.tvResponse.text = response
+                        val editor = sharedPreferences.edit()
+                        editor.putString("current_tip", response)
+                        editor.apply()
+                    }
+                }
+            }
+        }
+    }
+
     private fun getCurrentDateFormat(timeInMillis: Long): String {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timeInMillis
@@ -291,6 +295,14 @@ class StatisticFragment : Fragment() {
                     callback(textResult)
                 }
             })
+        }
+    }
+    private fun setWeightAndHeight(){
+        personalInformationViewModel.getPersonalInformation().observe(viewLifecycleOwner){
+            if (it != null) {
+                binding.tvWeight.text = it.weight.toString()
+                binding.tvHeight.text = it.height.toString()
+            }
         }
     }
 
