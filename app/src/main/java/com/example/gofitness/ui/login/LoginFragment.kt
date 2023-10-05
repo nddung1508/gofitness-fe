@@ -1,5 +1,6 @@
 package com.example.gofitness.ui.login
 
+import PersonalInformationViewModel
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
@@ -17,6 +18,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.gofitness.R
@@ -47,6 +49,7 @@ class LoginFragment : Fragment() {
     lateinit var authenticationNavigator : AuthenticationNavigator
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var mAuth : FirebaseAuth
+    private lateinit var personalInformationViewModel : PersonalInformationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -221,16 +224,27 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleSignInSuccess(user: FirebaseUser?) {
-        if (user != null) {
-            Toast.makeText(requireContext(), "Signed in as ${user.displayName}", Toast.LENGTH_SHORT).show()
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
+        personalInformationViewModel = ViewModelProvider(this).get(PersonalInformationViewModel::class.java)
+        personalInformationViewModel.getPersonalInformation().observe(viewLifecycleOwner){
+            if(it == null){
+                if (user != null) {
+                    Toast.makeText(requireContext(), "Signed in as ${user.displayName}", Toast.LENGTH_SHORT).show()
+                }
+                authenticationNavigator.navigateScreen(NAVIGATE_TO_USER_INFORMATION)
+            }
+            else{
+                if (user != null) {
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         }
     }
 
     companion object{
         const val NAVIGATE_TO_REGISTER = "LOGIN_TO_REGISTER_FORM"
         const val NAVIGATE_TO_LOGIN_FORM = "LOGIN_TO_LOGIN_FORM"
+        const val NAVIGATE_TO_USER_INFORMATION = "LOGIN_TO_USER_INFORMATION"
         const val RC_SIGN_IN = 9001
     }
 }
