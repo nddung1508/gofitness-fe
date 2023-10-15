@@ -79,8 +79,26 @@
         android:background="@drawable/ic_bg_corner_12"
         android:paddingHorizontal="@dimen/dp_20"
         android:elevation="@dimen/dp_1"
-        android:backgroundTint="@color/purpleVictoria"
+        app:backgroundTint="@color/purpleVictoria"
         android:textColor="@color/white"
         style="@style/Textview.Bold.Display.MD"/>
+
+    <Button
+        android:id="@+id/btn_stop_workout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_70"
+        android:text="STOP RUNNING"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:background="@drawable/ic_bg_corner_12"
+        android:paddingHorizontal="@dimen/dp_20"
+        android:elevation="@dimen/dp_1"
+        app:backgroundTint="@color/red"
+        android:textColor="@color/white"
+        style="@style/Textview.Bold.Display.MD"
+        android:visibility="gone"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
