@@ -1,6 +1,7 @@
 package exercise
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 
 class RunningFragment : Fragment(), OnMapReadyCallback{
@@ -33,6 +35,10 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
     private lateinit var binding : FragmentRunningBinding
     private var currentLocationLatLng : LatLng ? = null
     private var currentlyRunning : Boolean = false
+    private var polylineOptions = PolylineOptions()
+        .color(Color.BLUE)
+        .width(10f)
+    private val polylines = mutableListOf<Polyline>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,25 +63,41 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                 )
             } }
         }
+        binding.btnStartWorkout.setOnClickListener {
+            currentlyRunning = true
+            binding.btnStopWorkout.visibility = View.VISIBLE
+            binding.btnStartWorkout.visibility = View.GONE
+            currentLocationLatLng?.let { currentLatLng -> myGoogleMap?.let { map ->
+                animateCameraToRunningLocation(
+                    map, currentLatLng)
+            } }
+        }
+        binding.btnStopWorkout.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(requireContext())
+            alertDialog.setTitle("Confirm Stop Workout")
+            alertDialog.setMessage("Are you sure you want to stop the workout?")
+            alertDialog.setPositiveButton("Yes") { _, _ ->
+                currentlyRunning = false
+                binding.btnStopWorkout.visibility = View.GONE
+                binding.btnStartWorkout.visibility = View.VISIBLE
+                currentLocationLatLng?.let { currentLatLng -> myGoogleMap?.let { map ->
+                    animateCameraToCurrentLocation(
+                        map, currentLatLng)
+                } }
+                myGoogleMap!!.clear()
+                polylineOptions = PolylineOptions()
+                    .color(Color.BLUE)
+                    .width(10f)
+            }
+            alertDialog.setNegativeButton("No") { _, _ -> }
+            alertDialog.show()
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         setMapDefaultSetting(googleMap)
         if(checkGpsEnabled()){
             requestLocationUpdates()
-        }
-        binding.btnStartWorkout.setOnClickListener {
-            currentlyRunning = true
-            binding.btnStopWorkout.visibility = View.VISIBLE
-            binding.btnStartWorkout.visibility = View.GONE
-            currentLocationLatLng?.let { currentLatLng -> animateCameraToRunningLocation(googleMap, currentLatLng) }
-        }
-        binding.btnStopWorkout.setOnClickListener {
-            currentlyRunning = false
-            binding.btnStopWorkout.visibility = View.GONE
-            binding.btnStartWorkout.visibility = View.VISIBLE
-            currentLocationLatLng?.let { currentLatLng -> animateCameraToCurrentLocation(googleMap, currentLatLng) }
-            myGoogleMap!!.clear()
         }
     }
     private fun setMapDefaultSetting(googleMap: GoogleMap){
@@ -95,17 +117,13 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         return !(!isGpsEnabled && !isNetworkEnabled)
     }
     private fun requestLocationUpdates() {
-        val polylineOptions = PolylineOptions()
-            .color(Color.BLUE)
-            .width(10f)
-
         val  locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
             .setWaitForAccurateLocation(false)
             .setMinUpdateIntervalMillis(5000)
             .setMaxUpdateDelayMillis(10000)
             .build()
 
-        getLocationCallBack(polylineOptions)
+        getLocationCallBack()
 
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (ActivityCompat.checkSelfPermission(
@@ -130,9 +148,9 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                 }
             }
         myGoogleMap!!.isMyLocationEnabled = true
-        fusedLocationClient.requestLocationUpdates(locationRequest, getLocationCallBack(polylineOptions), null)
+        fusedLocationClient.requestLocationUpdates(locationRequest, getLocationCallBack(), null)
     }
-    private fun getLocationCallBack(polylineOptions: PolylineOptions) : LocationCallback{
+    private fun getLocationCallBack() : LocationCallback{
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.locations.forEach { location ->
@@ -143,7 +161,9 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                     if(currentlyRunning){
                         currentLocationLatLng = latLng
                         polylineOptions.add(latLng)
-                        myGoogleMap!!.addPolyline(polylineOptions)
+                        val polyline = myGoogleMap!!.addPolyline(polylineOptions)
+                        //Add a poly line to list poly line in order to store them in FireBase
+                        polylines.add(polyline)
                     }
                 }
             }
@@ -158,6 +178,13 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
     private fun animateCameraToRunningLocation(map: GoogleMap, location: LatLng) {
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, RUNNING_ZOOM_LEVEL)
         map.animateCamera(cameraUpdate, ZOOM_DURATION, null)
+    }
+
+    private fun clearPolyLines() {
+        for (polyline in polylines) {
+            polyline.remove()
+        }
+        polylines.clear()
     }
 
     companion object {
