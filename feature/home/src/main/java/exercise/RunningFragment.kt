@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,9 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 
@@ -39,6 +38,23 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         .color(Color.BLUE)
         .width(10f)
     private val polylines = mutableListOf<Polyline>()
+    private var lastLocation: Location? = null
+    private var totalDistance: Float = 0f
+    private var currentKcal: Double = 0.0
+    private val handler = Handler()
+    private var elapsedTimeInSeconds = 0L
+    private val updateDuration = object : Runnable {
+        override fun run() {
+            elapsedTimeInSeconds++
+            updateDurationText()
+            if (currentlyRunning) {
+                handler.postDelayed(this, 1000)
+            }
+            else{
+                binding.tvDuration.text = "0:00"
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +87,7 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                 animateCameraToRunningLocation(
                     map, currentLatLng)
             } }
+            handler.post(updateDuration)
         }
         binding.btnStopWorkout.setOnClickListener {
             val alertDialog = AlertDialog.Builder(requireContext())
@@ -88,6 +105,9 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                 polylineOptions = PolylineOptions()
                     .color(Color.BLUE)
                     .width(10f)
+                binding.tvKcal.text = "0"
+                binding.tvDistance.text = "0"
+                binding.tvDuration.text = "0"
             }
             alertDialog.setNegativeButton("No") { _, _ -> }
             alertDialog.show()
@@ -96,6 +116,10 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
 
     override fun onMapReady(googleMap: GoogleMap) {
         setMapDefaultSetting(googleMap)
+        myGoogleMap?.let { currentLocationLatLng?.let { latLng ->
+            animateCameraToCurrentLocation(it,
+                latLng)
+        } }
         if(checkGpsEnabled()){
             requestLocationUpdates()
         }
@@ -159,12 +183,24 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                         myGoogleMap?.let { map -> animateCameraToCurrentLocation(map, latLng) }
                     }
                     if(currentlyRunning){
+                        //When running each time location update animate camera to running location
+                        myGoogleMap?.let { map -> animateCameraToRunningLocation(map, latLng) }
                         currentLocationLatLng = latLng
                         polylineOptions.add(latLng)
-                        val polyline = myGoogleMap!!.addPolyline(polylineOptions)
-                        //Add a poly line to list poly line in order to store them in FireBase
-                        polylines.add(polyline)
-                    }
+                        myGoogleMap!!.addPolyline(polylineOptions)
+                        //Running Distance
+                        val distance = lastLocation?.distanceTo(location)
+                        if (distance != null) {
+                            totalDistance += distance
+                        }
+                        val totalDistanceKilometers = totalDistance / 1000.0
+                        binding.tvDistance.text = String.format("%.2f", totalDistanceKilometers)
+                        //Running Kcal
+                        if (distance != null) {
+                            currentKcal = (totalDistanceKilometers * DISTANCE_MULTIPLIER)
+                            binding.tvKcal.text = String.format("%.2f", currentKcal)
+                        } }
+                    lastLocation = location
                 }
             }
         }
@@ -180,14 +216,15 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         map.animateCamera(cameraUpdate, ZOOM_DURATION, null)
     }
 
-    private fun clearPolyLines() {
-        for (polyline in polylines) {
-            polyline.remove()
-        }
-        polylines.clear()
+    private fun updateDurationText() {
+        val minutes = elapsedTimeInSeconds / 60
+        val seconds = elapsedTimeInSeconds % 60
+        val formattedTime = String.format("%02d:%02d", minutes, seconds)
+        binding.tvDuration.text = formattedTime
     }
 
     companion object {
+        const val DISTANCE_MULTIPLIER = 60
         const val ZOOM_DURATION = 1000
         const val DEFAULT_ZOOM_LEVEL = 15.0f
         const val RUNNING_ZOOM_LEVEL = 18.0f
