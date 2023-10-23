@@ -37,24 +37,11 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
     private var polylineOptions = PolylineOptions()
         .color(Color.BLUE)
         .width(10f)
-    private val polylines = mutableListOf<Polyline>()
     private var lastLocation: Location? = null
     private var totalDistance: Float = 0f
     private var currentKcal: Double = 0.0
     private val handler = Handler()
     private var elapsedTimeInSeconds = 0L
-    private val updateDuration = object : Runnable {
-        override fun run() {
-            elapsedTimeInSeconds++
-            updateDurationText()
-            if (currentlyRunning) {
-                handler.postDelayed(this, 1000)
-            }
-            else{
-                binding.tvDuration.text = "0:00"
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,7 +74,7 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                 animateCameraToRunningLocation(
                     map, currentLatLng)
             } }
-            handler.post(updateDuration)
+            startDurationCounter()
         }
         binding.btnStopWorkout.setOnClickListener {
             val alertDialog = AlertDialog.Builder(requireContext())
@@ -107,7 +94,6 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                     .width(10f)
                 binding.tvKcal.text = "0"
                 binding.tvDistance.text = "0"
-                binding.tvDuration.text = "0"
             }
             alertDialog.setNegativeButton("No") { _, _ -> }
             alertDialog.show()
@@ -221,6 +207,23 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         val seconds = elapsedTimeInSeconds % 60
         val formattedTime = String.format("%02d:%02d", minutes, seconds)
         binding.tvDuration.text = formattedTime
+    }
+
+    private fun startDurationCounter(){
+        val updateDuration = object : Runnable {
+            override fun run() {
+                if (currentlyRunning) {
+                    elapsedTimeInSeconds++
+                    updateDurationText()
+                    handler.postDelayed(this, 1000)
+                }
+                else{
+                    elapsedTimeInSeconds = 0
+                    binding.tvDuration.text = "00:00"
+                }
+            }
+        }
+        handler.post(updateDuration)
     }
 
     companion object {
