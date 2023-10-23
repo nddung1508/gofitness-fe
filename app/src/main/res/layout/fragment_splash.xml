@@ -5,4 +5,26 @@
     android:layout_height="match_parent"
     android:background="@color/purpleVictoria">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome To"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_gofitness"
+        style="@style/Textview.Bold.Display.XS"
+        android:textColor="@color/white"
+        />
+    <TextView
+        android:id="@+id/tv_gofitness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GoFitness"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Textview.Bold.Display.MD"
+        android:textColor="@color/white"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

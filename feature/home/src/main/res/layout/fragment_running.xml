@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/ic_bg_corner_12_below"
+        android:translationZ="@dimen/dp_1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Running"
+            android:textColor="@color/white"
+            style="@style/Textview.Medium.Display.SM"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_x_symbol"
+            android:layout_marginStart="@dimen/dp_15" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@id/cl_running"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_header"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginHorizontal="@dimen/dp_80"
+        android:translationZ="@dimen/dp_1"
+        android:elevation="@dimen/dp_1"
+        android:background="@drawable/ic_bg_corner_12"
+        android:backgroundTint="@color/purpleVictoria"
+        app:backgroundTint="@color/purpleVictoria">
+
+        <TextView
+            android:id="@+id/tv_kcal_label"
+            style="@style/Textview.Semibold.Display.XS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="KCAL"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_kcal" />
+
+        <TextView
+            android:id="@+id/tv_kcal"
+            style="@style/Textview.Semibold.Display.XS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="0"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/tv_kcal_label"
+            app:layout_constraintEnd_toEndOf="@id/tv_kcal_label"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_duration_label"
+            style="@style/Textview.Semibold.Display.XS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_110"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="MIN"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_kcal" />
+
+        <TextView
+            android:id="@+id/tv_duration"
+            style="@style/Textview.Semibold.Display.XS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="0"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/tv_duration_label"
+            app:layout_constraintEnd_toEndOf="@id/tv_duration_label"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_distance_label"
+            style="@style/Textview.Semibold.Display.XS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_200"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="KM"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_kcal" />
+
+        <TextView
+            android:id="@+id/tv_distance"
+            style="@style/Textview.Semibold.Display.XS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="0"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/tv_distance_label"
+            app:layout_constraintEnd_toEndOf="@id/tv_distance_label"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_current_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cl_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:translationZ="@dimen/dp_1"
+        android:background="@drawable/bg_round_white"
+        android:padding="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_15">
+        <ImageView
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_location_center"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <fragment
+        android:id="@+id/map_fragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        map:mapType="normal"
+        map:uiCompass="false"
+        tools:ignore="FragmentTagUsage"
+        app:layout_constraintTop_toBottomOf="@id/cl_header"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_start_workout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_70"
+        android:text="START RUNNING"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:background="@drawable/ic_bg_corner_12"
+        android:paddingHorizontal="@dimen/dp_20"
+        android:elevation="@dimen/dp_1"
+        app:backgroundTint="@color/purpleVictoria"
+        android:textColor="@color/white"
+        style="@style/Textview.Bold.Display.MD"/>
+
+    <Button
+        android:id="@+id/btn_stop_workout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_70"
+        android:text="STOP RUNNING"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:background="@drawable/ic_bg_corner_12"
+        android:paddingHorizontal="@dimen/dp_20"
+        android:elevation="@dimen/dp_1"
+        app:backgroundTint="@color/red"
+        android:textColor="@color/white"
+        style="@style/Textview.Bold.Display.MD"
+        android:visibility="gone"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.home.databinding.FragmentExerciseTypeBinding
+import exercise.RunningFragment
 import exercise.StartWorkoutFragment
 import exercise.WorkoutDetailFragment
 import exercise.WorkoutFragment
@@ -37,6 +38,9 @@ class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
         }
         binding.clHomePlan.setOnClickListener {
             navigateScreen(NAVIGATE_TO_HOME_PLAN)
+        }
+        binding.clRunning.setOnClickListener {
+            navigateScreen(NAVIGATE_TO_RUNNING)
         }
     }
 
@@ -79,6 +83,11 @@ class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
                 }
                 (requireActivity() as ExerciseActivity).addFragment(startWorkoutFragment)
             }
+            NAVIGATE_TO_RUNNING -> {
+                val runningFragment = RunningFragment()
+                this.binding.root.isClickable = false
+                (requireActivity() as ExerciseActivity).addFragment(runningFragment)
+            }
         }
     }
     companion object{
@@ -86,6 +95,7 @@ class ExerciseTypeFragment :Fragment(), ExerciseNavigator{
         const val NAVIGATE_TO_GYM_PLAN = "EXERCISE_TYPE_TO_GYM_PLAN"
         const val NAVIGATE_TO_WORKOUT = "PLAN_TO_WORKOUT"
         const val NAVIGATE_TO_WORKOUT_DETAIL = "WORKOUT_TO_WORKOUT_DETAIL"
+        const val NAVIGATE_TO_RUNNING = "EXERCISE_TYPE_TO_RUNNING"
         const val NAVIGATE_TO_START_WORKOUT = "WORKOUT_TO_START_WORKOUT"
     }
 }
