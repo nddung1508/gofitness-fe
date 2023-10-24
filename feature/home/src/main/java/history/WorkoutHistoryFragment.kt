@@ -1,6 +1,7 @@
 package history
 
 import KcalByDayViewModel
+import RunningViewModel
 import WorkoutHistoryViewModel
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.home.databinding.FragmentWorkoutHistoryBinding
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import entity.WorkoutHistory
 import exercise.WorkoutAdapter
@@ -23,6 +25,7 @@ class WorkoutHistoryFragment : Fragment() {
     private lateinit var binding: FragmentWorkoutHistoryBinding
     private val calendar = Calendar.getInstance()
     private lateinit var workoutHistoryViewModel: WorkoutHistoryViewModel
+    private lateinit var runningHistoryViewModel: RunningViewModel
     private lateinit var firebaseAuth : FirebaseAuth
     private var todayStartInMillis: Long = 0
     private var todayEndInMillis: Long = 0
@@ -46,11 +49,13 @@ class WorkoutHistoryFragment : Fragment() {
         val currentDate = dateFormat.format(System.currentTimeMillis())
         binding.currentDate.text = currentDate
         updateDateRange(System.currentTimeMillis())
+        setUpTab()
     }
 
     override fun onStart() {
         super.onStart()
         addWorkoutHistory()
+        addRunningHistory()
     }
 
     private fun showDatePickerDialog() {
@@ -101,6 +106,29 @@ class WorkoutHistoryFragment : Fragment() {
         }
         binding.rvWorkoutHistory.adapter = workoutHistoryAdapter
     }
+
+    private fun addRunningHistory(){
+        val runningHistoryAdapter = RunningHistoryAdapter()
+        binding.rvRunningHistory.layoutManager =
+            LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        val uid = firebaseAuth.currentUser?.uid
+        runningHistoryViewModel = ViewModelProvider(this).get(RunningViewModel::class.java)
+
+        if (uid != null) {
+            runningHistoryViewModel.getRunningHistory(uid).observe(viewLifecycleOwner) { runningHistories ->
+                val filteredList = runningHistories.filter { it.dateInMillis in todayStartInMillis..todayEndInMillis }
+                runningHistoryAdapter.addRunningHistories(filteredList)
+                binding.tvKcal.text = filteredList.sumOf { it.kcal }.toString()
+            }
+        }
+        binding.rvRunningHistory.adapter = runningHistoryAdapter
+    }
     private fun updateDateRange(selectedDateInMillis: Long) {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = selectedDateInMillis
@@ -116,6 +144,40 @@ class WorkoutHistoryFragment : Fragment() {
         calendar.set(Calendar.MILLISECOND, 999)
         todayEndInMillis = calendar.timeInMillis
         addWorkoutHistory()
+        addRunningHistory()
+    }
+
+    private fun setUpTab() {
+        if (binding.tabs.tabCount == 0) {
+            binding.tabs.addTab(
+                binding.tabs.newTab().setText("Workout")
+            )
+            binding.tabs.addTab(
+                binding.tabs.newTab().setText("Running")
+            )
+        }
+        binding.tabs.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.position?.let { position ->
+                    when (position) {
+                        0 -> {
+                            binding.rvRunningHistory.visibility = View.GONE
+                            binding.rvWorkoutHistory.visibility = View.VISIBLE
+                        }
+                        1 -> {
+                            binding.rvRunningHistory.visibility= View.VISIBLE
+                            binding.rvWorkoutHistory.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     companion object {
