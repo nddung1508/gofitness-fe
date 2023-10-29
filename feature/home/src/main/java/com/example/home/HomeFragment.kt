@@ -50,13 +50,6 @@ class HomeFragment: Fragment(), SensorEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val currentUser = FirebaseAuth.getInstance().currentUser
-        binding.btnLogout.setOnClickListener {
-            if(currentUser != null){
-                FirebaseAuth.getInstance().signOut()
-                Thread.sleep(1500)
-            }
-        }
-
         sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
         if(stepSensor == null){

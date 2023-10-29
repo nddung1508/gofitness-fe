@@ -91,11 +91,11 @@
         android:layout_marginEnd="@dimen/dp_30"
         android:text="KCAL"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_kcal"
+        app:layout_constraintTop_toBottomOf="@id/tv_kcal_workout"
         android:textColor="@color/colorNeutral03"/>
 
     <TextView
-        android:id="@+id/tv_kcal"
+        android:id="@+id/tv_kcal_workout"
         style="@style/Textview.Semibold.Display.XS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,6 +107,20 @@
         android:layout_marginTop="@dimen/dp_10"/>
 
     <TextView
+        android:id="@+id/tv_kcal_running"
+        style="@style/Textview.Semibold.Display.XS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@id/tv_kcal_label"
+        app:layout_constraintEnd_toEndOf="@id/tv_kcal_label"
+        app:layout_constraintTop_toBottomOf="@id/cl_header_line"
+        android:textColor="@color/colorNeutral03"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/dp_10"/>
+
+
+    <TextView
         android:id="@+id/tv_steps_label"
         style="@style/Textview.Semibold.Display.XS"
         android:layout_width="wrap_content"
@@ -114,7 +128,7 @@
         android:layout_marginEnd="@dimen/dp_150"
         android:text="STEPS"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_kcal"
+        app:layout_constraintTop_toBottomOf="@id/tv_kcal_workout"
         android:textColor="@color/colorNeutral03"/>
 
     <TextView

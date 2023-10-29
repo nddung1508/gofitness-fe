@@ -120,8 +120,6 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
     private fun setMapDefaultSetting(googleMap: GoogleMap){
         myGoogleMap = googleMap
         myGoogleMap!!.clear()
-        currentLocationLatLng?.let { CameraUpdateFactory.newLatLng(it) }
-            ?.let { myGoogleMap!!.moveCamera(it) }
         myGoogleMap!!.uiSettings.isMapToolbarEnabled = false
         myGoogleMap!!.uiSettings.isZoomControlsEnabled = false
     }
@@ -153,7 +151,6 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         ) {
             return
         }
-        //Get Current Location LatLng and move the camera to it
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 if (location != null) {

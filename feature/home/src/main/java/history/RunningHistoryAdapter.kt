@@ -1,16 +1,20 @@
 package history
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.home.databinding.LayoutRunningHistoryItemBinding
 import entity.Running
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class RunningHistoryAdapter :  RecyclerView.Adapter<RunningHistoryAdapter.RunningHistoryViewHolder>() {
+
+class RunningHistoryAdapter(private val context : Context) :  RecyclerView.Adapter<RunningHistoryAdapter.RunningHistoryViewHolder>() {
     var runningHistories : List<Running> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -48,6 +52,12 @@ class RunningHistoryAdapter :  RecyclerView.Adapter<RunningHistoryAdapter.Runnin
             kcal.text = String.format("%.2f", value.kcal)
             val distanceInKilometer = value.distance/1000
             distance.text = String.format("%.2f", distanceInKilometer)
+            binding.ivRunning.setOnClickListener {
+                val intent = Intent(context, RunningHistoryMapActivity::class.java)
+                val data = PolyLines(value.polylines)
+                intent.putExtra("polyLines", data)
+                context.startActivity(intent)
+            }
         }
     }
 

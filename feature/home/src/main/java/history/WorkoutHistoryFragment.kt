@@ -12,6 +12,7 @@ import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.home.R
 import com.example.home.databinding.FragmentWorkoutHistoryBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -101,14 +102,14 @@ class WorkoutHistoryFragment : Fragment() {
             workoutHistoryViewModel.getWorkoutHistory(uid).observe(viewLifecycleOwner) { workoutHistories ->
                 val filteredList = workoutHistories.filter { it.currentTime in todayStartInMillis..todayEndInMillis }
                 workoutHistoryAdapter.addWorkoutHistory(filteredList)
-                binding.tvKcal.text = filteredList.sumOf { it.caloriesBurned }.toString()
+                binding.tvKcalWorkout.text = String.format("%.2f", filteredList.sumOf { it.caloriesBurned }.toDouble())
             }
         }
         binding.rvWorkoutHistory.adapter = workoutHistoryAdapter
     }
 
     private fun addRunningHistory(){
-        val runningHistoryAdapter = RunningHistoryAdapter()
+        val runningHistoryAdapter = RunningHistoryAdapter(requireContext())
         binding.rvRunningHistory.layoutManager =
             LinearLayoutManager(
                 requireContext(),
@@ -124,7 +125,7 @@ class WorkoutHistoryFragment : Fragment() {
             runningHistoryViewModel.getRunningHistory(uid).observe(viewLifecycleOwner) { runningHistories ->
                 val filteredList = runningHistories.filter { it.dateInMillis in todayStartInMillis..todayEndInMillis }
                 runningHistoryAdapter.addRunningHistories(filteredList)
-                binding.tvKcal.text = filteredList.sumOf { it.kcal }.toString()
+                binding.tvKcalRunning.text = String.format("%.2f", filteredList.sumOf { it.kcal })
             }
         }
         binding.rvRunningHistory.adapter = runningHistoryAdapter
@@ -164,10 +165,14 @@ class WorkoutHistoryFragment : Fragment() {
                         0 -> {
                             binding.rvRunningHistory.visibility = View.GONE
                             binding.rvWorkoutHistory.visibility = View.VISIBLE
+                            binding.tvKcalRunning.visibility = View.INVISIBLE
+                            binding.tvKcalWorkout.visibility = View.VISIBLE
                         }
                         1 -> {
                             binding.rvRunningHistory.visibility= View.VISIBLE
                             binding.rvWorkoutHistory.visibility = View.GONE
+                            binding.tvKcalRunning.visibility = View.VISIBLE
+                            binding.tvKcalWorkout.visibility = View.INVISIBLE
                         }
                     }
                 }

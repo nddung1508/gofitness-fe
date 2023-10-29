@@ -11,6 +11,9 @@
         android:name=".ExerciseActivity"
         android:exported="true">
     </activity>
+        <activity android:name="history.RunningHistoryMapActivity"
+            android:exported="true">
+        </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAP_API_KEY}" />
