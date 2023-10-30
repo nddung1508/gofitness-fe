@@ -12,8 +12,16 @@ class RunningHistoryMapActivity : AppCompatActivity(){
         binding = ActivityRunningHistoryMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val receivedData = intent.getParcelableExtra("polyLines", PolyLines::class.java)
+        val kcal = intent.getDoubleExtra("kcal", 0.00)
+        val distance = intent.getDoubleExtra("distance", 0.00)
+        val duration = intent.getIntExtra("duration", 0)
+        val date = intent.getLongExtra("date", 0L)
         val dataBundle = Bundle()
         dataBundle.putStringArrayList("polyLines", receivedData!!.stringList as ArrayList<String>)
+        dataBundle.putDouble("kcal", kcal)
+        dataBundle.putDouble("distance", distance)
+        dataBundle.putInt("duration", duration)
+        dataBundle.putLong("date", date)
         val fragment = RunningHistoryMapFragment()
 
         fragment.arguments = dataBundle

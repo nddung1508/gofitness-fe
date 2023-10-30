@@ -99,8 +99,10 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                     .width(10f)
                 binding.tvKcal.text = "0"
                 binding.tvDistance.text = "0"
-                runningViewModel.addRunningHistory(kcal= currentKcal, duration = elapsedTimeInSeconds.toInt(),
-                    dateInMillis = System.currentTimeMillis(), distance = totalDistance.toDouble(), polylines = latLngStringList)
+                if(currentKcal > 0){
+                    runningViewModel.addRunningHistory(kcal= currentKcal, duration = elapsedTimeInSeconds.toInt(),
+                        dateInMillis = System.currentTimeMillis(), distance = totalDistance.toDouble(), polylines = latLngStringList)
+                }
             }
             alertDialog.setNegativeButton("No") { _, _ -> }
             alertDialog.show()

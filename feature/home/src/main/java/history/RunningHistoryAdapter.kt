@@ -56,6 +56,10 @@ class RunningHistoryAdapter(private val context : Context) :  RecyclerView.Adapt
                 val intent = Intent(context, RunningHistoryMapActivity::class.java)
                 val data = PolyLines(value.polylines)
                 intent.putExtra("polyLines", data)
+                intent.putExtra("kcal", value.kcal)
+                intent.putExtra("date", value.dateInMillis)
+                intent.putExtra("duration", value.duration)
+                intent.putExtra("distance", value.distance)
                 context.startActivity(intent)
             }
         }

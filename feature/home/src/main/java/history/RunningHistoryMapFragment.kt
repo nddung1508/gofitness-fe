@@ -1,5 +1,6 @@
 package history
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
 
 class RunningHistoryMapFragment : Fragment(), OnMapReadyCallback{
     private var myGoogleMap : GoogleMap? = null
@@ -35,6 +37,16 @@ class RunningHistoryMapFragment : Fragment(), OnMapReadyCallback{
             requireActivity().onBackPressed()
         }
         val polyLines = arguments?.getStringArrayList("polyLines")
+        val date = arguments?.getLong("date")
+        val kcal =arguments?.getDouble("kcal")
+        val distance = arguments?.getDouble("distance")
+        val duration = arguments?.getInt("duration")
+        val minutes = duration?.div(60)
+        val seconds = duration?.rem(60)
+        val formattedTime = String.format("%02d:%02d", minutes, seconds)
+        binding.tvDuration.text = formattedTime
+        binding.tvKcal.text = String.format("%.2f", kcal)
+        binding.tvDistance.text = String.format("%.2f", distance?.div(1000))
 
         if (polyLines != null) {
             for(latLng in polyLines){
@@ -51,6 +63,14 @@ class RunningHistoryMapFragment : Fragment(), OnMapReadyCallback{
     override fun onMapReady(googleMap: GoogleMap) {
         setMapDefaultSetting(googleMap)
         animateCameraToCurrentLocation(googleMap, latLngList.first())
+        val polylineOptions = PolylineOptions()
+            .color(Color.BLUE)
+            .width(12f)
+
+        for (latLngNum in 0 until latLngList.size) {
+            polylineOptions.add(latLngList[latLngNum])
+        }
+        googleMap.addPolyline(polylineOptions)
     }
 
     private fun setMapDefaultSetting(googleMap: GoogleMap){
