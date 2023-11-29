@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingBottom="@dimen/dp_50">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:id="@+id/sv_home"
@@ -12,7 +11,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="@dimen/dp_20">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -105,7 +105,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_start_workout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_90"
+                android:layout_height="@dimen/dp_120"
                 android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@drawable/ic_bg_corner_12"
@@ -139,7 +139,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_daily_goal"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_150"
+                android:layout_height="@dimen/dp_200"
                 android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_15"
                 android:background="@drawable/ic_bg_corner_12"
@@ -156,6 +156,7 @@
                     android:layout_marginStart="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_5"
                     android:text="Daily Goal"
+                    android:textSize="21sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -167,6 +168,7 @@
                     android:text="5000 steps per day is consider as being active excluding sports and exercise you take."
                     android:textColor="@color/colorNeutral04"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="19sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_daily_goal" />
 
                 <TextView
@@ -189,172 +191,6 @@
                     app:layout_constraintEnd_toEndOf="@id/tv_daily_steps"
                     app:layout_constraintStart_toStartOf="@id/tv_daily_steps"
                     app:layout_constraintTop_toBottomOf="@id/tv_daily_steps" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_weekly_goal"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_100"
-                android:layout_marginHorizontal="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_15"
-                android:background="@drawable/ic_bg_corner_12"
-                android:elevation="@dimen/dp_4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_daily_goal">
-
-                <TextView
-                    android:id="@+id/tv_weekly_goal"
-                    style="@style/Textview.Bold.LG"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:text="Weekly Goal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    style="@style/Textview.Regular.MD"
-                    android:layout_width="@dimen/dp_160"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"
-                    android:text="Last 7 days"
-                    android:textColor="@color/colorNeutral04"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_weekly_goal" />
-
-                <TextView
-                    android:id="@+id/tv_achieve_score"
-                    style="@style/Textview.Bold.Display.XS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"
-                    android:layout_marginBottom="@dimen/dp_15"
-                    android:text="0/7"
-                    android:textColor="@color/purpleVictoria"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/pb_mon"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginStart="@dimen/dp_30"
-                    android:layout_marginTop="@dimen/dp_50"
-                    android:background="@drawable/ic_progress_bar_background"
-                    android:indeterminateOnly="false"
-                    android:progressDrawable="@drawable/ic_progress_bar_background"
-                    app:layout_constraintStart_toEndOf="@id/tv_achieve_score"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/pb_tue"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_50"
-                    android:background="@drawable/ic_progress_bar_background"
-                    android:indeterminateOnly="false"
-                    android:progressDrawable="@drawable/ic_progress_bar_background"
-                    app:layout_constraintStart_toEndOf="@id/pb_mon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/pb_wed"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_50"
-                    android:background="@drawable/ic_progress_bar_background"
-                    android:indeterminateOnly="false"
-                    android:progressDrawable="@drawable/ic_progress_bar_background"
-                    app:layout_constraintStart_toEndOf="@id/pb_tue"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/pb_thu"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_50"
-                    android:background="@drawable/ic_progress_bar_background"
-                    android:indeterminateOnly="false"
-                    android:progressDrawable="@drawable/ic_progress_bar_background"
-                    app:layout_constraintStart_toEndOf="@id/pb_wed"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/pb_fri"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_50"
-                    android:background="@drawable/ic_progress_bar_background"
-                    android:indeterminateOnly="false"
-                    android:progressDrawable="@drawable/ic_progress_bar_background"
-                    app:layout_constraintStart_toEndOf="@id/pb_thu"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/pb_sat"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_50"
-                    android:background="@drawable/ic_progress_bar_background"
-                    android:indeterminateOnly="false"
-                    android:progressDrawable="@drawable/ic_progress_bar_background"
-                    app:layout_constraintStart_toEndOf="@id/pb_fri"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/pb_sun"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_50"
-                    android:background="@drawable/ic_progress_bar_background"
-                    android:indeterminateOnly="false"
-                    android:progressDrawable="@drawable/ic_progress_bar_background"
-                    app:layout_constraintStart_toEndOf="@id/pb_sat"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_last_workout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_130"
-                android:layout_marginHorizontal="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_15"
-                android:background="@drawable/ic_bg_corner_12"
-                android:elevation="@dimen/dp_4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_weekly_goal">
-
-                <TextView
-                    android:id="@+id/tv_last_workout"
-                    style="@style/Textview.Bold.LG"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:text="Last Workout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    style="@style/Textview.Regular.MD"
-                    android:layout_width="@dimen/dp_160"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"
-                    android:text="Workout"
-                    android:textColor="@color/colorNeutral04"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_last_workout" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
