@@ -79,7 +79,7 @@ private lateinit var personalInformationViewModel : PersonalInformationViewModel
             NAVIGATE_TO_LOGIN_FORM -> {
                 val loginFormFragment = LoginFormFragment()
                 this.binding.root.isClickable = false
-//                loginFormFragment.authenticationNavigator = this
+                loginFormFragment.authenticationNavigator = this
                 (requireActivity() as MainActivity).addFragment(loginFormFragment)
             }
 

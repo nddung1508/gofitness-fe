@@ -1,5 +1,6 @@
 package com.example.gofitness.ui.login
 
+import PersonalInformationViewModel
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.gofitness.databinding.FragmentLoginFormBinding
+import com.example.gofitness.ui.AuthenticationNavigator
 import com.example.gofitness.ui.MainActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class LoginFormFragment : Fragment() {
     private lateinit var binding :FragmentLoginFormBinding
     private lateinit var firebaseAuth : FirebaseAuth
+    private lateinit var personalInformationViewModel : PersonalInformationViewModel
+    lateinit var authenticationNavigator : AuthenticationNavigator
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,9 +48,8 @@ class LoginFormFragment : Fragment() {
             if(email.isNotEmpty() && password.isNotEmpty()){
                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                         if(it.isSuccessful){
-                            Toast.makeText(requireContext(),"Successful Login",Toast.LENGTH_SHORT).show()
-                            val intent = Intent(requireContext(), MainActivity::class.java)
-                            startActivity(intent)
+                            val user = firebaseAuth.currentUser
+                            handleSignInSuccess(user)
                         }
                         else{
                             Toast.makeText(requireContext(),"Fail Login",Toast.LENGTH_SHORT).show()
@@ -51,5 +57,25 @@ class LoginFormFragment : Fragment() {
                     }
                 }
             }
+        }
+     private fun handleSignInSuccess(user: FirebaseUser?) {
+        personalInformationViewModel = ViewModelProvider(this).get(PersonalInformationViewModel::class.java)
+        personalInformationViewModel.getPersonalInformation().observe(viewLifecycleOwner){
+            if(it == null){
+                if (user != null) {
+                    Toast.makeText(requireContext(), "Signed in as ${user.displayName}", Toast.LENGTH_SHORT).show()
+                }
+                authenticationNavigator.navigateScreen(NAVIGATE_TO_USER_INFORMATION)
+            }
+            else{
+                if (user != null) {
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
+    }
+    companion object{
+         const val NAVIGATE_TO_USER_INFORMATION = "LOGIN_TO_USER_INFORMATION"
         }
     }

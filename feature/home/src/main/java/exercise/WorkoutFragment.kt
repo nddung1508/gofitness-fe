@@ -90,10 +90,30 @@ class WorkoutFragment : Fragment() {
                     )
             }
             "CHEST" -> {
-
+                 exercise =  listOf(
+                    Exercise(
+                        name = "Push Up", duration = 10000, caloriesBurned = 30.0, definition = "A push-up is a bodyweight exercise in which you start in a plank position and use your arms to lower and lift your body, primarily working the chest, shoulders, and triceps muscles.", goodFor = "Push-ups are a versatile bodyweight exercise that primarily target the muscles in your chest (pectoral muscles), shoulders (deltoids), and triceps. They also engage your core and stabilizing muscles.", rep = 0,
+                        image = ConvertResourceToByteArray(pushUp)
+                    ),  Exercise(name = "Plank Shoulder Tap", duration = 5000, caloriesBurned = 35.0, definition = "Plank Shoulder Tap is ...", goodFor = "...", rep = 0,
+                        image = ConvertResourceToByteArray(plankShoulderTap)
+                    ), Exercise(
+                        name = "Reverse Snow Angel", duration = 20000, caloriesBurned = 100.0, definition = "Reverse Snow Angel ...", goodFor = "...", rep = 0,
+                        image = ConvertResourceToByteArray(reverseSnowAngel)
+                        )
+                    )
             }
             "SHOULDER" -> {
-
+                exercise = listOf(
+                    Exercise(
+                        name = "Push Up", duration = 3000, caloriesBurned = 30.0, definition = "A push-up is a bodyweight exercise in which you start in a plank position and use your arms to lower and lift your body, primarily working the chest, shoulders, and triceps muscles.", goodFor = "Push-ups are a versatile bodyweight exercise that primarily target the muscles in your chest (pectoral muscles), shoulders (deltoids), and triceps. They also engage your core and stabilizing muscles.", rep = 0,
+                        image = ConvertResourceToByteArray(pushUp)
+                    ), Exercise(
+                        name = "Triceps Dip", duration = 5000, caloriesBurned = 70.0, definition = "Triceps Dip is ...", goodFor = "...", rep = 0,
+                        image = ConvertResourceToByteArray(tricepsDip)
+                    ),Exercise(name = "Plank Shoulder Tap", duration = 5000, caloriesBurned = 35.0, definition = "Plank Shoulder Tap is ...", goodFor = "...", rep = 0,
+                        image = ConvertResourceToByteArray(plankShoulderTap)
+                    )
+                )
             }
             "LEGS" -> {
                 exercise = listOf(

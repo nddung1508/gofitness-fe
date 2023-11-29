@@ -1,8 +1,10 @@
 package com.example.home
 
 import StepViewModel
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -12,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.home.databinding.FragmentHomeBinding
@@ -36,6 +39,8 @@ class HomeFragment: Fragment(), SensorEventListener {
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         stepViewModel = ViewModelProvider(this).get(StepViewModel::class.java)
+        checkGpsPermission()
+        checkActivityRecognitionPermission()
         return binding.root
     }
 
@@ -135,6 +140,34 @@ class HomeFragment: Fragment(), SensorEventListener {
         return dateFormat.format(calendar.time)
     }
 
+     private fun checkActivityRecognitionPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACTIVITY_RECOGNITION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
+                MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION
+            )
+        } else {
+        }
+    }
+     private fun checkGpsPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                MY_PERMISSIONS_REQUEST_GPS
+            )
+        } else {
+        }
+    }
+
+
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
@@ -144,6 +177,8 @@ class HomeFragment: Fragment(), SensorEventListener {
         fun newInstance(): HomeFragment {
             return HomeFragment()
         }
+        private const val MY_PERMISSIONS_REQUEST_GPS = 2
+        private const val MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION = 1
         const val STEP_CALORIES_FACTOR = 0.035
     }
 }

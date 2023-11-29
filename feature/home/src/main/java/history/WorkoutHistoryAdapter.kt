@@ -7,9 +7,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.home.databinding.LayoutWorkoutExerciseItemBinding
 import com.example.home.databinding.LayoutWorkoutHistoryItemBinding
-import entity.Exercise
 import entity.WorkoutHistory
 import java.io.ByteArrayInputStream
 import java.text.SimpleDateFormat
@@ -53,7 +51,10 @@ class WorkoutHistoryAdapter :  RecyclerView.Adapter<WorkoutHistoryAdapter.Workou
             val formattedDate = sdf.format(Date(value.currentTime))
             image.setImageBitmap(decodeBase64ToBitmap(value.image))
             name.text = value.name.lowercase().replaceFirstChar {it.uppercase() } + " Workout"
-            val time = (value.duration/1000/60).toDouble()
+            val minutes = value.duration.div(1000).div(60)
+            val seconds = value.duration.div(1000).rem(60)
+            val formattedTime = String.format("%02d:%02d", minutes, seconds)
+            val time = formattedTime
             duration.text = time.toString()
             date.text = formattedDate
             kcal.text = value.caloriesBurned.toString()

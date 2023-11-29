@@ -1,7 +1,6 @@
 package com.example.gofitness.ui.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,11 +44,11 @@ class RegisterFormFragment : Fragment() {
                 if(password==confirmPassword){
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                         if(it.isSuccessful){
-                            Toast.makeText(requireContext(),"Successful Login",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(),"Successful Register",Toast.LENGTH_SHORT).show()
                             requireActivity().supportFragmentManager.popBackStack()
                         }
                         else{
-                            Toast.makeText(requireContext(),"Fail Login",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(),"Fail Register",Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
