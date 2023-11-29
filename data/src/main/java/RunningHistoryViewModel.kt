@@ -5,7 +5,7 @@ import androidx.lifecycle.map
 import com.example.data.FirebaseQueryLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import entity.Running
+import entity.RunningHistory
 
 class RunningHistoryViewModel : ViewModel() {
     private val userId: String? = FirebaseAuth.getInstance().currentUser?.uid
@@ -13,15 +13,15 @@ class RunningHistoryViewModel : ViewModel() {
         "https://gofitness-4d8ef-default-rtdb.asia-southeast1.firebasedatabase.app/")
     private val runningDatabaseRef = database.getReference("running")
 
-    fun getRunningHistory(userId: String): LiveData<List<Running>> {
+    fun getRunningHistory(userId: String): LiveData<List<RunningHistory>> {
         requireNotNull(userId) { "User not authenticated" }
         val query = runningDatabaseRef.child(userId)
         val liveData = FirebaseQueryLiveData(query)
 
         return liveData.map { dataSnapshot ->
-            val runningHistory = mutableListOf<Running>()
+            val runningHistory = mutableListOf<RunningHistory>()
             for (runningSnapshot in dataSnapshot.children) {
-                val running = runningSnapshot.getValue(Running::class.java)
+                val running = runningSnapshot.getValue(RunningHistory::class.java)
                 running?.let {
                     runningHistory.add(it)
                 }
@@ -38,7 +38,7 @@ class RunningHistoryViewModel : ViewModel() {
         polylines: List<String>
     ) {
         requireNotNull(userId) { "User not authenticated" }
-        val running = Running(
+        val running = RunningHistory(
             kcal = kcal,
             duration = duration,
             distance = distance,

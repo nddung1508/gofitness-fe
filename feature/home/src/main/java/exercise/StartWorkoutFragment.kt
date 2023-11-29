@@ -59,7 +59,7 @@ class StartWorkoutFragment : Fragment() {
                     it
                 )
             })
-
+        binding.tvExerciseName.text = receivedExercise.exercises[startIndex].name
         startExerciseTimer = object : CountDownTimer(startExerciseDuration, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 binding.tvExerciseDuration.text = formatTime(millisUntilFinished)
@@ -142,6 +142,7 @@ class StartWorkoutFragment : Fragment() {
             }
             setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
+                requireActivity().supportFragmentManager.popBackStack()
             }
             create()
         }.show()
@@ -172,7 +173,6 @@ class StartWorkoutFragment : Fragment() {
         val seconds = (milliseconds / 1000) % 60
         val minutes = (milliseconds / (1000 * 60)) % 60
         val hours = (milliseconds / (1000 * 60 * 60))
-
         return String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 }

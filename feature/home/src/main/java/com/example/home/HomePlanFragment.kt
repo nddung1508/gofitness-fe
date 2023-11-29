@@ -42,6 +42,18 @@ class HomePlanFragment : Fragment() {
             }
             exerciseNavigator.navigateScreen(NAVIGATE_TO_WORKOUT, bundle)
         }
+        binding.clChest.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("type", "CHEST")
+            }
+            exerciseNavigator.navigateScreen(NAVIGATE_TO_WORKOUT, bundle)
+        }
+        binding.clShoulder.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("type", "SHOULDER")
+            }
+            exerciseNavigator.navigateScreen(NAVIGATE_TO_WORKOUT, bundle)
+        }
     }
 
     companion object{

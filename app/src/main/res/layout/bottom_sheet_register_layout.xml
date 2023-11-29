@@ -50,26 +50,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_nav_line">
-        <ImageView
-            android:id="@+id/iv_google"
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
-            android:layout_marginStart="@dimen/dp_70"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/tv_register_google"
-            app:layout_constraintTop_toTopOf="@id/tv_register_google"
-            android:src="@drawable/ic_google_icon" />
 
-        <TextView
-            android:id="@+id/tv_register_google"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Register with Google"
-            android:layout_marginTop="@dimen/dp_15"
-            android:textSize="@dimen/sp_20"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

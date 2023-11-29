@@ -1,6 +1,5 @@
 package entity
-
-data class Running(
+data class RunningHistory(
     val kcal : Double,
     val duration : Int,
     val distance: Double,

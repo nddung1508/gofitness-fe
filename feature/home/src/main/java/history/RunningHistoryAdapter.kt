@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.home.databinding.LayoutRunningHistoryItemBinding
-import entity.Running
+import entity.RunningHistory
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,10 +15,10 @@ import java.util.Locale
 
 
 class RunningHistoryAdapter(private val context : Context) :  RecyclerView.Adapter<RunningHistoryAdapter.RunningHistoryViewHolder>() {
-    var runningHistories : List<Running> = ArrayList()
+    var runningHistories : List<RunningHistory> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addRunningHistories(data: List<Running>){
+    fun addRunningHistories(data: List<RunningHistory>){
         runningHistories = data
         notifyDataSetChanged()
     }
@@ -45,7 +45,7 @@ class RunningHistoryAdapter(private val context : Context) :  RecyclerView.Adapt
         private val date = binding.tvDate
         private val kcal = binding.tvKcal
         private val distance = binding.tvDistance
-        fun bind(value: Running) {
+        fun bind(value: RunningHistory) {
             val formattedDate = sdf.format(Date(value.dateInMillis))
             duration.text = updateDurationText(value.duration)
             date.text = formattedDate

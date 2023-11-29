@@ -136,40 +136,5 @@
             android:textColor="@color/white"
             android:visibility="gone"
             />
-        <Button
-            android:id="@+id/btn_pause"
-            android:layout_width="@dimen/dp_150"
-            android:layout_height="@dimen/dp_60"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_exercise_duration"
-            android:background="@drawable/ic_bg_corner_12"
-            android:layout_marginTop="@dimen/dp_80"
-            android:text="PAUSE"
-            style="@style/Textview.Bold.Display.SM"/>
-
-        <TextView
-            android:id="@+id/tv_previous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PREVIOUS"
-            style="@style/Textview.Regular.Display.MD"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/dp_40"
-            android:layout_marginStart="@dimen/dp_20"/>
-
-        <TextView
-            android:id="@+id/tv_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NEXT"
-            style="@style/Textview.Regular.Display.MD"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/dp_40"
-            android:layout_marginEnd="@dimen/dp_20"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
