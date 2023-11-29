@@ -1,7 +1,6 @@
 package com.example.gofitness.ui.splash
 
 import PersonalInformationViewModel
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,7 +17,6 @@ import com.example.gofitness.ui.login.PersonalInformationFragment
 import com.example.gofitness.ui.login.RegisterFormFragment
 import com.example.gofitness.ui.main.MainFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class SplashFragment  : Fragment(), AuthenticationNavigator {
 private lateinit var binding: FragmentSplashBinding

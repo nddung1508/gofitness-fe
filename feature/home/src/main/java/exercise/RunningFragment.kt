@@ -1,5 +1,6 @@
 package exercise
 
+import RunningHistoryViewModel
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
@@ -14,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.home.R
 import com.example.home.databinding.FragmentRunningBinding
 import com.google.android.gms.location.LocationCallback
@@ -26,7 +28,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 
 class RunningFragment : Fragment(), OnMapReadyCallback{
@@ -42,6 +43,8 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
     private var currentKcal: Double = 0.0
     private val handler = Handler()
     private var elapsedTimeInSeconds = 0L
+    private lateinit var runningViewModel: RunningHistoryViewModel
+    private var latLngStringList : MutableList<String> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +57,7 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        runningViewModel = ViewModelProvider(this)[RunningHistoryViewModel::class.java]
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
         binding.btnBack.setOnClickListener {
@@ -75,6 +79,7 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                     map, currentLatLng)
             } }
             startDurationCounter()
+            latLngStringList = mutableListOf()
         }
         binding.btnStopWorkout.setOnClickListener {
             val alertDialog = AlertDialog.Builder(requireContext())
@@ -94,6 +99,10 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                     .width(10f)
                 binding.tvKcal.text = "0"
                 binding.tvDistance.text = "0"
+                if(currentKcal > 0){
+                    runningViewModel.addRunningHistory(kcal= currentKcal, duration = elapsedTimeInSeconds.toInt(),
+                        dateInMillis = System.currentTimeMillis(), distance = totalDistance.toDouble(), polylines = latLngStringList)
+                }
             }
             alertDialog.setNegativeButton("No") { _, _ -> }
             alertDialog.show()
@@ -113,8 +122,6 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
     private fun setMapDefaultSetting(googleMap: GoogleMap){
         myGoogleMap = googleMap
         myGoogleMap!!.clear()
-        currentLocationLatLng?.let { CameraUpdateFactory.newLatLng(it) }
-            ?.let { myGoogleMap!!.moveCamera(it) }
         myGoogleMap!!.uiSettings.isMapToolbarEnabled = false
         myGoogleMap!!.uiSettings.isZoomControlsEnabled = false
     }
@@ -127,10 +134,10 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         return !(!isGpsEnabled && !isNetworkEnabled)
     }
     private fun requestLocationUpdates() {
-        val  locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
+        val  locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, MAX_UPDATE_DELAY)
             .setWaitForAccurateLocation(false)
-            .setMinUpdateIntervalMillis(5000)
-            .setMaxUpdateDelayMillis(10000)
+            .setMinUpdateIntervalMillis(MIN_UPDATE_DELAY)
+            .setMaxUpdateDelayMillis(MAX_UPDATE_DELAY)
             .build()
 
         getLocationCallBack()
@@ -146,7 +153,6 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         ) {
             return
         }
-        //Get Current Location LatLng and move the camera to it
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 if (location != null) {
@@ -165,6 +171,8 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.locations.forEach { location ->
                     val latLng = LatLng(location.latitude, location.longitude)
+                    //Add Latitude and Longitude as string
+                    latLngStringList.add("${location.latitude},${location.longitude}")
                     binding.btnCurrentLocation.setOnClickListener {
                         myGoogleMap?.let { map -> animateCameraToCurrentLocation(map, latLng) }
                     }
@@ -227,6 +235,8 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
     }
 
     companion object {
+        const val MAX_UPDATE_DELAY = 10000L
+        const val MIN_UPDATE_DELAY = 5000L
         const val DISTANCE_MULTIPLIER = 60
         const val ZOOM_DURATION = 1000
         const val DEFAULT_ZOOM_LEVEL = 15.0f

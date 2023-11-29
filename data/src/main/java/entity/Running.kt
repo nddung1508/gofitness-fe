@@ -1,8 +1,11 @@
 package entity
 
 data class Running(
-    val kcal : Int,
+    val kcal : Double,
     val duration : Int,
-    val distance: Int,
-    val dateInMillis : Long
-)
+    val distance: Double,
+    val dateInMillis : Long,
+    val polylines: List<String>
+){
+    constructor() : this(0.0, 0, 0.0, 0L, emptyList())
+}

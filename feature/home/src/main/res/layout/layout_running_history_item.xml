@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_20"
+    android:layout_marginHorizontal="@dimen/dp_10"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/ic_bg_corner_12"
+    android:elevation="@dimen/dp_4"
+    android:paddingBottom="@dimen/dp_20">
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15/08/2002 11:59:00"
+        style="@style/Textview.Medium.XL"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginStart="@dimen/dp_10" />
+
+    <TextView
+        android:id="@+id/tv_running"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Running"
+        style="@style/Textview.Medium.XL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:id="@+id/iv_running"
+        android:layout_width="@dimen/dp_130"
+        android:layout_height="@dimen/dp_100"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:src="@drawable/ic_map_illustration"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/tv_min_label"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_90"
+        android:text="Min"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_min"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_min"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@id/tv_min_label"
+        app:layout_constraintEnd_toEndOf="@id/tv_min_label"
+        app:layout_constraintTop_toTopOf="@id/iv_running"
+        app:layout_constraintBottom_toBottomOf="@id/iv_running"
+        android:textColor="@color/black"
+        android:layout_marginBottom="@dimen/dp_25"/>
+
+    <TextView
+        android:id="@+id/tv_kcal_label"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_160"
+        android:text="Kcal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_min"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_kcal"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@id/tv_kcal_label"
+        app:layout_constraintEnd_toEndOf="@id/tv_kcal_label"
+        app:layout_constraintTop_toTopOf="@id/iv_running"
+        app:layout_constraintBottom_toBottomOf="@id/iv_running"
+        android:textColor="@color/black"
+        android:layout_marginBottom="@dimen/dp_25"/>
+
+    <TextView
+        android:id="@+id/tv_distance_label"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_30"
+        android:text="Km"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_min"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_distance"
+        style="@style/Textview.Semibold.XL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@id/tv_distance_label"
+        app:layout_constraintEnd_toEndOf="@id/tv_distance_label"
+        app:layout_constraintTop_toTopOf="@id/iv_running"
+        app:layout_constraintBottom_toBottomOf="@id/iv_running"
+        android:textColor="@color/black"
+        android:layout_marginBottom="@dimen/dp_25"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

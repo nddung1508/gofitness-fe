@@ -3,6 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/ll_tab_bg"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:layout_weight="1"
+        android:background="@drawable/tab_layout_behind"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/dp_4"
+        android:paddingVertical="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_history">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/tab_layout"
+            app:tabIndicatorColor="@color/purpleVictoria"
+            app:tabIndicatorGravity="center"
+            app:tabIndicatorHeight="@dimen/dp_40"
+            app:tabMode="fixed"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/Textview.Regular.LG"
+            app:tabTextColor="@color/black" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_history"
         android:layout_width="wrap_content"
@@ -62,11 +91,11 @@
         android:layout_marginEnd="@dimen/dp_30"
         android:text="KCAL"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_kcal"
+        app:layout_constraintTop_toBottomOf="@id/tv_kcal_workout"
         android:textColor="@color/colorNeutral03"/>
 
     <TextView
-        android:id="@+id/tv_kcal"
+        android:id="@+id/tv_kcal_workout"
         style="@style/Textview.Semibold.Display.XS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,6 +107,20 @@
         android:layout_marginTop="@dimen/dp_10"/>
 
     <TextView
+        android:id="@+id/tv_kcal_running"
+        style="@style/Textview.Semibold.Display.XS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@id/tv_kcal_label"
+        app:layout_constraintEnd_toEndOf="@id/tv_kcal_label"
+        app:layout_constraintTop_toBottomOf="@id/cl_header_line"
+        android:textColor="@color/colorNeutral03"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/dp_10"/>
+
+
+    <TextView
         android:id="@+id/tv_steps_label"
         style="@style/Textview.Semibold.Display.XS"
         android:layout_width="wrap_content"
@@ -85,7 +128,7 @@
         android:layout_marginEnd="@dimen/dp_150"
         android:text="STEPS"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_kcal"
+        app:layout_constraintTop_toBottomOf="@id/tv_kcal_workout"
         android:textColor="@color/colorNeutral03"/>
 
     <TextView
@@ -107,5 +150,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_current_date"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="@dimen/dp_10" />
+        android:layout_marginTop="@dimen/dp_10"
+        android:visibility="visible"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_running_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_current_date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/dp_10"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
