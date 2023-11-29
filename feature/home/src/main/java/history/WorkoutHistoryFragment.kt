@@ -1,7 +1,6 @@
 package history
 
-import KcalByDayViewModel
-import RunningViewModel
+import RunningHistoryViewModel
 import WorkoutHistoryViewModel
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -12,12 +11,9 @@ import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.home.R
 import com.example.home.databinding.FragmentWorkoutHistoryBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
-import entity.WorkoutHistory
-import exercise.WorkoutAdapter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -26,7 +22,7 @@ class WorkoutHistoryFragment : Fragment() {
     private lateinit var binding: FragmentWorkoutHistoryBinding
     private val calendar = Calendar.getInstance()
     private lateinit var workoutHistoryViewModel: WorkoutHistoryViewModel
-    private lateinit var runningHistoryViewModel: RunningViewModel
+    private lateinit var runningHistoryViewModel: RunningHistoryViewModel
     private lateinit var firebaseAuth : FirebaseAuth
     private var todayStartInMillis: Long = 0
     private var todayEndInMillis: Long = 0
@@ -119,7 +115,7 @@ class WorkoutHistoryFragment : Fragment() {
 
         firebaseAuth = FirebaseAuth.getInstance()
         val uid = firebaseAuth.currentUser?.uid
-        runningHistoryViewModel = ViewModelProvider(this).get(RunningViewModel::class.java)
+        runningHistoryViewModel = ViewModelProvider(this).get(RunningHistoryViewModel::class.java)
 
         if (uid != null) {
             runningHistoryViewModel.getRunningHistory(uid).observe(viewLifecycleOwner) { runningHistories ->

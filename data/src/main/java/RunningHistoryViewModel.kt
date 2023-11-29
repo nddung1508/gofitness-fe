@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import entity.Running
 
-class RunningViewModel : ViewModel() {
+class RunningHistoryViewModel : ViewModel() {
     private val userId: String? = FirebaseAuth.getInstance().currentUser?.uid
     private val database = FirebaseDatabase.getInstance(
         "https://gofitness-4d8ef-default-rtdb.asia-southeast1.firebasedatabase.app/")

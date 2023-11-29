@@ -1,6 +1,6 @@
 package exercise
 
-import RunningViewModel
+import RunningHistoryViewModel
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
@@ -43,7 +43,7 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
     private var currentKcal: Double = 0.0
     private val handler = Handler()
     private var elapsedTimeInSeconds = 0L
-    private lateinit var runningViewModel: RunningViewModel
+    private lateinit var runningViewModel: RunningHistoryViewModel
     private var latLngStringList : MutableList<String> = mutableListOf()
 
     override fun onCreateView(
@@ -57,7 +57,7 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        runningViewModel = ViewModelProvider(this)[RunningViewModel::class.java]
+        runningViewModel = ViewModelProvider(this)[RunningHistoryViewModel::class.java]
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
         binding.btnBack.setOnClickListener {
