@@ -66,9 +66,9 @@
                 style="@style/Textview.Semibold.Display.XS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_80"
                 android:layout_marginTop="@dimen/dp_5"
                 android:text="KCAL"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_kcal" />
 
@@ -77,28 +77,8 @@
                 style="@style/Textview.Semibold.Display.XS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_100"
                 android:text="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pb_steps" />
-
-            <TextView
-                style="@style/Textview.Semibold.Display.XS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_5"
-                android:layout_marginEnd="@dimen/dp_80"
-                android:text="MOVE MIN"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_move_min" />
-
-            <TextView
-                android:id="@+id/tv_move_min"
-                style="@style/Textview.Semibold.Display.XS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_130"
-                android:text="0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/pb_steps" />
 

@@ -53,7 +53,8 @@ class WorkoutHistoryAdapter :  RecyclerView.Adapter<WorkoutHistoryAdapter.Workou
             val formattedDate = sdf.format(Date(value.currentTime))
             image.setImageBitmap(decodeBase64ToBitmap(value.image))
             name.text = value.name.lowercase().replaceFirstChar {it.uppercase() } + " Workout"
-            duration.text = value.duration.toString()
+            val time = (value.duration/1000/60).toDouble()
+            duration.text = time.toString()
             date.text = formattedDate
             kcal.text = value.caloriesBurned.toString()
             exercise.text = value.amountOfExercise.toString()

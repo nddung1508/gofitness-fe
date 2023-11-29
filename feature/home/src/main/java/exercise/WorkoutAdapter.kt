@@ -39,13 +39,13 @@ class WorkoutAdapter(val exerciseNavigator: ExerciseNavigator) : RecyclerView.Ad
         private val image = binding.ivWorkout
         val name = binding.tvExerciseName
         private val duration = binding.tvExerciseDuration
-        private val rep = binding.tvRep
+//        private val rep = binding.tvRep
         private val detail = binding.btnQuestionMark
         fun bind(value: Exercise) {
             image.setImageBitmap(value.image?.let { decodeByteArray(it) })
             name.text = value.name
             duration.text = formatTime(value.duration.toLong())
-            rep.text = value.rep.toString()
+//            rep.text = value.rep.toString()
             detail.setOnClickListener {
                 val bundle = Bundle().apply {
                     putString("detail", value.name)

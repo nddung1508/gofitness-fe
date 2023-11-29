@@ -119,30 +119,6 @@
         android:visibility="gone"
         android:layout_marginTop="@dimen/dp_10"/>
 
-
-    <TextView
-        android:id="@+id/tv_steps_label"
-        style="@style/Textview.Semibold.Display.XS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_150"
-        android:text="STEPS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_kcal_workout"
-        android:textColor="@color/colorNeutral03"/>
-
-    <TextView
-        android:id="@+id/tv_steps"
-        style="@style/Textview.Semibold.Display.XS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_180"
-        android:text="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_header_line"
-        android:textColor="@color/colorNeutral03"
-        android:layout_marginTop="@dimen/dp_10"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_workout_history"
         android:layout_width="match_parent"

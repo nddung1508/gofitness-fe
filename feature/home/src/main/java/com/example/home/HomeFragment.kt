@@ -110,7 +110,7 @@ class HomeFragment: Fragment(), SensorEventListener {
     private fun getKcalBurned(){
         stepsSinceReboot?.let {
             val kcalBurned = (it * userWeightInKg * STEP_CALORIES_FACTOR) / 1000
-            binding.tvKcal.text = kcalBurned.toInt().toString()
+            binding.tvKcal.text = kcalBurned.toString()
         }
     }
 

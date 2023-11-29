@@ -48,16 +48,16 @@
         style="@style/Textview.Medium.Display.XS"
         android:textColor="@color/colorNeutral04"/>
 
-    <TextView
-        android:id="@+id/tv_rep"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:text="x20"
-        style="@style/Textview.Medium.Display.MD"/>
+<!--    <TextView-->
+<!--        android:id="@+id/tv_rep"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:layout_marginEnd="@dimen/dp_20"-->
+<!--        android:text="x20"-->
+<!--        style="@style/Textview.Medium.Display.MD"/>-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
