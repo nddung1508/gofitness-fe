@@ -3,6 +3,9 @@ package com.example.statistics
 import KcalByDayViewModel
 import PersonalInformationViewModel
 import StepViewModel
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -12,15 +15,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.statistics.databinding.FragmentStatisticBinding
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -52,7 +62,8 @@ class StatisticFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentStatisticBinding.inflate(layoutInflater)
-        personalInformationViewModel = ViewModelProvider(this).get(PersonalInformationViewModel::class.java)
+        personalInformationViewModel = ViewModelProvider(this)[PersonalInformationViewModel::class.java]
+        stepViewModel = ViewModelProvider(this)[StepViewModel::class.java]
         return binding.root
     }
 
@@ -66,7 +77,6 @@ class StatisticFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         setUpKcalBarChart()
-        setUpStepBarChart()
     }
     private fun setUpTab() {
         if (binding.tabs.tabCount == 0) {
@@ -127,7 +137,7 @@ class StatisticFragment : Fragment() {
                 binding.barChartKcal.axisLeft.axisMinimum = 0f
                 binding.barChartKcal.xAxis.valueFormatter = CustomDateAxisValueFormatter()
                 binding.barChartKcal.xAxis.textSize = 10f
-                binding.barChartStep.animateY(1000)
+                binding.barChartKcal.animateY(1000)
                 binding.barChartKcal.invalidate()
             }
         }
@@ -144,7 +154,6 @@ class StatisticFragment : Fragment() {
             }
         }
     }
-
     private fun setUpStepBarChart(){
         stepViewModel = ViewModelProvider(this).get(StepViewModel::class.java)
         val numberOfCalls = 7
@@ -180,17 +189,27 @@ class StatisticFragment : Fragment() {
 
         for (i in 6 downTo 0) {
             if (userId != null) {
-                stepViewModel.getStepsForDate(userId, getCurrentDateFormat(System.currentTimeMillis() - reverseInt(i) * 86400000))
-                    .observe(viewLifecycleOwner) { listKcalByDay ->
-                        val yValue = listKcalByDay.sumOf { it.amount }.toFloat()
-                        val xValue = i.toFloat()
-                        stepData.add(BarEntry(xValue, yValue))
-                        onLiveDataComplete()
-                    }
+                lifecycleScope.launch {
+                    delay(1000L)
+                    stepViewModel.getStepsForDate(
+                        userId,
+                        getCurrentDateFormat(System.currentTimeMillis() - reverseInt(i) * 86400000)
+                    )
+                        .observe(viewLifecycleOwner) { listStepByDay ->
+                            val xValue = i.toFloat()
+                            if (listStepByDay.isNotEmpty()) {
+                                val yValue = listStepByDay.lastOrNull()?.amount?.toFloat()
+                                yValue?.let { BarEntry(xValue, it) }?.let { stepData.add(it) }
+                            } else {
+                                stepData.add(BarEntry(xValue, 0.0f))
+                            }
+                            onLiveDataComplete()
+                        }
+                }
             }
         }
     }
-
+    @SuppressLint("SetTextI18n")
     private fun showTip(){
         val sharedPreferences = requireContext().getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE)
         val height = binding.tvHeight.text
@@ -229,6 +248,7 @@ class StatisticFragment : Fragment() {
                 }
                 getResponse(question) { response ->
                     requireActivity().runOnUiThread {
+                        updateTextViewWithFade(binding.tvResponse.text.toString(), response)
                         binding.tvResponse.text = response
                         val editor = sharedPreferences.edit()
                         editor.putString("current_tip", response)
@@ -304,6 +324,46 @@ class StatisticFragment : Fragment() {
                 binding.tvHeight.text = it.height.toString()
             }
         }
+    }
+
+    private fun updateTextViewWithFade(oldText: String, newText: String) {
+        fadeOutAndHideText(binding.tvResponse, Runnable {
+            binding.tvResponse.text = newText
+            fadeInAndShowText(binding.tvResponse)
+        })
+    }
+
+    private fun fadeOutAndHideText(view: View, onAnimationEnd: Runnable? = null) {
+        view.animate()
+            .alpha(0f)
+            .setDuration(500)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    view.visibility = View.GONE
+                    onAnimationEnd?.run()
+                }
+            })
+    }
+
+    private fun fadeInAndShowText(view: View, onAnimationEnd: Runnable? = null) {
+        view.visibility = View.VISIBLE
+        view.alpha = 0f
+
+        view.animate()
+            .alpha(1f)
+            .setDuration(500)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    onAnimationEnd?.run()
+                }
+            })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setUpStepBarChart()
     }
 
     companion object{

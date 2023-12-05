@@ -137,7 +137,7 @@
 
         <TextView
             android:id="@+id/tv_weight_label"
-            style="@style/Textview.Semibold.XL"
+            style="@style/Textview.Semibold.MD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_5"
@@ -171,7 +171,7 @@
 
         <TextView
             android:id="@+id/tv_height_label"
-            style="@style/Textview.Semibold.XL"
+            style="@style/Textview.Semibold.MD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_5"
@@ -205,7 +205,7 @@
 
         <TextView
             android:id="@+id/tv_aim_weight_label"
-            style="@style/Textview.Semibold.XL"
+            style="@style/Textview.Semibold.MD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_5"
@@ -240,7 +240,7 @@
 
         <TextView
             android:id="@+id/tv_duration_label"
-            style="@style/Textview.Semibold.XL"
+            style="@style/Textview.Semibold.MD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_5"
@@ -305,7 +305,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="Please input weight and duration"/>
+                    android:textColor="@color/black"
+                    android:text="@string/please_input_weight_and_duration"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
