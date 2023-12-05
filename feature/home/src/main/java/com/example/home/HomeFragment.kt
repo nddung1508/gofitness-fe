@@ -33,6 +33,8 @@ class HomeFragment : Fragment(), SensorEventListener {
     private var stepSensor: Sensor? = null
     private var stepsSinceReboot: Int? = 0
     private lateinit var stepViewModel: StepViewModel
+    private val minUpdateInterval = 3000
+    private var lastSensorUpdateTime: Long = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,13 +43,14 @@ class HomeFragment : Fragment(), SensorEventListener {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         stepViewModel = ViewModelProvider(this)[StepViewModel::class.java]
         checkActivityRecognitionPermission()
+        setUpSensor()
         return binding.root
     }
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpSensor()
+        registerSensor()
     }
 
     private fun setUpSensor() {
@@ -85,6 +88,14 @@ class HomeFragment : Fragment(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
+        val currentTime = System.currentTimeMillis()
+
+        if (currentTime - lastSensorUpdateTime < minUpdateInterval) {
+            return
+        }
+
+        lastSensorUpdateTime = currentTime
+
         if (stepSensor == null && event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
             val xAxis = event.values[0]
             val yAxis = event.values[1]
@@ -121,20 +132,6 @@ class HomeFragment : Fragment(), SensorEventListener {
         binding.tvKcal.text = formattedKcalString
     }
 
-    override fun onResume() {
-        super.onResume()
-        setUpSensor()
-        if (stepSensor == null && accelerometerSensor != null) {
-            sensorManager.registerListener(
-                this,
-                accelerometerSensor,
-                SensorManager.SENSOR_DELAY_NORMAL
-            )
-        } else if (stepSensor != null) {
-            sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_NORMAL)
-        }
-    }
-
     private fun getCurrentDateFormat(timeInMillis: Long): String {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timeInMillis
@@ -155,18 +152,22 @@ class HomeFragment : Fragment(), SensorEventListener {
         }
     }
 
-
-    override fun onPause() {
-        super.onPause()
-        sensorManager.unregisterListener(this)
+    private fun registerSensor() {
+        if (stepSensor == null && accelerometerSensor != null) {
+            sensorManager.registerListener(
+                this,
+                accelerometerSensor,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+        } else if (stepSensor != null) {
+            sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        }
     }
 
     companion object {
         fun newInstance(): HomeFragment {
             return HomeFragment()
         }
-
-        private const val MY_PERMISSIONS_REQUEST_GPS = 2
         private const val MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION = 1
         private const val ACCELERATION_OF_ONE_STEP = 10
         const val STEP_CALORIES_FACTOR = 0.035

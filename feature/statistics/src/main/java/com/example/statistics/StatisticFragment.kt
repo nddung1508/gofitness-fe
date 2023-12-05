@@ -17,20 +17,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.statistics.databinding.FragmentStatisticBinding
-import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -190,25 +188,26 @@ class StatisticFragment : Fragment() {
         for (i in 6 downTo 0) {
             if (userId != null) {
                 lifecycleScope.launch {
-                    delay(1000L)
-                    stepViewModel.getStepsForDate(
-                        userId,
-                        getCurrentDateFormat(System.currentTimeMillis() - reverseInt(i) * 86400000)
-                    )
-                        .observe(viewLifecycleOwner) { listStepByDay ->
-                            val xValue = i.toFloat()
-                            if (listStepByDay.isNotEmpty()) {
-                                val yValue = listStepByDay.lastOrNull()?.amount?.toFloat()
-                                yValue?.let { BarEntry(xValue, it) }?.let { stepData.add(it) }
-                            } else {
-                                stepData.add(BarEntry(xValue, 0.0f))
+                        delay(1000L)
+                        stepViewModel.getStepsForDate(
+                            userId,
+                            getCurrentDateFormat(System.currentTimeMillis() - reverseInt(i) * 86400000)
+                        )
+                            .observe(viewLifecycleOwner) { listStepByDay ->
+                                val xValue = i.toFloat()
+                                if (listStepByDay.isNotEmpty()) {
+                                    val yValue = listStepByDay.lastOrNull()?.amount?.toFloat()
+                                    yValue?.let { BarEntry(xValue, it) }?.let { stepData.add(it) }
+                                } else {
+                                    stepData.add(BarEntry(xValue, 0.0f))
+                                }
+                                onLiveDataComplete()
                             }
-                            onLiveDataComplete()
-                        }
-                }
+                    }
             }
         }
     }
+
     @SuppressLint("SetTextI18n")
     private fun showTip(){
         val sharedPreferences = requireContext().getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE)
