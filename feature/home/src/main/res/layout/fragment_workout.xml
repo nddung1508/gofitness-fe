@@ -20,11 +20,12 @@
             android:textColor="@color/white"
             style="@style/Textview.Medium.Display.SM"
             app:layout_constraintTop_toTopOf="parent" />
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_start_workout"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_40"
-            android:text="START WORKOUT"
+            android:text="@string/start_workout"
+            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

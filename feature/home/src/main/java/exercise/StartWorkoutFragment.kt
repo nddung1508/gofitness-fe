@@ -24,7 +24,7 @@ class StartWorkoutFragment : Fragment() {
     private var cancelRestTimer = false
     private lateinit var workoutHistoryViewModel: WorkoutHistoryViewModel
     private lateinit var kcalByDayViewModel: KcalByDayViewModel
-    private lateinit var startExerciseTimer : CountDownTimer
+    private lateinit var startExerciseTimer: CountDownTimer
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,26 +39,22 @@ class StartWorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val receivedExercise = arguments?.getParcelable<Workout>("workout")
-        var startIndex = 0
-        if(receivedExercise != null){
+        val startIndex = 0
+        if (receivedExercise != null) {
             getExercise(receivedExercise, startIndex)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    private fun getExercise(receivedExercise : Workout, startIndex : Int){
+    private fun getExercise(receivedExercise: Workout, startIndex: Int) {
         val startExerciseDuration = receivedExercise.exercises[startIndex].duration.toLong()
 
         binding.clRest.visibility = View.GONE
         binding.clStartExercise.visibility = View.VISIBLE
         binding.ivCurrentExercise.setImageBitmap(receivedExercise.exercises[startIndex].image?.let {
-                decodeByteArray(
-                    it
-                )
-            })
+            decodeByteArray(
+                it
+            )
+        })
         binding.tvExerciseName.text = receivedExercise.exercises[startIndex].name
         startExerciseTimer = object : CountDownTimer(startExerciseDuration, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -66,21 +62,26 @@ class StartWorkoutFragment : Fragment() {
             }
 
             override fun onFinish() {
-                    val nextIndex = startIndex + 1
-                    if (nextIndex < receivedExercise.exercises.size) {
-                        takeRest(receivedExercise, nextIndex)
+                val nextIndex = startIndex + 1
+                if (nextIndex < receivedExercise.exercises.size) {
+                    takeRest(receivedExercise, nextIndex)
+                    this.cancel()
+                } else {
+                    if (!isShowingDialog) {
+                        isShowingDialog = true
+                        addWorkoutHistory(receivedExercise)
+                        addKcalByDay(
+                            KcalByDay(
+                                receivedExercise.exercises.sumOf { it.caloriesBurned },
+                                System.currentTimeMillis()
+                            )
+                        )
+                        finishPopUp(receivedExercise)
                         this.cancel()
-                    } else {
-                        if (!isShowingDialog) {
-                            isShowingDialog = true
-                            addWorkoutHistory(receivedExercise)
-                            addKcalByDay(KcalByDay(receivedExercise.exercises.sumOf { it.caloriesBurned }, System.currentTimeMillis()))
-                            finishPopUp()
-                            this.cancel()
-                        }
                     }
                 }
             }
+        }
         startExerciseTimer.start()
     }
 
@@ -117,32 +118,36 @@ class StartWorkoutFragment : Fragment() {
         })
         restExerciseTimer.start()
     }
-    private fun addWorkoutHistory(receivedExercise: Workout){
+
+    private fun addWorkoutHistory(receivedExercise: Workout) {
         val pushUp = com.example.data.R.drawable.push_up
         receivedExercise.let {
             workoutHistoryViewModel.addWorkoutHistory(
-                name = it.name, duration = it.exercises.sumOf { it.duration }.toLong(), caloriesBurned = it.exercises.sumOf { it.caloriesBurned }.toInt(),
-                image = convertResourceToByteList(requireContext(), pushUp), amountOfExercise = it.exercises.size, currentTime = System.currentTimeMillis())
+                name = it.name,
+                duration = it.exercises.sumOf { it.duration }.toLong(),
+                caloriesBurned = it.exercises.sumOf { it.caloriesBurned }.toInt(),
+                image = convertResourceToByteList(requireContext(), pushUp),
+                amountOfExercise = it.exercises.size,
+                currentTime = System.currentTimeMillis()
+            )
         }
     }
 
-    private fun addKcalByDay(kcalByDay: KcalByDay){
+    private fun addKcalByDay(kcalByDay: KcalByDay) {
         kcalByDayViewModel = ViewModelProvider(this).get(KcalByDayViewModel::class.java)
         kcalByDayViewModel.addKcalData(kcalByDay.kcal)
     }
 
-    private fun finishPopUp(){
+    private fun finishPopUp(workout: Workout) {
         AlertDialog.Builder(this.requireContext()).run {
-            setTitle("Alert Dialog")
+            setTitle(
+                workout.name.lowercase()
+                    .replaceFirstChar { firstChar -> firstChar.uppercase() } + " Exercise")
             setMessage("You have finish the exercise.")
             setPositiveButton("OK") { dialog, _ ->
                 requireActivity().supportFragmentManager.popBackStack()
                 dialog.dismiss()
                 isShowingDialog = false
-            }
-            setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-                requireActivity().supportFragmentManager.popBackStack()
             }
             create()
         }.show()
@@ -167,12 +172,5 @@ class StartWorkoutFragment : Fragment() {
         imageBitmap.compress(Bitmap.CompressFormat.PNG, 1, stream)
         val byteArray = stream.toByteArray()
         return byteArray.asList()
-    }
-
-    fun formatDuration(milliseconds: Long): String {
-        val seconds = (milliseconds / 1000) % 60
-        val minutes = (milliseconds / (1000 * 60)) % 60
-        val hours = (milliseconds / (1000 * 60 * 60))
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 }

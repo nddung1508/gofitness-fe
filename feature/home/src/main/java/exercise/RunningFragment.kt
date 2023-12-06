@@ -1,7 +1,9 @@
 package exercise
 
+import KcalByDayViewModel
 import RunningHistoryViewModel
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
@@ -14,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.home.R
@@ -29,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
+import entity.KcalByDay
 
 class RunningFragment : Fragment(), OnMapReadyCallback{
     private var myGoogleMap : GoogleMap ? = null
@@ -44,6 +48,7 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
     private val handler = Handler()
     private var elapsedTimeInSeconds = 0L
     private lateinit var runningViewModel: RunningHistoryViewModel
+    private lateinit var kcalByDayViewModel: KcalByDayViewModel
     private var latLngStringList : MutableList<String> = mutableListOf()
 
     override fun onCreateView(
@@ -52,11 +57,13 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRunningBinding.inflate(layoutInflater, container, false)
+        checkGpsPermission()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        kcalByDayViewModel = ViewModelProvider(this)[KcalByDayViewModel::class.java]
         runningViewModel = ViewModelProvider(this)[RunningHistoryViewModel::class.java]
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -83,7 +90,7 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         }
         binding.btnStopWorkout.setOnClickListener {
             val alertDialog = AlertDialog.Builder(requireContext())
-            alertDialog.setTitle("Confirm Stop Workout")
+            alertDialog.setTitle("Running Session Finish")
             alertDialog.setMessage("Are you sure you want to stop the workout?")
             alertDialog.setPositiveButton("Yes") { _, _ ->
                 currentlyRunning = false
@@ -100,11 +107,11 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
                 binding.tvKcal.text = "0"
                 binding.tvDistance.text = "0"
                 if(currentKcal > 0){
+                    kcalByDayViewModel.addKcalData(kcal = currentKcal)
                     runningViewModel.addRunningHistory(kcal= currentKcal, duration = elapsedTimeInSeconds.toInt(),
                         dateInMillis = System.currentTimeMillis(), distance = totalDistance.toDouble(), polylines = latLngStringList)
                 }
             }
-            alertDialog.setNegativeButton("No") { _, _ -> }
             alertDialog.show()
         }
     }
@@ -219,6 +226,7 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
 
     private fun startDurationCounter(){
         val updateDuration = object : Runnable {
+            @SuppressLint("SetTextI18n")
             override fun run() {
                 if (currentlyRunning) {
                     elapsedTimeInSeconds++
@@ -234,7 +242,21 @@ class RunningFragment : Fragment(), OnMapReadyCallback{
         handler.post(updateDuration)
     }
 
+     private fun checkGpsPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                MY_PERMISSIONS_REQUEST_GPS
+            )
+        }
+    }
+
     companion object {
+        const val MY_PERMISSIONS_REQUEST_GPS = 2
         const val MAX_UPDATE_DELAY = 10000L
         const val MIN_UPDATE_DELAY = 5000L
         const val DISTANCE_MULTIPLIER = 60

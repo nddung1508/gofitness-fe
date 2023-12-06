@@ -20,4 +20,5 @@
         putting you at a higher personal risk for serious health issues like type 2 diabetes, heart disease, and joint problems.</string>
     <string name="obeseIII">This signifies a severe excess of body weight compared to your height,
         posing a significant personal risk for severe health conditions, including heart disease, stroke, certain cancers, and mobility limitations.</string>
+    <string name="please_input_weight_and_duration">Please input weight and duration</string>
 </resources>
