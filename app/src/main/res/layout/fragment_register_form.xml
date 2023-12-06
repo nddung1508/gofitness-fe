@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/et_username"
         app:layout_constraintBottom_toTopOf="@id/et_username"
-        android:text="Username"
+        android:text="Email"
         style="@style/Textview.Semibold.XL"
         android:textColor="@color/white"
         android:layout_marginBottom="@dimen/dp_5"/>
